@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- APPLICATION SECTION -->
+    <!--App Theme-->
     <color name="colorPrimary">#FFFFFF</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#EE6C4D</color>
+
+    <!--Base application theme - Pulsator-->
+    <color name="fab_pulsator">#293241</color>
+
+    <!--Base application theme - FAB-->
+    <color name="fabBackgroundColor">#2D3142</color>
+    <color name="fabIconBackgroundColor">#FFFFFF</color>
+
+    <!-- Base application theme - EditText-->
+    <color name="editTextBackgroundColor">#F2F2F2</color>
+
 </resources>

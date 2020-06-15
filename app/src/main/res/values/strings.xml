@@ -1,3 +1,42 @@
 <resources>
+
+    <!-- APPLICATION SECTION -->
+    <!-- Base application -->
     <string name="app_name">PackStar</string>
+
+    <!--Base application theme - Discard Dialog-->
+    <string name="dialog_title">Discard your changes?</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_discard">Discard</string>
+
+
+    <!-- SCREEN SECTION -->
+    <!--Home Screen-->
+    <string name="welcome_packstar">Welcome!</string>
+    <string name="create_first_bag">Create your first bag by tapping the\nplus button</string>
+
+    <!--Create Bag Screen-->
+    <string name="title_screen_create_bag">New bag</string>
+
+    <string name="edit_text_hint_bag_name">Bag name</string>
+    <string name="edit_text_description_bag_name">Delete bag name</string>
+
+    <string name="edit_text_hint_bag_date">Travel date</string>
+    <string name="edit_text_description_bag_date">Delete travel date</string>
+
+    <string name="edit_text_hint_bag_weight">Total weight (kg)</string>
+    <string name="edit_text_description_bag_weight">Delete total weight</string>
+
+    <string name="edit_text_hint_bag_comment">Add comment</string>
+    <string name="edit_text_description_bag_comment">Delete comment</string>
+
+    <string name="fab_text">Save</string>
+    <string name="fab_description">Save bag</string>
+
+    <string name="text_view_reminder">No reminders</string>
+    <string name="ic_reminder_description">Reminder icon</string>
+    <string name="ic_calendar_description">Calendar icon</string>
+    <string name="ic_add_comment_description">Add comment icon</string>
+
+
 </resources>

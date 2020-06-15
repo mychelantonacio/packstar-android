@@ -1,19 +1,125 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- APPLICATION SECTION -->
+    <!-- Base application theme -->
     <style name="Theme.App" parent="Theme.MaterialComponents.Light">
-    <item name="colorPrimary">@color/colorPrimary</item>
-    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-    <item name="colorAccent">@color/colorAccent</item>
-    <item name="android:textSize">20sp</item>
-    <item name="android:textColor">@android:color/black</item>
-    </style>
-
-    <!-- Splash/Home Screen theme. -->
-    <style name="AppTheme.Launcher" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@drawable/splashscreen_container</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@android:color/black</item>
+
+        <item name="alertDialogTheme">@style/AlertDialogTheme</item>
+        <item name="android:datePickerDialogTheme">@style/DatePickerTheme</item>
+        <item name="android:timePickerDialogTheme">@style/TimePickerTheme</item>
+        <item name="popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:listPreferredItemPaddingRight">2dp</item>
     </style>
 
+    <!-- Base application theme - Alert Dialog -->
+    <style name="AlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/lato_medium</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/lato_medium</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <!-- Base application theme - DatePicker Dialog -->
+    <style name="DatePickerTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/DatePickerTheme.ButtonBarPositiveButtonStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/DatePickerTheme.ButtonBarNegativeButtonStyle</item>
+    </style>
+
+    <style name="DatePickerTheme.ButtonBarPositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/lato_medium</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="DatePickerTheme.ButtonBarNegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/lato_medium</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- Base application theme - TimePicker Dialog -->
+    <style name="TimePickerTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/DatePickerTheme.ButtonBarPositiveButtonStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/DatePickerTheme.ButtonBarNegativeButtonStyle</item>
+    </style>
+
+    <style name="TimePickerTheme.ButtonBarPositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/lato_medium</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TimePickerTheme.ButtonBarNegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/lato_medium</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- Base application theme - Pop-Up menu -->
+    <style name="PopupMenu" parent="@style/Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">#000000</item>
+    </style>
+
+    <!-- Base application theme - TextInput -->
+    <style name="Widget.MaterialComponents.TextInputLayout.FilledBox" parent="Base.Widget.MaterialComponents.TextInputLayout">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.TextInputEditText.FilledBox</item>
+        <item name="boxBackgroundMode">filled</item>
+        <item name="boxBackgroundColor">@color/editTextBackgroundColor</item>
+        <item name="boxCollapsedPaddingTop">12dp</item>
+        <item name="boxStrokeColor">@color/colorAccent</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialComponents.TextInputLayout.FilledBox</item>
+        <item name="endIconDrawable">@drawable/ic_edit_text_cancel</item>
+        <item name="endIconMode">clear_text</item>
+        <item name="hintTextAppearance">@style/editTextHint</item>
+        <item name="hintTextColor">@color/colorAccent</item>
+        <item name="shapeAppearance">@style/RoundedTextField</item>
+    </style>
+
+    <style name="editTextHint">
+        <item name="android:font">@font/lato</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="RoundedTextField" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">5dp</item>
+    </style>
+
+    <style name="counterText" parent="TextAppearance.Design.Counter.Overflow">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="counterOverride">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="TextInputLayoutHintText">
+        <item name="android:textSize">8sp</item>
+    </style>
+
+
+    <!-- SCREEN SECTION -->
+    <!-- Splash/Home Screen theme. -->
+    <style name="AppTheme.Launcher" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splashscreen_container</item>
+    </style>
 
 </resources>

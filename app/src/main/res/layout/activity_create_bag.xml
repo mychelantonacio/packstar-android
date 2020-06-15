@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateBagActivity">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_bag_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="40dp"
+        android:hint="@string/edit_text_hint_bag_name"
+        android:theme="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        app:endIconContentDescription="@string/edit_text_description_bag_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditText_bag_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/lato"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/shape_cursor_color"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.47"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.188" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_bag_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="40dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="@string/edit_text_hint_bag_date"
+        android:theme="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        app:endIconContentDescription="@string/edit_text_description_bag_date"
+        app:hintTextAppearance="@style/TextInputLayoutHintText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_bag_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditText_bag_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:clickable="true"
+            android:enabled="true"
+            android:focusable="false"
+            android:fontFamily="@font/lato"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="date"
+            android:onClick="showDatePickerDialog"
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/shape_cursor_color"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputEditText_bag_name"
+            app:layout_constraintVertical_bias="0.066" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/ic_calendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="126dp"
+        android:contentDescription="@string/ic_calendar_description"
+        app:layout_constraintEnd_toStartOf="@+id/textInputLayout_bag_date"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_calendar" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_bag_weight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="40dp"
+        android:hint="@string/edit_text_hint_bag_weight"
+        android:theme="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        app:endIconContentDescription="@string/edit_text_description_bag_weight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_bag_date">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditText_bag_weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/lato"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/shape_cursor_color"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/id_editText_bag_date"
+            app:layout_constraintVertical_bias="0.066" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_bag_comment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="40dp"
+        android:hint="@string/edit_text_hint_bag_comment"
+        android:theme="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        app:counterEnabled="true"
+        app:counterMaxLength="200"
+        app:counterOverflowTextAppearance="@style/counterOverride"
+        app:counterOverflowTextColor="@color/colorAccent"
+        app:counterTextAppearance="@style/counterText"
+        app:counterTextColor="@color/colorAccent"
+        app:endIconContentDescription="@string/edit_text_description_bag_comment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_bag_weight"
+        app:shapeAppearance="@style/RoundedTextField">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditText_bag_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/editTextBackgroundColor"
+            android:fontFamily="@font/lato"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:lines="8"
+            android:maxLines="10"
+            android:minLines="6"
+            android:paddingTop="22dp"
+            android:scrollbars="vertical"
+            android:singleLine="false"
+
+            android:textCursorDrawable="@drawable/shape_cursor_color"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/id_editText_bag_weight"
+            app:layout_constraintVertical_bias="0.066" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/ic_add_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="282dp"
+        android:contentDescription="@string/ic_calendar_description"
+        app:layout_constraintEnd_toStartOf="@+id/textInputLayout_bag_comment"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_add_comment" />
+
+    <ImageButton
+        android:id="@+id/ic_reminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:contentDescription="@string/ic_reminder_description"
+        android:hapticFeedbackEnabled="false"
+        android:onClick="showDatePickerReminderDialog"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_bag_comment"
+        app:srcCompat="@drawable/ic_reminder" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:contentDescription="@string/fab_description"
+        android:text="@string/fab_text"
+        android:textColor="@color/fabIconBackgroundColor"
+        android:textSize="14sp"
+        app:backgroundTint="@color/fabBackgroundColor"
+        app:icon="@drawable/ic_floppy_disk"
+        app:iconTint="@color/fabIconBackgroundColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_no_reminders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+
+        android:layout_marginTop="14dp"
+        android:fontFamily="@font/lato"
+        android:text="@string/text_view_reminder"
+        android:textColor="@color/colorPrimaryDark"
+
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/ic_reminder"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_bag_comment" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

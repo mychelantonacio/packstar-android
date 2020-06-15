@@ -1,9 +1,12 @@
 package com.mychelantonacio.packstar;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
+import com.facebook.stetho.Stetho;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -17,10 +20,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupUIOnCreate() {
+        FloatingActionButton fab;
+        PulsatorLayout pulsator;
+
         //no title bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+        fab = (FloatingActionButton) findViewById(R.id.fab_plus);
+        fab.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, CreateBagActivity.class);
+            startActivity(intent);
+        });
+        pulsator = (PulsatorLayout) findViewById(R.id.pulsator);
+        pulsator.start();
+        //debugging purpose...
+        Stetho.initializeWithDefaults(this);
     }
 }
