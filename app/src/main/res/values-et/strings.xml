@@ -1,2 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <!-- APPLICATION SECTION -->
+    <!-- Base application -->
+    <string name="app_name">PackStar</string>
+
+    <!--Base application theme - Discard Dialog-->
+    <string name="dialog_title">Loobu muudatustest?</string>
+    <string name="dialog_cancel">Tühista</string>
+    <string name="dialog_discard">Loobu</string>
+
+
+    <!-- SCREEN SECTION -->
+    <!--Home Screen-->
+    <string name="welcome_packstar">Tere tulemast!</string>
+    <string name="create_first_bag">Koosta oma esimene reisikott vajutades allolevat nuppu</string>
+
+    <!--Create Bag Screen-->
+    <string name="title_screen_create_bag">Uus reisikott</string>
+
+    <string name="edit_text_hint_bag_name">Nimeta reisikott</string>
+    <string name="edit_text_description_bag_name">Kustuta nimi</string>
+
+    <string name="edit_text_hint_bag_date">Reisi kuupäev</string>
+    <string name="edit_text_description_bag_date">Kustuta reisi kuupäev</string>
+
+    <string name="edit_text_hint_bag_weight">Kogukaal(kg)</string>
+    <string name="edit_text_description_bag_weight">Kustuta kogukaal</string>
+
+    <string name="edit_text_hint_bag_comment">Lisa kommentaar</string>
+    <string name="edit_text_description_bag_comment">Kustuta kommentaar</string>
+
+    <string name="fab_text">Salvesta</string>
+    <string name="fab_description">Salvesta reisikott</string>
+
+    <string name="text_view_reminder">Meeldetuletus puudub</string>
+    <string name="ic_reminder_description">Meeldetuletuse ikoon</string>
+    <string name="ic_calendar_description">Kalendri ikoon</string>
+    <string name="ic_add_comment_description">Lisa kommentaar ikoon</string>
+
+</resources>
