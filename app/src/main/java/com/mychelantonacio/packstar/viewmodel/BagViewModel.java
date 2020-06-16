@@ -1,4 +1,4 @@
-package com.mychelantonacio.packstar;
+package com.mychelantonacio.packstar.viewmodel;
 
 
 import android.app.Application;
@@ -13,7 +13,6 @@ import com.mychelantonacio.packstar.repository.BagRepository;
 import java.util.List;
 
 public class BagViewModel extends AndroidViewModel {
-
 
     private BagRepository bagRepository;
     private LiveData<List<Bag>> allBagsSortedByName;
@@ -41,7 +40,5 @@ public class BagViewModel extends AndroidViewModel {
     public Bag findBagById(long id){
         return bagRepository.findBagById(id);
     }
-
-
 
 }

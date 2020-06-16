@@ -1,8 +1,10 @@
-package com.mychelantonacio.packstar;
+package com.mychelantonacio.packstar.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.mychelantonacio.packstar.R;
 
 public class ListBagActivity extends AppCompatActivity {
 

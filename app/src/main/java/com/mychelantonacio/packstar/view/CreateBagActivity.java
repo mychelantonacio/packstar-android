@@ -1,9 +1,10 @@
-package com.mychelantonacio.packstar;
+package com.mychelantonacio.packstar.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -20,15 +21,22 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.util.Dialogs.DatePickerFragmentDialog;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
+import com.mychelantonacio.packstar.viewmodel.BagViewModel;
+import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
+import com.mychelantonacio.packstar.viewmodel.PackStarViewModelFactory;
 
 import java.text.ParseException;
 import java.util.Calendar;
 
+import javax.inject.Inject;
+
 public class CreateBagActivity extends AppCompatActivity
-        implements DiscardChangesFragmentDialog.NoticeDialogListener,  DatePickerFragmentDialog.DatePickerFragmentListener {
+        implements DiscardChangesFragmentDialog.NoticeDialogListener,
+        DatePickerFragmentDialog.DatePickerFragmentListener{
 
 
     private DiscardChangesFragmentDialog discardChangesFragmentDialog;
@@ -51,7 +59,9 @@ public class CreateBagActivity extends AppCompatActivity
 
     //Data
     private BagViewModel bagViewModel;
-
+    private ItemViewModel itemViewModel;
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +84,12 @@ public class CreateBagActivity extends AppCompatActivity
         reminderButton = (ImageButton) findViewById(R.id.ic_reminder);
         eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
         fabSetup();
-       // bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
+        itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
+        bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
 
     }
 
-    //avoid conflict with datepicker action...
+    //it avoids conflict with datepicker action...
     private void dateEditTextSetup(){
         dateEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -125,7 +136,7 @@ public class CreateBagActivity extends AppCompatActivity
 */
 
 
-       // prePopulateForTestingPurpose();
+        //prePopulateForTestingPurpose();
         Intent intent = new Intent(CreateBagActivity.this, ListBagActivity.class);
         startActivity(intent);
     }

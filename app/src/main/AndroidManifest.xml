@@ -12,7 +12,7 @@
         android:theme="@style/Theme.App">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:theme="@style/AppTheme.Launcher"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -22,12 +22,12 @@
         </activity>
 
         <activity
-            android:name=".CreateBagActivity"
+            android:name=".view.CreateBagActivity"
             android:label="@string/title_screen_create_bag"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".ListBagActivity" />
+        <activity android:name=".view.ListBagActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

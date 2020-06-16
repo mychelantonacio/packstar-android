@@ -1,4 +1,4 @@
-package com.mychelantonacio.packstar;
+package com.mychelantonacio.packstar.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import com.facebook.stetho.Stetho;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.mychelantonacio.packstar.R;
 import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 

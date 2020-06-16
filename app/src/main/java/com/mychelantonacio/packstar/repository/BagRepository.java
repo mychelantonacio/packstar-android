@@ -1,14 +1,11 @@
 package com.mychelantonacio.packstar.repository;
 
-
 import android.app.Application;
-
 import androidx.lifecycle.LiveData;
-
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.util.database.BagRoomDatabase;
-
 import java.util.List;
+
 
 public class BagRepository {
 
