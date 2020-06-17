@@ -6,12 +6,12 @@ Being organized saves your time. PackStar helps keep track of the luggage you ne
 
 Packstar is built with a minimalistic approach what makes it quick and easy to use.
 
-✓ No register
-✓ Works offline
-✓ Entirely free
-✓ Create unlimited number of bags
-✓ Add reminders, comments and labels
-✓ Share with others
-✓ Weight counter
-✓ Push notification
-✓ Optimized memory usage
+✓ No register <br>
+✓ Works offline <br>
+✓ Entirely free <br>
+✓ Create unlimited number of bags <br>
+✓ Add reminders, comments and labels <br>
+✓ Share with others <br>
+✓ Weight counter <br>
+✓ Push notification <br>
+✓ Optimized memory usage <br>
