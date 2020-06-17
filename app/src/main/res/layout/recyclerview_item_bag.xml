@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardview_bag"
+        android:layout_width="match_parent"
+        android:layout_height="214dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="5dp"
+        app:strokeColor="@color/colorAccent"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout_item_bag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/text_view_bag_name"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/lato_medium"
+                android:includeFontPadding="false"
+                android:text="@string/label_bag_name"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_view_bag_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/lato"
+                android:includeFontPadding="false"
+                android:text="@string/label_bag_date"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_bag_name" />
+
+            <TextView
+                android:id="@+id/text_view_bag_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/lato"
+                android:includeFontPadding="false"
+                android:text="@string/label_bag_weigth"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/text_view_bag_date"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_bag_name" />
+
+            <TextView
+                android:id="@+id/textview_counter_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="28dp"
+                android:fontFamily="@font/lato_medium"
+                android:includeFontPadding="false"
+                android:text="@string/placeholder_number_zero"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_bag_date" />
+
+            <TextView
+                android:id="@+id/textview_unit_kg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/lato"
+                android:includeFontPadding="false"
+                android:text="@string/unit_kg"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/textview_counter_weight"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_bag_date" />
+
+            <TextView
+                android:id="@+id/textview_counter_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="28dp"
+                android:fontFamily="@font/lato_medium"
+                android:includeFontPadding="false"
+                android:text="@string/placeholder_number_zero"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/textview_unit_kg"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_bag_date" />
+
+            <TextView
+                android:id="@+id/textview_unit_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/lato"
+                android:includeFontPadding="false"
+                android:text="@string/label_bag_items"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/textview_counter_item"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_bag_date" />
+
+            <ImageButton
+                android:id="@+id/imageButton_comment"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview_counter_weight"
+                app:srcCompat="@drawable/ic_comment_neutral" />
+
+            <ImageButton
+                android:id="@+id/imageButton_remeinder"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="56dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageButton_comment"
+                app:layout_constraintTop_toBottomOf="@+id/textview_counter_item"
+                app:srcCompat="@drawable/ic_reminder_neutral" />
+
+            <ImageButton
+                android:id="@+id/imageButton_add"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_add_green" />
+
+            <TextView
+                android:id="@+id/textView_add"
+                android:layout_width="0dp"
+                android:layout_height="14dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="22dp"
+                android:fontFamily="@font/lato"
+                android:includeFontPadding="false"
+                android:text="@string/label_add_item"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageButton_add" />
+
+            <ImageButton
+                android:id="@+id/imageButton_menu_dots"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="showThreeDotsMenu"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_menu_dots" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

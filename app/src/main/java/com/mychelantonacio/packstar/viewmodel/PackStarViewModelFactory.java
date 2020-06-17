@@ -40,5 +40,4 @@ public class PackStarViewModelFactory implements ViewModelProvider.Factory {
             throw new RuntimeException(e);
         }
     }
-
 }

@@ -14,6 +14,9 @@ public interface ItemDao {
     @Insert
     void insert(Item item);
 
+    @Query("SELECT * from tb_item")
+    LiveData<List<Item>> getAllItems();
+
     @Query("SELECT * from tb_item WHERE bagId = :idBag")
     LiveData<List<Item>> getAllItemsWithBag(long idBag);
 

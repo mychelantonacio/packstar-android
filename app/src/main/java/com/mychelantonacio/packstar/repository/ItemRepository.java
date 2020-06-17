@@ -22,6 +22,12 @@ public class ItemRepository {
         });
     }
 
+    public LiveData<List<Item>> getAllItems() {
+        LiveData<List<Item>> items;
+        items = itemDao.getAllItems();
+        return items;
+    }
+
     public LiveData<List<Item>> getAllItemsWithBag(long id) {
         LiveData<List<Item>> items;
         items = itemDao.getAllItemsWithBag(id);

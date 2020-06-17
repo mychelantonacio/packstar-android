@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activities.CreateItemActivity">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/filledTextField_item_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="40dp"
+        android:hint="@string/edit_text_hint_item_name"
+        android:theme="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        app:endIconContentDescription="@string/edit_text_description_item_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editText_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/lato"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/shape_cursor_color"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/filledTextField_item_quantity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        android:hint="@string/edit_text_hint_item_quantity"
+        android:theme="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        app:endIconContentDescription="@string/edit_text_description_item_quantity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filledTextField_item_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editText_item_quantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/lato"
+            android:inputType="number"
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/shape_cursor_color"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/filledTextField_item_weight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        android:hint="@string/edit_text_hint_item_weight"
+        android:theme="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        app:endIconContentDescription="@string/edit_text_description_item_weight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filledTextField_item_quantity">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editText_item_weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/lato"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/shape_cursor_color"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="40dp"
+        app:chipSpacingHorizontal="52dp"
+        app:chipSpacingVertical="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filledTextField_item_weight"
+        app:singleLine="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_red"
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:checkable="true"
+            android:fontFamily="@font/lato"
+            android:text="@string/textView_ic_arrow_right_red"
+            android:textSize="14sp"
+            app:checkedIcon="@drawable/ic_arrow_right_red_filled"
+            app:chipBackgroundColor="@color/colorPrimary"
+            app:chipCornerRadius="5dp"
+            app:chipIcon="@drawable/ic_arrow_right_red"
+            app:chipStrokeColor="@color/chipStrokeColor"
+            app:chipStrokeWidth="1dp" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_green"
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:checkable="true"
+            android:fontFamily="@font/lato"
+            android:text="@string/textView_ic_arrow_right_green"
+            android:textSize="14sp"
+            app:checkedIcon="@drawable/ic_arrow_right_green_filled"
+            app:chipBackgroundColor="@color/colorPrimary"
+            app:chipCornerRadius="5dp"
+            app:chipIcon="@drawable/ic_arrow_right_green"
+            app:chipStrokeColor="@color/chipStrokeColor"
+            app:chipStrokeWidth="1dp" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:contentDescription="@string/fab_description"
+        android:text="@string/fab_text"
+        android:textColor="@color/fabIconBackgroundColor"
+        android:textSize="14sp"
+        app:backgroundTint="@color/fabBackgroundColor"
+        app:icon="@drawable/ic_floppy_disk"
+        app:iconTint="@color/fabIconBackgroundColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

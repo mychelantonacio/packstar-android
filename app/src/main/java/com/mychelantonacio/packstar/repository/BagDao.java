@@ -23,5 +23,4 @@ public interface BagDao {
 
     @Query("SELECT * from tb_bag WHERE id = :id")
     Bag findBagById(long id);
-
 }

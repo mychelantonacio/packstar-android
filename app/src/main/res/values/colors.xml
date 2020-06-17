@@ -17,4 +17,7 @@
     <!-- Base application theme - EditText-->
     <color name="editTextBackgroundColor">#F2F2F2</color>
 
+    <!--Chip Stroke-->
+    <color name="chipStrokeColor">#1F000000</color>
+
 </resources>

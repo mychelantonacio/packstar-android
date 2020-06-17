@@ -1,14 +1,13 @@
 package com.mychelantonacio.packstar.model;
 
-
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+
 @Entity(tableName = "tb_item")
 public class Item {
-
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
@@ -29,8 +28,7 @@ public class Item {
     //N - (N/A)
     @ColumnInfo(defaultValue = "N")
     private String status = "N";
-
-
+    
 
     //Getters / Setters
     @NonNull
@@ -83,5 +81,4 @@ public class Item {
     public void setStatus(String status) {
         this.status = status;
     }
-
 }

@@ -1,10 +1,9 @@
-package com.mychelantonacio.packstar.view;
+package com.mychelantonacio.packstar.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -23,16 +22,14 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.textfield.TextInputEditText;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
+import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.util.Dialogs.DatePickerFragmentDialog;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
-import com.mychelantonacio.packstar.viewmodel.PackStarViewModelFactory;
 
 import java.text.ParseException;
 import java.util.Calendar;
-
-import javax.inject.Inject;
 
 public class CreateBagActivity extends AppCompatActivity
         implements DiscardChangesFragmentDialog.NoticeDialogListener,
@@ -60,8 +57,7 @@ public class CreateBagActivity extends AppCompatActivity
     //Data
     private BagViewModel bagViewModel;
     private ItemViewModel itemViewModel;
-    @Inject
-    ViewModelProvider.Factory viewModelFactory;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +82,6 @@ public class CreateBagActivity extends AppCompatActivity
         fabSetup();
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
         bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
-
     }
 
     //it avoids conflict with datepicker action...
@@ -142,10 +137,27 @@ public class CreateBagActivity extends AppCompatActivity
     }
 
     private void prePopulateForTestingPurpose(){
-        bagViewModel.deleteAll();
+        //bagViewModel.deleteAll();
         for(int i = 1; i <= 100; i++){
-            Bag bag = new Bag("Test Bag " + i, "01/01/2020", new Double(i), "Test Comment " + i);
-            bagViewModel.insert(bag);
+            //Bag bag = new Bag("Test Bag " + i, "01/01/2020", new Double(i), "Test Comment " + i);
+            //bagViewModel.insert(bag);
+
+
+            for(int j = 1; j <= 3; j++){
+                Item item = new Item();
+
+                item.setBagId(new Long(i) );
+                item.setName("Item " + j);
+                item.setQuantity(j);
+                item.setWeight(new Double(j));
+
+                if(j % 2 == 0)
+                    item.setStatus("B");
+                else
+                    item.setStatus("A");
+
+                itemViewModel.insert(item);
+            }
         }
     }
 
