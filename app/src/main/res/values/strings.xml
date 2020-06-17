@@ -37,31 +37,31 @@
     <string name="ic_add_comment_description">Add comment icon</string>
 
     <!--List Bag Screen-->
-    <string name="title_screen_list_bag" translatable="false">List bag</string>
-    <string name="label_bag_name" translatable="false">Bag name</string>
-    <string name="label_bag_date" translatable="false">Bag date</string>
-    <string name="label_bag_weigth" translatable="false">Bag weight</string>
-    <string name="label_bag_item" translatable="false">item</string>
-    <string name="label_bag_items" translatable="false">items</string>
-    <string name="label_add_item" translatable="false">Add item</string>
+    <string name="title_screen_list_bag" translatable="true">List bag</string>
+    <string name="label_bag_name" translatable="true">Bag name</string>
+    <string name="label_bag_date" translatable="true">Bag date</string>
+    <string name="label_bag_weigth" translatable="true">Bag weight</string>
+    <string name="label_bag_item" translatable="true">item</string>
+    <string name="label_bag_items" translatable="true">items</string>
+    <string name="label_add_item" translatable="true">Add item</string>
 
     <!--Create Item Screen-->
-    <string name="title_screen_create_item" translatable="false">Add item</string>
-    <string name="edit_text_hint_item_name" translatable="false">Name</string>
-    <string name="edit_text_description_item_name" translatable="false">Delete item name</string>
-    <string name="edit_text_hint_item_quantity" translatable="false">Quantity</string>
-    <string name="edit_text_description_item_quantity" translatable="false">Delete item quantity</string>
-    <string name="edit_text_hint_item_weight" translatable="false">Weight (kg)</string>
-    <string name="edit_text_description_item_weight" translatable="false">Delete item weight</string>
-    <string name="textView_ic_arrow_right_red" translatable="false">Need to buy</string>
-    <string name="textView_ic_arrow_right_green" translatable="false">Already have</string>
+    <string name="title_screen_create_item" translatable="true">Add item</string>
+    <string name="edit_text_hint_item_name" translatable="true">Name</string>
+    <string name="edit_text_description_item_name" translatable="true">Delete item name</string>
+    <string name="edit_text_hint_item_quantity" translatable="true">Quantity</string>
+    <string name="edit_text_description_item_quantity" translatable="true">Delete item quantity</string>
+    <string name="edit_text_hint_item_weight" translatable="true">Weight (kg)</string>
+    <string name="edit_text_description_item_weight" translatable="true">Delete item weight</string>
+    <string name="textView_ic_arrow_right_red" translatable="true">Need to buy</string>
+    <string name="textView_ic_arrow_right_green" translatable="true">Already have</string>
 
     <!--List Item Screen-->
-    <string name="title_screen_list_item" translatable="false">Items</string>
-    <string name="label_item_quantity" translatable="false">Quantity:</string>
-    <string name="label_item_number" translatable="false">number</string>
-    <string name="label_item_weight" translatable="false">Weight (kg):</string>
-    <string name="label_item_number_weight" translatable="false">number weight</string>
-    <string name="imageview_description_status" translatable="false">status image</string>
+    <string name="title_screen_list_item" translatable="true">Items</string>
+    <string name="label_item_quantity" translatable="true">Quantity:</string>
+    <string name="label_item_number" translatable="true">number</string>
+    <string name="label_item_weight" translatable="true">Weight (kg):</string>
+    <string name="label_item_number_weight" translatable="true">number weight</string>
+    <string name="imageview_description_status" translatable="true">status image</string>
 
 </resources>
