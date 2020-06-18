@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-
     <item android:id="@+id/menu_dots_edit"
-        android:title="Edit" />
+        android:title="@string/menu_dots_edit" />
 
     <item android:id="@+id/menu_dots_delete"
-        android:title="Delete" />
+        android:title="@string/menu_dots_delete" />
 
     <item android:id="@+id/menu_dots_share"
-        android:title="Share" />
+        android:title="@string/menu_dots_share" />
 
 </menu>

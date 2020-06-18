@@ -2,6 +2,7 @@ package com.mychelantonacio.packstar.repository;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import com.mychelantonacio.packstar.model.Item;
@@ -13,6 +14,10 @@ public interface ItemDao {
 
     @Insert
     void insert(Item item);
+
+    @Delete
+    void delete(Item item);
+
 
     @Query("SELECT * from tb_item")
     LiveData<List<Item>> getAllItems();

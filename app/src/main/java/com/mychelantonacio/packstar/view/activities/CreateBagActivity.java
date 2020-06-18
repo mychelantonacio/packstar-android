@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,19 +16,17 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mychelantonacio.packstar.R;
-import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.util.Dialogs.DatePickerFragmentDialog;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
-
 import java.text.ParseException;
 import java.util.Calendar;
+
 
 public class CreateBagActivity extends AppCompatActivity
         implements DiscardChangesFragmentDialog.NoticeDialogListener,
@@ -52,7 +49,6 @@ public class CreateBagActivity extends AppCompatActivity
     private TextInputEditText commentEditText;
     private ImageButton reminderButton;
     private ExtendedFloatingActionButton eFab;
-
 
     //Data
     private BagViewModel bagViewModel;
@@ -139,7 +135,7 @@ public class CreateBagActivity extends AppCompatActivity
     private void prePopulateForTestingPurpose(){
         //bagViewModel.deleteAll();
         for(int i = 1; i <= 100; i++){
-            //Bag bag = new Bag("Test Bag " + i, "01/01/2020", new Double(i), "Test Comment " + i);
+           // Bag bag = new Bag("Test Bag " + i, "01/01/2020", new Double(i), "Test Comment " + i);
             //bagViewModel.insert(bag);
 
 
@@ -158,6 +154,7 @@ public class CreateBagActivity extends AppCompatActivity
 
                 itemViewModel.insert(item);
             }
+
         }
     }
 

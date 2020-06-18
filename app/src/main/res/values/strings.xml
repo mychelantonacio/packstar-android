@@ -13,6 +13,9 @@
     <string name="unit_kg" translatable="false">kg</string>
     <!--Base application - placeholders -->
     <string name="placeholder_number_zero" translatable="false">0</string>
+    <!--Base application - snackbars -->
+    <string name="snackbar_undo" translatable="false">UNDO</string>
+
 
     <!-- SCREEN SECTION -->
     <!--Home Screen-->
@@ -44,6 +47,9 @@
     <string name="label_bag_item" translatable="false">item</string>
     <string name="label_bag_items" translatable="false">items</string>
     <string name="label_add_item" translatable="false">Add item</string>
+    <string name="menu_dots_edit" translatable="false">Edit</string>
+    <string name="menu_dots_delete" translatable="false">Delete</string>
+    <string name="menu_dots_share" translatable="false">Share</string>
 
     <!--Create Item Screen-->
     <string name="title_screen_create_item" translatable="false">Add item</string>
@@ -63,5 +69,10 @@
     <string name="label_item_weight" translatable="false">Weight (kg):</string>
     <string name="label_item_number_weight" translatable="false">number weight</string>
     <string name="imageview_description_status" translatable="false">status image</string>
+    <string name="menu_chip_need_to_buy" translatable="false">Need to buy</string>
+    <string name="menu_chip_already_have" translatable="false">Already have</string>
+    <string name="menu_chip_remove" translatable="false">Remove</string>
+
+
 
 </resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/menu_chip_need_to_buy"
+        android:title="@string/menu_chip_need_to_buy" />
+
+    <item android:id="@+id/menu_chip_already_have"
+        android:title="@string/menu_chip_already_have" />
+
+    <item android:id="@+id/menu_chip_remove"
+        android:title="@string/menu_chip_remove" />
+
+
+
+</menu>

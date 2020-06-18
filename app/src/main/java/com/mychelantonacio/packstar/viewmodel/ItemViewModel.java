@@ -25,6 +25,10 @@ public class ItemViewModel extends AndroidViewModel {
         itemRepository.insert(item);
     }
 
+    public void delete(Item item){
+        itemRepository.delete(item);
+    }
+
     public LiveData<List<Item>> getAllItems() {
         LiveData<List<Item>> items;
         items = itemRepository.getAllItems();

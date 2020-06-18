@@ -22,15 +22,21 @@
         app:layout_constraintStart_toEndOf="@+id/imageView_status"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/imageView_status"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/imageview_description_status"
+        android:onClick="showChipMenu"
+        android:backgroundTint="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
 
     <TextView
         android:id="@+id/textView_quantity"

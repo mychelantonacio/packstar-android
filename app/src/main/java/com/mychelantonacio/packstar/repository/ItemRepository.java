@@ -22,6 +22,12 @@ public class ItemRepository {
         });
     }
 
+    public void delete(Item item){
+        BagRoomDatabase.databaseWriteExecutor.execute(() -> {
+            itemDao.delete(item);
+        });
+    }
+
     public LiveData<List<Item>> getAllItems() {
         LiveData<List<Item>> items;
         items = itemDao.getAllItems();

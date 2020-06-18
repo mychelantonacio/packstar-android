@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.PopupMenu;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.view.fragments.ListBagFragment;
-import com.mychelantonacio.packstar.view.fragments.ListItemFragment;
 import com.mychelantonacio.packstar.view.fragments.SingleFragmentActivity;
 
 
@@ -22,5 +21,7 @@ public class ListBagActivity extends SingleFragmentActivity {
         popup.setGravity(5);
         popup.show();
     }
+
+
 
 }

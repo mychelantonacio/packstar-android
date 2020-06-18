@@ -9,8 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.snackbar.Snackbar;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Item;
+import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 import java.util.List;
 
 
@@ -18,22 +20,27 @@ public class BagItemListAdapter extends RecyclerView.Adapter<BagItemListAdapter.
 
     private List<Item> items;
     private final LayoutInflater inflater;
+    private ItemViewModel itemViewModel;
+    private Item recentlyDeletedItem;
+    private int recentlyDeletedItemPosition;
+    private View itemView;
 
 
-    public BagItemListAdapter(Context context){
+    public BagItemListAdapter(Context context, ItemViewModel itemViewModel){
         inflater = LayoutInflater.from(context);
+        this.itemViewModel = itemViewModel;
     }
 
     @NonNull
     @Override
     public BagItemListAdapter.BagItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = inflater.inflate(R.layout.recyclerview_item_bag_item, parent, false);
+        itemView = inflater.inflate(R.layout.recyclerview_item_bag_item, parent, false);
         return new BagItemListAdapter.BagItemViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull BagItemListAdapter.BagItemViewHolder holder, int position) {
-        Resources res = holder.itemView.getResources();//or using context too, holder.itemView.context.getResources()
+        Resources res = holder.itemView.getResources();
 
         if (items != null) {
             Item currentItem = items.get(position);
@@ -75,6 +82,32 @@ public class BagItemListAdapter extends RecyclerView.Adapter<BagItemListAdapter.
         notifyDataSetChanged();
     }
 
+    public void deleteItem(int position) {
+        recentlyDeletedItem = items.get(position);
+        recentlyDeletedItemPosition = position;
+        items.remove(position);
+        notifyItemRemoved(position);
+        showUndoSnackbar();
+        //itemViewModel.delete(recentlyDeletedItem); uncommit it after testing...
+    }
+
+    private void showUndoSnackbar() {
+        View view = itemView.findViewById(R.id.constraintlayout_bag_item);
+        Snackbar snackbar = Snackbar.make(view, recentlyDeletedItem.getName(), Snackbar.LENGTH_LONG);
+        snackbar.setAction(R.string.snackbar_undo, v -> undoDelete());
+        snackbar.show();
+    }
+
+    private void undoDelete() {
+        items.add(recentlyDeletedItemPosition, recentlyDeletedItem);
+        notifyItemInserted(recentlyDeletedItemPosition);
+        //itemViewModel.insert(recentlyDeletedItem); uncommit it after testing...
+    }
+
+
+
+
+    //VIEW_HOLDER
     public class BagItemViewHolder extends RecyclerView.ViewHolder {
         private final TextView itemNameItemView;
         private final TextView itemQuantityItemView;
