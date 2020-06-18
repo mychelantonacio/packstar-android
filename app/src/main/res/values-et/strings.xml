@@ -45,7 +45,7 @@
     <string name="label_bag_weigth" translatable="true">Reisikoti kogukaal</string>
     <string name="label_bag_item" translatable="true">Toode</string>
     <string name="label_bag_items" translatable="true">Tooted</string>
-    <string name="label_add_item" translatable="true">Lisa toode</string
+    <string name="label_add_item" translatable="true">Lisa toode</string>
         
     <!--Create Item Screen-->
     <string name="title_screen_create_item" translatable="true">Lisa toode</string>
