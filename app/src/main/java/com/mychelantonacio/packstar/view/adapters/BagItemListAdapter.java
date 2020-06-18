@@ -18,6 +18,8 @@ import java.util.List;
 
 public class BagItemListAdapter extends RecyclerView.Adapter<BagItemListAdapter.BagItemViewHolder> {
 
+    private BagItemListAdapter adapter;
+    private OnItemClickListener listener;
     private List<Item> items;
     private final LayoutInflater inflater;
     private ItemViewModel itemViewModel;
@@ -31,15 +33,25 @@ public class BagItemListAdapter extends RecyclerView.Adapter<BagItemListAdapter.
         this.itemViewModel = itemViewModel;
     }
 
+
+    public interface OnItemClickListener {
+        void onStatusItemClick(int position, View v);
+    }
+
+    public void setOnItemClickListener(BagItemListAdapter.OnItemClickListener listener){
+        this.listener = listener;
+    }
+
     @NonNull
     @Override
-    public BagItemListAdapter.BagItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BagItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         itemView = inflater.inflate(R.layout.recyclerview_item_bag_item, parent, false);
-        return new BagItemListAdapter.BagItemViewHolder(itemView);
+        return new BagItemViewHolder(itemView, listener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BagItemListAdapter.BagItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BagItemViewHolder holder, int position) {
         Resources res = holder.itemView.getResources();
 
         if (items != null) {
@@ -71,9 +83,8 @@ public class BagItemListAdapter extends RecyclerView.Adapter<BagItemListAdapter.
 
     @Override
     public int getItemCount() {
-        if (items != null) {
+        if(items != null)
             return items.size();
-        }
         else return 0;
     }
 
@@ -81,6 +92,19 @@ public class BagItemListAdapter extends RecyclerView.Adapter<BagItemListAdapter.
         this.items = items;
         notifyDataSetChanged();
     }
+
+    public Item findItemByPosition(int position){
+        if(items != null)
+           return items.get(position);
+        return null;
+    }
+
+    public void updateStatus(Item item, int position){
+        items.get(position).setStatus(item.getStatus());
+        itemViewModel.update(item);
+        notifyDataSetChanged();
+    }
+
 
     public void deleteItem(int position) {
         recentlyDeletedItem = items.get(position);
@@ -106,7 +130,6 @@ public class BagItemListAdapter extends RecyclerView.Adapter<BagItemListAdapter.
 
 
 
-
     //VIEW_HOLDER
     public class BagItemViewHolder extends RecyclerView.ViewHolder {
         private final TextView itemNameItemView;
@@ -114,13 +137,26 @@ public class BagItemListAdapter extends RecyclerView.Adapter<BagItemListAdapter.
         private final TextView itemWeightItemView;
         private final ImageView itemStatusItemView;
 
-        public BagItemViewHolder(@NonNull View itemView) {
+
+        public BagItemViewHolder(@NonNull View itemView,  final OnItemClickListener listener) {
             super(itemView);
 
             itemNameItemView = itemView.findViewById(R.id.text_view_list_item_name);
             itemQuantityItemView = itemView.findViewById(R.id.textview_quantity_value);
             itemWeightItemView = itemView.findViewById(R.id.textview_weight_value);
-            itemStatusItemView = itemView.findViewById(R.id.imageView_status);
+            itemStatusItemView = itemView.findViewById(R.id.imageView_chip_status);
+
+            itemStatusItemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onStatusItemClick(position, itemView);
+                        }
+                    }
+                }
+            });
         }
     }
 }

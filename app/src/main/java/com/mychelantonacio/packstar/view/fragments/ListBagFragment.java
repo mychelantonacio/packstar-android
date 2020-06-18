@@ -54,6 +54,7 @@ public class ListBagFragment extends Fragment {
         });
 
         adapter.setOnItemClickListener(new BagListAdapter.OnItemClickListener() {
+
             @Override
             public void onAddItemClick(int position) {
                 Bag currentBag = bagViewModel.getAllBagsSortedByName().getValue().get(position);

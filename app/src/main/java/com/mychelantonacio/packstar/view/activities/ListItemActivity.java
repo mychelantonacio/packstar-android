@@ -68,12 +68,13 @@ public class ListItemActivity extends SingleFragmentActivity
         popup.getMenuInflater().inflate(R.menu.chip_status_menu, popup.getMenu());
         popup.setGravity(5);
 
+
+
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
                 if(item.getItemId() == R.id.menu_chip_need_to_buy){
-
 
                     Toast.makeText(ListItemActivity.this, "Need to buy", Toast.LENGTH_LONG).show();
                 }

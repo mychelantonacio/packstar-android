@@ -6,15 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.card.MaterialCardView;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
-import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
-
 import java.util.List;
 
 
@@ -130,6 +126,7 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
             itemWeightItemView = itemView.findViewById(R.id.textview_counter_weight);
             cardViewItemView = itemView.findViewById(R.id.cardview_bag);
 
+
             addImageButtonItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -165,6 +162,7 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
                     }
                 }
             });
+
         }
     }
 }//endClass...

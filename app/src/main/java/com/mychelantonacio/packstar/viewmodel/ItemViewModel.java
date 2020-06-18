@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData;
 import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.repository.ItemRepository;
 import java.util.List;
-import javax.inject.Inject;
 
 
 public class ItemViewModel extends AndroidViewModel {
@@ -15,7 +14,6 @@ public class ItemViewModel extends AndroidViewModel {
     private ItemRepository itemRepository;
 
 
-    @Inject
     public ItemViewModel(@NonNull Application application) {
         super(application);
         itemRepository = new ItemRepository(application);
@@ -29,6 +27,10 @@ public class ItemViewModel extends AndroidViewModel {
         itemRepository.delete(item);
     }
 
+    public void update(Item item){
+        itemRepository.update(item);
+    }
+
     public LiveData<List<Item>> getAllItems() {
         LiveData<List<Item>> items;
         items = itemRepository.getAllItems();
@@ -39,5 +41,9 @@ public class ItemViewModel extends AndroidViewModel {
         LiveData<List<Item>> items;
         items = itemRepository.getAllItemsWithBag(id);
         return items;
+    }
+
+    public Item findItemById(long id) {
+        return itemRepository.findItemById(id);
     }
 }

@@ -38,5 +38,4 @@ public class BagRepository {
     public Bag findBagById(long id) {
         return bagDao.findBagById(id);
     }
-
 }

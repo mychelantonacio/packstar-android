@@ -40,7 +40,7 @@
     <string name="ic_add_comment_description">Add comment icon</string>
 
     <!--List Bag Screen-->
-    <string name="title_screen_list_bag" translatable="false">List bag</string>
+    <string name="title_screen_list_bag" translatable="true">List bag</string>
     <string name="label_bag_name" translatable="false">Bag name</string>
     <string name="label_bag_date" translatable="false">Bag date</string>
     <string name="label_bag_weigth" translatable="false">Bag weight</string>

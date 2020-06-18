@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ItemRepository {
 
-    ItemDao itemDao;
+    private ItemDao itemDao;
 
 
     public ItemRepository(Application application){
@@ -28,6 +28,12 @@ public class ItemRepository {
         });
     }
 
+    public void update(Item item){
+        BagRoomDatabase.databaseWriteExecutor.execute(() -> {
+            itemDao.update(item);
+        });
+    }
+
     public LiveData<List<Item>> getAllItems() {
         LiveData<List<Item>> items;
         items = itemDao.getAllItems();
@@ -38,5 +44,9 @@ public class ItemRepository {
         LiveData<List<Item>> items;
         items = itemDao.getAllItemsWithBag(id);
         return items;
+    }
+
+    public Item findItemById(long id){
+        return itemDao.findItemById(id);
     }
 }
