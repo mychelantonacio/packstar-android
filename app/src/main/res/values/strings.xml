@@ -40,38 +40,38 @@
     <string name="ic_add_comment_description">Add comment icon</string>
 
     <!--List Bag Screen-->
-    <string name="title_screen_list_bag" translatable="true">List bag</string>
-    <string name="label_bag_name" translatable="false">Bag name</string>
-    <string name="label_bag_date" translatable="false">Bag date</string>
-    <string name="label_bag_weigth" translatable="false">Bag weight</string>
-    <string name="label_bag_item" translatable="false">item</string>
-    <string name="label_bag_items" translatable="false">items</string>
-    <string name="label_add_item" translatable="false">Add item</string>
-    <string name="menu_dots_edit" translatable="false">Edit</string>
-    <string name="menu_dots_delete" translatable="false">Delete</string>
-    <string name="menu_dots_share" translatable="false">Share</string>
+    <string name="title_screen_list_bag">List bag</string>
+    <string name="label_bag_name">Bag name</string>
+    <string name="label_bag_date">Bag date</string>
+    <string name="label_bag_weigth">Bag weight</string>
+    <string name="label_bag_item">item</string>
+    <string name="label_bag_items">items</string>
+    <string name="label_add_item">Add item</string>
+    <string name="menu_dots_edit">Edit</string>
+    <string name="menu_dots_delete">Delete</string>
+    <string name="menu_dots_share">Share</string>
 
     <!--Create Item Screen-->
-    <string name="title_screen_create_item" translatable="false">Add item</string>
-    <string name="edit_text_hint_item_name" translatable="false">Name</string>
-    <string name="edit_text_description_item_name" translatable="false">Delete item name</string>
-    <string name="edit_text_hint_item_quantity" translatable="false">Quantity</string>
-    <string name="edit_text_description_item_quantity" translatable="false">Delete item quantity</string>
-    <string name="edit_text_hint_item_weight" translatable="false">Weight (kg)</string>
-    <string name="edit_text_description_item_weight" translatable="false">Delete item weight</string>
-    <string name="textView_ic_arrow_right_red" translatable="false">Need to buy</string>
-    <string name="textView_ic_arrow_right_green" translatable="false">Already have</string>
+    <string name="title_screen_create_item">Add item</string>
+    <string name="edit_text_hint_item_name">Name</string>
+    <string name="edit_text_description_item_name">Delete item name</string>
+    <string name="edit_text_hint_item_quantity">Quantity</string>
+    <string name="edit_text_description_item_quantity">Delete item quantity</string>
+    <string name="edit_text_hint_item_weight">Weight (kg)</string>
+    <string name="edit_text_description_item_weight">Delete item weight</string>
+    <string name="textView_ic_arrow_right_red">Need to buy</string>
+    <string name="textView_ic_arrow_right_green">Already have</string>
 
     <!--List Item Screen-->
-    <string name="title_screen_list_item" translatable="false">Items</string>
-    <string name="label_item_quantity" translatable="false">Quantity:</string>
-    <string name="label_item_number" translatable="false">number</string>
-    <string name="label_item_weight" translatable="false">Weight (kg):</string>
-    <string name="label_item_number_weight" translatable="false">number weight</string>
-    <string name="imageview_description_status" translatable="false">status image</string>
-    <string name="menu_chip_need_to_buy" translatable="false">Need to buy</string>
-    <string name="menu_chip_already_have" translatable="false">Already have</string>
-    <string name="menu_chip_remove" translatable="false">Remove</string>
+    <string name="title_screen_list_item">Items</string>
+    <string name="label_item_quantity">Quantity:</string>
+    <string name="label_item_number">number</string>
+    <string name="label_item_weight">Weight (kg):</string>
+    <string name="label_item_number_weight">number weight</string>
+    <string name="imageview_description_status">status image</string>
+    <string name="menu_chip_need_to_buy">Need to buy</string>
+    <string name="menu_chip_already_have">Already have</string>
+    <string name="menu_chip_remove">Remove</string>
 
 
 
