@@ -15,29 +15,35 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.util.enums.ItemStatusEnum;
+import com.mychelantonacio.packstar.util.helpers.ItemTouchHelperCallback;
 import com.mychelantonacio.packstar.util.helpers.SwipeToDeleteCallback;
-import com.mychelantonacio.packstar.view.adapters.BagItemListAdapter;
+import com.mychelantonacio.packstar.view.activities.CreateItemActivity;
+import com.mychelantonacio.packstar.view.adapters.ItemListAdapter;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 import java.util.List;
 import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
+import com.mychelantonacio.packstar.util.helpers.OnStartDragListener;
 
 
-public class ListItemFragment extends Fragment {
+public class ListItemFragment extends Fragment implements OnStartDragListener {
 
     private Bag currentBag;
-    private BagItemListAdapter adapter;
+    private ItemListAdapter adapter;
     private ItemViewModel itemViewModel;
+    private FloatingActionButton fab;
 
+    private ItemTouchHelper itemTouchHelper;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recyclerview_list_bag_items, container, false);
         RecyclerView recyclerView = view.getRootView().findViewById(R.id.recyclerview_items);
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
-        adapter = new BagItemListAdapter(getActivity(), itemViewModel);
+        adapter = new ItemListAdapter(getActivity(), itemViewModel, this);
         recyclerView.setAdapter(adapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -47,12 +53,31 @@ public class ListItemFragment extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter, getContext()));
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
+
+        ItemTouchHelper.Callback callback =  new ItemTouchHelperCallback(adapter);
+        this.itemTouchHelper = new ItemTouchHelper(callback);
+        this.itemTouchHelper.attachToRecyclerView(recyclerView);
+
+
+
         DividerItemDecoration itemDecor = new DividerItemDecoration(getContext(), VERTICAL);
         recyclerView.addItemDecoration(itemDecor);
         getItemsFromSelectedBag();
 
 
-        adapter.setOnItemClickListener(new BagItemListAdapter.OnItemClickListener() {
+
+        fab = (FloatingActionButton) view.getRootView().findViewById(R.id.fab_home);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CreateItemActivity.class);
+                intent.putExtra("bag_parcelable", currentBag);
+                startActivity(intent);
+            }
+        });
+
+
+        adapter.setOnItemClickListener(new ItemListAdapter.OnItemClickListener() {
             @Override
             public void onStatusItemClick(int position, View v) {
                 Item currentItem = adapter.findItemByPosition(position);
@@ -97,5 +122,12 @@ public class ListItemFragment extends Fragment {
                 adapter.setItems(items);
             }
         });
+    }
+
+
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        itemTouchHelper.startDrag(viewHolder);
     }
 }

@@ -23,7 +23,8 @@ import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
 
-public class CreateItemActivity extends AppCompatActivity implements DiscardChangesFragmentDialog.NoticeDialogListener{
+public class CreateItemActivity extends AppCompatActivity
+        implements DiscardChangesFragmentDialog.NoticeDialogListener{
 
     private ItemStatusEnum itemStatus;
     private DiscardChangesFragmentDialog discardChangesFragmentDialog;
