@@ -39,33 +39,41 @@
     <string name="ic_add_comment_description">Lisa kommentaar ikoon</string>
     
     <!--List Bag Screen-->
-    <string name="title_screen_list_bag" translatable="true">PackStar</string>
-    <string name="label_bag_name" translatable="true">Reisikoti nimi</string>
-    <string name="label_bag_date" translatable="true">Reisi kuupäev</string>
-    <string name="label_bag_weigth" translatable="true">Reisikoti kogukaal</string>
-    <string name="label_bag_item" translatable="true">Toode</string>
-    <string name="label_bag_items" translatable="true">Tooted</string>
-    <string name="label_add_item" translatable="true">Lisa toode</string>
+    <string name="title_screen_list_bag">PackStar</string>
+    <string name="label_bag_name">Reisikoti nimi</string>
+    <string name="label_bag_date">Reisi kuupäev</string>
+    <string name="label_bag_weigth">Reisikoti kogukaal</string>
+    <string name="label_bag_item">Toode</string>
+    <string name="label_bag_items">Tooted</string>
+    <string name="label_add_item">Lisa toode</string>
         
     <!--Create Item Screen-->
-    <string name="title_screen_create_item" translatable="true">Lisa toode</string>
-    <string name="edit_text_hint_item_name" translatable="true">Toote nimi</string>
-    <string name="edit_text_description_item_name" translatable="true">Kustuta toote nimi</string>
-    <string name="edit_text_hint_item_quantity" translatable="true">Kogus</string>
-    <string name="edit_text_description_item_quantity" translatable="true">Kustuta kogus</string>
-    <string name="edit_text_hint_item_weight" translatable="true">Kaal (kg)</string>
-    <string name="edit_text_description_item_weight" translatable="true">Kustuta toote kaal</string>
-    <string name="textView_ic_arrow_right_red" translatable="true">Vaja osta</string>
-    <string name="textView_ic_arrow_right_green" translatable="true">Juba olemas</string>
+    <string name="title_screen_create_item">Lisa toode</string>
+    <string name="edit_text_hint_item_name">Toote nimi</string>
+    <string name="edit_text_description_item_name">Kustuta toote nimi</string>
+    <string name="edit_text_hint_item_quantity">Kogus</string>
+    <string name="edit_text_description_item_quantity">Kustuta kogus</string>
+    <string name="edit_text_hint_item_weight">Kaal (kg)</string>
+    <string name="edit_text_description_item_weight">Kustuta toote kaal</string>
+    <string name="textView_ic_arrow_right_red">Vaja osta</string>
+    <string name="textView_ic_arrow_right_green">Juba olemas</string>
         
     <!--List Item Screen-->
-    <string name="title_screen_list_item" translatable="true">Tooted</string>
-    <string name="label_item_quantity" translatable="true">Kogus:</string>
-    <string name="label_item_number" translatable="true">Number</string>
-    <string name="label_item_weight" translatable="true">Kaal (kg):</string>
-    <string name="label_item_number_weight" translatable="true">Kaalunumber</string>
-    <string name="imageview_description_status" translatable="true">Staatuse pilt</string>
-        
-        
+    <string name="title_screen_list_item">Tooted</string>
+    <string name="label_item_quantity">Kogus:</string>
+    <string name="label_item_number">Number</string>
+    <string name="label_item_weight">Kaal (kg):</string>
+    <string name="label_item_number_weight">Kaalunumber</string>
+    <string name="imageview_description_status">Staatuse pilt</string>
+
+    <!--List Bag Screen-->
+    <string name="menu_dots_edit">Muuda</string>
+    <string name="menu_dots_delete">Kustuta</string>
+    <string name="menu_dots_share">Jaga</string>
+
+    <!--List Item Screen-->
+    <string name="menu_chip_need_to_buy">Vaja osta</string>
+    <string name="menu_chip_already_have">Juba olemas</string>
+    <string name="menu_chip_remove">Eemalda</string>
 
 </resources>
