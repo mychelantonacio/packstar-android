@@ -53,18 +53,13 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter, getContext()));
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-
         ItemTouchHelper.Callback callback =  new ItemTouchHelperCallback(adapter);
         this.itemTouchHelper = new ItemTouchHelper(callback);
         this.itemTouchHelper.attachToRecyclerView(recyclerView);
 
-
-
         DividerItemDecoration itemDecor = new DividerItemDecoration(getContext(), VERTICAL);
         recyclerView.addItemDecoration(itemDecor);
         getItemsFromSelectedBag();
-
-
 
         fab = (FloatingActionButton) view.getRootView().findViewById(R.id.fab_home);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -123,8 +118,6 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
             }
         });
     }
-
-
 
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {

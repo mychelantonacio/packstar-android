@@ -1,6 +1,5 @@
 package com.mychelantonacio.packstar.util.helpers;
 
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.view.adapters.ItemListAdapter;
+
 
 public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
 

@@ -38,16 +38,15 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
         return true;
     }
 
+
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-        adapter.onItemDismiss(viewHolder.getAdapterPosition());
+        //adapter.onItemDismiss(viewHolder.getAdapterPosition());
     }
-
 
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-            //ItemListAdapter$BagItemViewHolder cannot be cast to com.mychelantonacio.packstar.util.helpers.ItemTouchHelperViewHolder
             ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
             itemViewHolder.onItemSelected();
         }

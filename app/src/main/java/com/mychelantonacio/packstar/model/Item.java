@@ -5,11 +5,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.mychelantonacio.packstar.util.enums.ItemStatusEnum;
 
 
 @Entity(tableName = "tb_item")
-public class Item implements Comparable{
+public class Item {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
@@ -84,17 +83,4 @@ public class Item implements Comparable{
         this.status = status;
     }
 
-    @Override
-    public int compareTo(Object o) {
-        if(this.getStatus().equals(ItemStatusEnum.NEED_TO_BUY.getStatusCode())){
-            return -1;
-        }
-        else if(this.getStatus().equals(ItemStatusEnum.NEED_TO_BUY.getStatusCode())
-                && ((Item) o).getStatus().equals(ItemStatusEnum.NEED_TO_BUY.getStatusCode())){
-            return 0;
-        }
-        else{
-            return 1;
-        }
-    }
 }

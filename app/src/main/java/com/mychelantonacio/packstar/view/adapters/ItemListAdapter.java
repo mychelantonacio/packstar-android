@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.core.view.MotionEventCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.mychelantonacio.packstar.R;
@@ -20,11 +19,10 @@ import com.mychelantonacio.packstar.util.helpers.ItemTouchHelperAdapter;
 import com.mychelantonacio.packstar.util.helpers.ItemTouchHelperViewHolder;
 import com.mychelantonacio.packstar.util.helpers.OnStartDragListener;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
-import java.util.Collections;
 import java.util.List;
 
 
-public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.BagItemViewHolder>
+public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemViewHolder>
         implements ItemTouchHelperAdapter {
 
     private ItemListAdapter adapter;
@@ -35,8 +33,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.BagIte
     private Item recentlyDeletedItem;
     private int recentlyDeletedItemPosition;
     private View itemView;
-
-
     private final OnStartDragListener dragStartListener;
 
 
@@ -46,6 +42,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.BagIte
         this.dragStartListener = dragStartListener;
     }
 
+    //drag & drop
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
         Item prev = items.remove(fromPosition);
@@ -53,18 +50,21 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.BagIte
         notifyItemMoved(fromPosition, toPosition);
     }
 
+    /*
     @Override
     public void onItemDismiss(int position) {
         items.remove(position);
         notifyItemRemoved(position);
     }
-
-    public interface OnItemClickListener {
-        void onStatusItemClick(int position, View v);
-    }
+     */
 
     public interface OnDragStartListener {
         void onDragStarted(RecyclerView.ViewHolder viewHolder);
+    }
+
+    //event click on recyclerview items
+    public interface OnItemClickListener {
+        void onStatusItemClick(int position, View v);
     }
 
     public void setOnItemClickListener(ItemListAdapter.OnItemClickListener listener){
@@ -73,14 +73,13 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.BagIte
 
     @NonNull
     @Override
-    public BagItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         itemView = inflater.inflate(R.layout.recyclerview_item_bag_item, parent, false);
-        return new BagItemViewHolder(itemView, listener);
+        return new ItemViewHolder(itemView, listener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BagItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Resources res = holder.itemView.getResources();
 
         if (items != null) {
@@ -109,10 +108,11 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.BagIte
             holder.itemWeightItemView.setText("-");
         }
 
+        //drag & drop
         holder.itemHandlerItemView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                     dragStartListener.onStartDrag(holder);
                 }
                 return false;
@@ -128,7 +128,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.BagIte
     }
 
     public void setItems(List<Item> items){
-        Collections.sort(items);
         this.items = items;
         notifyDataSetChanged();
     }
@@ -171,8 +170,9 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.BagIte
 
 
     //VIEW_HOLDER
-    public class BagItemViewHolder extends RecyclerView.ViewHolder implements
+    public class ItemViewHolder extends RecyclerView.ViewHolder implements
             ItemTouchHelperViewHolder {
+
         private final TextView itemNameItemView;
         private final TextView itemQuantityItemView;
         private final TextView itemWeightItemView;
@@ -180,7 +180,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.BagIte
         private final ImageView itemHandlerItemView;
 
 
-        public BagItemViewHolder(@NonNull View itemView,  final OnItemClickListener listener) {
+        public ItemViewHolder(@NonNull View itemView,  final OnItemClickListener listener) {
             super(itemView);
 
             itemNameItemView = itemView.findViewById(R.id.text_view_list_item_name);
@@ -188,7 +188,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.BagIte
             itemWeightItemView = itemView.findViewById(R.id.textview_weight_value);
             itemStatusItemView = itemView.findViewById(R.id.imageView_chip_status);
             itemHandlerItemView = itemView.findViewById(R.id.handle);
-
 
             itemStatusItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -205,7 +204,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.BagIte
 
         @Override
         public void onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY);
+            itemView.setBackgroundColor(Color.rgb(252,252,252));
         }
 
         @Override
