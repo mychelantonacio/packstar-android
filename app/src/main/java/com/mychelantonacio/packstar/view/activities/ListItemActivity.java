@@ -3,17 +3,11 @@ package com.mychelantonacio.packstar.view.activities;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
 import com.mychelantonacio.packstar.view.fragments.ListItemFragment;
 import com.mychelantonacio.packstar.view.fragments.SingleFragmentActivity;
@@ -66,5 +60,4 @@ public class ListItemActivity extends SingleFragmentActivity
         //Cancel button...
         dialog.dismiss();
     }
-
 }

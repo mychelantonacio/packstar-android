@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.mychelantonacio.packstar.R;
@@ -65,6 +66,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
     //event click on recyclerview items
     public interface OnItemClickListener {
         void onStatusItemClick(int position, View v);
+        void onItemContainerItemClick(int position, View v);
     }
 
     public void setOnItemClickListener(ItemListAdapter.OnItemClickListener listener){
@@ -155,7 +157,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
     }
 
     private void showUndoSnackbar() {
-        View view = itemView.findViewById(R.id.constraintlayout_bag_item);
+        View view = itemView.findViewById(R.id.constraintlayout_item);
         Snackbar snackbar = Snackbar.make(view, recentlyDeletedItem.getName(), Snackbar.LENGTH_LONG);
         snackbar.setAction(R.string.snackbar_undo, v -> undoDelete());
         snackbar.show();
@@ -178,6 +180,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         private final TextView itemWeightItemView;
         private final ImageView itemStatusItemView;
         private final ImageView itemHandlerItemView;
+        private final ConstraintLayout itemContainerItemView;
+
 
 
         public ItemViewHolder(@NonNull View itemView,  final OnItemClickListener listener) {
@@ -188,6 +192,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
             itemWeightItemView = itemView.findViewById(R.id.textview_weight_value);
             itemStatusItemView = itemView.findViewById(R.id.imageView_chip_status);
             itemHandlerItemView = itemView.findViewById(R.id.handle);
+            itemContainerItemView = itemView.findViewById(R.id.constraintlayout_item);
 
             itemStatusItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -196,6 +201,18 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
                             listener.onStatusItemClick(position, itemView);
+                        }
+                    }
+                }
+            });
+
+            itemContainerItemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onItemContainerItemClick(position, itemView);
                         }
                     }
                 }

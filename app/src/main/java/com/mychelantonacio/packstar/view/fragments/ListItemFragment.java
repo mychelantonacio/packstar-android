@@ -23,6 +23,7 @@ import com.mychelantonacio.packstar.util.enums.ItemStatusEnum;
 import com.mychelantonacio.packstar.util.helpers.ItemTouchHelperCallback;
 import com.mychelantonacio.packstar.util.helpers.SwipeToDeleteCallback;
 import com.mychelantonacio.packstar.view.activities.CreateItemActivity;
+import com.mychelantonacio.packstar.view.activities.EditItemActivity;
 import com.mychelantonacio.packstar.view.adapters.ItemListAdapter;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 import java.util.List;
@@ -71,8 +72,17 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
             }
         });
 
-
         adapter.setOnItemClickListener(new ItemListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemContainerItemClick(int position, View v) {
+                Item currentItem = adapter.findItemByPosition(position);
+                if(currentItem != null) {
+                    Intent intent = new Intent(getActivity(), EditItemActivity.class);
+                    intent.putExtra("item_parcelable", currentItem);
+                    startActivity(intent);
+                }
+            }
+
             @Override
             public void onStatusItemClick(int position, View v) {
                 Item currentItem = adapter.findItemByPosition(position);
@@ -103,6 +113,7 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
                     popup.show();
                 }
             }
+
         });
         return view;
     }
@@ -111,13 +122,17 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
         Intent intent = getActivity().getIntent();
         currentBag = (Bag) intent.getParcelableExtra("selected_bag");
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
-        itemViewModel.getAllItemsWithBag(currentBag.getId()).observe(getActivity(), new Observer<List<Item>>() {
-            @Override
-            public void onChanged(List<Item> items) {
-                adapter.setItems(items);
-            }
-        });
+        if(currentBag != null){
+            itemViewModel.getAllItemsWithBag(currentBag.getId()).observe(getActivity(), new Observer<List<Item>>() {
+                @Override
+                public void onChanged(List<Item> items) {
+                    adapter.setItems(items);
+                }
+            });
+        }
     }
+
+
 
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {

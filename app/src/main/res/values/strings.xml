@@ -74,5 +74,7 @@
     <string name="menu_chip_remove">Remove</string>
 
 
+    <!--Create Item Screen-->
+    <string name="title_screen_edit_item" translatable="false">Edit item</string>
 
 </resources>

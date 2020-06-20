@@ -49,7 +49,6 @@ public class ListBagFragment extends Fragment {
             @Override
             public void onChanged(List<Item> items) {
                 adapter.setItems(items);
-
             }
         });
 

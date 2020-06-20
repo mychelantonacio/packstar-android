@@ -9,6 +9,8 @@ public enum ItemStatusEnum {
 
     private final String statusCode;
 
+
+
     ItemStatusEnum(String status){
         this.statusCode = status;
     }

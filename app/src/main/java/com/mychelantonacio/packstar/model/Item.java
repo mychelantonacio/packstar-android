@@ -1,14 +1,16 @@
 package com.mychelantonacio.packstar.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 
-
 @Entity(tableName = "tb_item")
-public class Item {
+public class Item implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
@@ -29,7 +31,10 @@ public class Item {
     //N - (N/A)
     @ColumnInfo(defaultValue = "N")
     private String status = "N";
-    
+
+    public Item(){
+    }
+
 
     //Getters / Setters
     @NonNull
@@ -83,4 +88,78 @@ public class Item {
         this.status = status;
     }
 
+
+
+    protected Item(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readLong();
+        }
+        if (in.readByte() == 0) {
+            bagId = null;
+        } else {
+            bagId = in.readLong();
+        }
+        name = in.readString();
+        if (in.readByte() == 0) {
+            quantity = null;
+        } else {
+            quantity = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            weight = null;
+        } else {
+            weight = in.readDouble();
+        }
+        status = in.readString();
+    }
+
+    public static final Creator<Item> CREATOR = new Creator<Item>() {
+        @Override
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
+        }
+
+        @Override
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(id);
+        }
+        if (bagId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(bagId);
+        }
+        dest.writeString(name);
+        if (quantity == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(quantity);
+        }
+        if (weight == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(weight);
+        }
+        dest.writeString(status);
+    }
 }
