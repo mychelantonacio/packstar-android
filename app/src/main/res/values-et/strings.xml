@@ -12,7 +12,7 @@
 
     <!-- SCREEN SECTION -->
     <!--Home Screen-->
-    <string name="welcome_packstar">Tere tulemast!</string>
+    <string name="welcome_packstar">Seiklusteks valmis?</string>
     <string name="create_first_bag">Koosta oma esimene reisikott vajutades allolevat nuppu</string>
 
     <!--Create Bag Screen-->
