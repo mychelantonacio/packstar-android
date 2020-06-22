@@ -21,7 +21,4 @@ public class ListBagActivity extends SingleFragmentActivity {
         popup.setGravity(5);
         popup.show();
     }
-
-
-
 }

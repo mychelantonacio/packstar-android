@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/constraintlayout_bag_item"
+    android:id="@+id/constraintlayout_item"
     android:layout_width="match_parent"
     android:layout_height="68dp"
     android:orientation="horizontal">
@@ -81,5 +81,19 @@
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/textView_weight_kg"
         app:layout_constraintTop_toBottomOf="@+id/text_view_list_item_name" />
+
+
+    <ImageView
+        android:id="@+id/handle"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical|right"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="16dp"
+        android:scaleType="center"
+        android:src="@drawable/ic_drag_handle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

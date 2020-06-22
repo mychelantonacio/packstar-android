@@ -138,7 +138,6 @@ public class CreateBagActivity extends AppCompatActivity
            // Bag bag = new Bag("Test Bag " + i, "01/01/2020", new Double(i), "Test Comment " + i);
             //bagViewModel.insert(bag);
 
-
             for(int j = 1; j <= 3; j++){
                 Item item = new Item();
 
@@ -263,5 +262,4 @@ public class CreateBagActivity extends AppCompatActivity
         }
         return false;
     }
-
 }//endClass...

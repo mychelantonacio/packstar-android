@@ -3,12 +3,15 @@ package com.mychelantonacio.packstar.view.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -16,59 +19,103 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
-import com.mychelantonacio.packstar.repository.BagRepository;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
 import com.mychelantonacio.packstar.util.enums.ItemStatusEnum;
+import com.mychelantonacio.packstar.view.adapters.BagListAdapter;
+import com.mychelantonacio.packstar.view.fragments.ListBagFragment;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
+import java.util.List;
 
-public class CreateItemActivity extends AppCompatActivity
+
+public class EditItemActivity extends AppCompatActivity
         implements DiscardChangesFragmentDialog.NoticeDialogListener {
 
-    private ItemStatusEnum itemStatus;
+    //Dialogs
     private DiscardChangesFragmentDialog discardChangesFragmentDialog;
     private static final String DIALOG_DISCARD = "DiscardChangesFragmentDialog";
 
+
     //Widgets
     private TextInputEditText nameEditText;
+    private com.google.android.material.textfield.TextInputLayout nameTextInputLayout;
     private TextInputEditText quantityEditText;
+    private com.google.android.material.textfield.TextInputLayout quantityTextInputLayout;
     private TextInputEditText weightEditText;
+    private com.google.android.material.textfield.TextInputLayout weightTextInputLayout;
+    private ChipGroup statusChipGroup;
+    private com.google.android.material.chip.Chip statusChipNeedToBuy;
+    private com.google.android.material.chip.Chip statusChipAlreadyHave;
     private ExtendedFloatingActionButton eFab;
-    private ChipGroup chipGroup;
+
+
 
     //DATA
-    private Bag currentBag;
     private ItemViewModel itemViewModel;
     private BagViewModel bagViewModel;
-    private BagRepository bagRepository;
-
-
+    private BagListAdapter bagAdapter;
+    private ItemStatusEnum itemStatus;
+    private Item currentItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_item);
+        setContentView(R.layout.activity_edit_item);
         setupUIOnCreate();
     }
+
     private void setupUIOnCreate() {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
         nameEditText = (TextInputEditText) findViewById(R.id.editText_item_name);
+        nameTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.filledTextField_item_name);
         quantityEditText = (TextInputEditText) findViewById(R.id.editText_item_quantity);
+        quantityTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.filledTextField_item_quantity);
         weightEditText = (TextInputEditText) findViewById(R.id.editText_item_weight);
+        weightTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.filledTextField_item_weight);
+        statusChipGroup = (ChipGroup)  findViewById(R.id.chip_group);
+        chipGroupSetup();
+        statusChipNeedToBuy = (com.google.android.material.chip.Chip) findViewById(R.id.chip_red);
+        statusChipAlreadyHave = (com.google.android.material.chip.Chip) findViewById(R.id.chip_green);
         eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
         fabSetup();
-        chipGroup = (ChipGroup) findViewById(R.id.chip_group);
-        chipGroupSetup();
-        itemStatus = ItemStatusEnum.NON_INFORMATION;
+
         Intent intent = getIntent();
-        currentBag = (Bag) intent.getParcelableExtra("bag_parcelable");
+        currentItem = (Item) intent.getParcelableExtra("item_parcelable");
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
+
+        nameEditText.setText(currentItem.getName());
+        nameTextInputLayout.setEndIconVisible(false);
+        quantityEditText.setText(String.valueOf(currentItem.getQuantity()));
+        quantityTextInputLayout.setEndIconVisible(false);
+        weightEditText.setText(String.valueOf(currentItem.getWeight()));
+        weightTextInputLayout.setEndIconVisible(false);
+
+        if (currentItem.getStatus().equals(ItemStatusEnum.NEED_TO_BUY.getStatusCode()) ) {
+            statusChipNeedToBuy.setChecked(true);
+            itemStatus = ItemStatusEnum.NEED_TO_BUY;
+        }
+        else if(currentItem.getStatus().equals(ItemStatusEnum.ALREADY_HAVE.getStatusCode())){
+            statusChipAlreadyHave.setChecked(true);
+            itemStatus = ItemStatusEnum.ALREADY_HAVE;
+        }
+        else {
+            itemStatus = ItemStatusEnum.NON_INFORMATION;
+        }
+
+        itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
+        bagAdapter = new BagListAdapter(this);
         bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
-        bagRepository = new BagRepository(bagViewModel.getApplication());
+        bagViewModel.getAllBagsSortedByName().observe(this, new Observer<List<Bag>>() {
+            @Override
+            public void onChanged(List<Bag> bags) {
+                bagAdapter.setBags(bags);
+            }
+        });
     }
 
 
@@ -81,13 +128,39 @@ public class CreateItemActivity extends AppCompatActivity
         });
     }
 
+
+    private void createItem(){
+        if (isNameEmpty() || isQuantityEmpty()) { return; }
+
+        currentItem.setName(nameEditText.getText().toString());
+        currentItem.setQuantity(Integer.valueOf(quantityEditText.getText().toString()));
+        if(!TextUtils.isEmpty(weightEditText.getText().toString())){
+            currentItem.setWeight(new Double(weightEditText.getText().toString()));
+        }
+
+        currentItem.setStatus(itemStatus.getStatusCode());
+        itemViewModel.update(currentItem);
+        Bag currentBag = bagAdapter.findBagById(currentItem.getBagId());
+
+        if (currentBag != null){
+            Intent intent = new Intent(this, ListItemActivity.class);
+            intent.putExtra("selected_bag", currentBag);
+            startActivity(intent);
+        }
+        else{
+            Intent intent = new Intent(this, ListBagActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
     private void chipGroupSetup(){
-        chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+        statusChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
                 String needToBuy = "Need to buy";
                 String alreadyHave = "Already have";
-                Chip chip = chipGroup.findViewById(checkedId);
+                Chip chip = statusChipGroup.findViewById(checkedId);
                 if(chip == null) {
                     itemStatus = ItemStatusEnum.NON_INFORMATION;
                 }
@@ -101,20 +174,6 @@ public class CreateItemActivity extends AppCompatActivity
         });
     }
 
-    private void createItem(){
-        if (isNameEmpty() || isQuantityEmpty()) { return; }
-        Item newItem = new Item();
-        newItem.setName(nameEditText.getText().toString());
-        newItem.setQuantity(Integer.valueOf(quantityEditText.getText().toString()));
-        if(!TextUtils.isEmpty(weightEditText.getText().toString())){
-            newItem.setWeight(new Double(weightEditText.getText().toString()));
-        }
-        newItem.setStatus(itemStatus.getStatusCode());
-        newItem.setBagId(currentBag.getId());
-        itemViewModel.insert(newItem);
-        Intent intent = new Intent(CreateItemActivity.this, ListBagActivity.class);
-        startActivity(intent);
-    }
 
     private boolean isNameEmpty(){
         String itemName = nameEditText.getText().toString().trim();
@@ -155,4 +214,5 @@ public class CreateItemActivity extends AppCompatActivity
         //Cancel button...
         dialog.dismiss();
     }
-}
+
+}//endClass...

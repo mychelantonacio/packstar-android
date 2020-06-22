@@ -21,8 +21,6 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
     private final LayoutInflater inflater;
     private OnItemClickListener listener;
 
-
-
     public BagListAdapter(Context context){
         inflater = LayoutInflater.from(context);
     }
@@ -60,6 +58,7 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
 
     private int getItemQuantity(Bag bag){
         int countItems = 0;
+
         if(this.items != null) {
             for (Item item : items) {
                 if (bag.getId().equals(item.getBagId())) {
@@ -96,6 +95,17 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         notifyDataSetChanged();
     }
 
+    public Bag findBagById(long id){
+        if(this.bags != null){
+            for(Bag bag : bags){
+                if(bag.getId() == id){
+                    return bag;
+                }
+            }
+        }
+        return null;
+    }
+
     @Override
     public int getItemCount() {
         if (bags != null)
@@ -114,7 +124,6 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         private final TextView itemWeightItemView;
         private final MaterialCardView cardViewItemView;
 
-
         private BagViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             bagNameItemView = itemView.findViewById(R.id.text_view_bag_name);
@@ -125,7 +134,6 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
             itemQuantityItemView = itemView.findViewById(R.id.textview_counter_item);
             itemWeightItemView = itemView.findViewById(R.id.textview_counter_weight);
             cardViewItemView = itemView.findViewById(R.id.cardview_bag);
-
 
             addImageButtonItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -162,7 +170,6 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
                     }
                 }
             });
-
         }
     }
 }//endClass...

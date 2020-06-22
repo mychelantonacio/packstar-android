@@ -2,23 +2,31 @@ package com.mychelantonacio.packstar.view.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Item;
+import com.mychelantonacio.packstar.util.enums.ItemStatusEnum;
+import com.mychelantonacio.packstar.util.helpers.ItemTouchHelperAdapter;
+import com.mychelantonacio.packstar.util.helpers.ItemTouchHelperViewHolder;
+import com.mychelantonacio.packstar.util.helpers.OnStartDragListener;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 import java.util.List;
 
 
-public class BagItemListAdapter extends RecyclerView.Adapter<BagItemListAdapter.BagItemViewHolder> {
+public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemViewHolder>
+        implements ItemTouchHelperAdapter {
 
-    private BagItemListAdapter adapter;
+    private ItemListAdapter adapter;
     private OnItemClickListener listener;
     private List<Item> items;
     private final LayoutInflater inflater;
@@ -26,32 +34,54 @@ public class BagItemListAdapter extends RecyclerView.Adapter<BagItemListAdapter.
     private Item recentlyDeletedItem;
     private int recentlyDeletedItemPosition;
     private View itemView;
+    private final OnStartDragListener dragStartListener;
 
 
-    public BagItemListAdapter(Context context, ItemViewModel itemViewModel){
+    public ItemListAdapter(Context context, ItemViewModel itemViewModel, OnStartDragListener dragStartListener){
         inflater = LayoutInflater.from(context);
         this.itemViewModel = itemViewModel;
+        this.dragStartListener = dragStartListener;
     }
 
+    //drag & drop
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        Item prev = items.remove(fromPosition);
+        items.add(toPosition > fromPosition ? toPosition - 1 : toPosition, prev);
+        notifyItemMoved(fromPosition, toPosition);
+    }
 
+    /*
+    @Override
+    public void onItemDismiss(int position) {
+        items.remove(position);
+        notifyItemRemoved(position);
+    }
+     */
+
+    public interface OnDragStartListener {
+        void onDragStarted(RecyclerView.ViewHolder viewHolder);
+    }
+
+    //event click on recyclerview items
     public interface OnItemClickListener {
         void onStatusItemClick(int position, View v);
+        void onItemContainerItemClick(int position, View v);
     }
 
-    public void setOnItemClickListener(BagItemListAdapter.OnItemClickListener listener){
+    public void setOnItemClickListener(ItemListAdapter.OnItemClickListener listener){
         this.listener = listener;
     }
 
     @NonNull
     @Override
-    public BagItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         itemView = inflater.inflate(R.layout.recyclerview_item_bag_item, parent, false);
-        return new BagItemViewHolder(itemView, listener);
+        return new ItemViewHolder(itemView, listener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BagItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Resources res = holder.itemView.getResources();
 
         if (items != null) {
@@ -65,10 +95,10 @@ public class BagItemListAdapter extends RecyclerView.Adapter<BagItemListAdapter.
             else
                 holder.itemWeightItemView.setText("-");
 
-            if(currentItem.getStatus().equals("B")){
+            if(currentItem.getStatus().equals(ItemStatusEnum.NEED_TO_BUY.getStatusCode())){
                 holder.itemStatusItemView.setImageDrawable(res.getDrawable(R.drawable.ic_arrow_right_red, null));
             }
-            else if(currentItem.getStatus().equals("A")){
+            else if(currentItem.getStatus().equals(ItemStatusEnum.ALREADY_HAVE.getStatusCode())){
                 holder.itemStatusItemView.setImageDrawable(res.getDrawable(R.drawable.ic_arrow_right_green, null));
             }
             else{
@@ -79,6 +109,17 @@ public class BagItemListAdapter extends RecyclerView.Adapter<BagItemListAdapter.
             holder.itemQuantityItemView.setText("-");
             holder.itemWeightItemView.setText("-");
         }
+
+        //drag & drop
+        holder.itemHandlerItemView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                    dragStartListener.onStartDrag(holder);
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -116,7 +157,7 @@ public class BagItemListAdapter extends RecyclerView.Adapter<BagItemListAdapter.
     }
 
     private void showUndoSnackbar() {
-        View view = itemView.findViewById(R.id.constraintlayout_bag_item);
+        View view = itemView.findViewById(R.id.constraintlayout_item);
         Snackbar snackbar = Snackbar.make(view, recentlyDeletedItem.getName(), Snackbar.LENGTH_LONG);
         snackbar.setAction(R.string.snackbar_undo, v -> undoDelete());
         snackbar.show();
@@ -131,20 +172,27 @@ public class BagItemListAdapter extends RecyclerView.Adapter<BagItemListAdapter.
 
 
     //VIEW_HOLDER
-    public class BagItemViewHolder extends RecyclerView.ViewHolder {
+    public class ItemViewHolder extends RecyclerView.ViewHolder implements
+            ItemTouchHelperViewHolder {
+
         private final TextView itemNameItemView;
         private final TextView itemQuantityItemView;
         private final TextView itemWeightItemView;
         private final ImageView itemStatusItemView;
+        private final ImageView itemHandlerItemView;
+        private final ConstraintLayout itemContainerItemView;
 
 
-        public BagItemViewHolder(@NonNull View itemView,  final OnItemClickListener listener) {
+
+        public ItemViewHolder(@NonNull View itemView,  final OnItemClickListener listener) {
             super(itemView);
 
             itemNameItemView = itemView.findViewById(R.id.text_view_list_item_name);
             itemQuantityItemView = itemView.findViewById(R.id.textview_quantity_value);
             itemWeightItemView = itemView.findViewById(R.id.textview_weight_value);
             itemStatusItemView = itemView.findViewById(R.id.imageView_chip_status);
+            itemHandlerItemView = itemView.findViewById(R.id.handle);
+            itemContainerItemView = itemView.findViewById(R.id.constraintlayout_item);
 
             itemStatusItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -157,6 +205,28 @@ public class BagItemListAdapter extends RecyclerView.Adapter<BagItemListAdapter.
                     }
                 }
             });
+
+            itemContainerItemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onItemContainerItemClick(position, itemView);
+                        }
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void onItemSelected() {
+            itemView.setBackgroundColor(Color.rgb(252,252,252));
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundColor(0);
         }
     }
 }
