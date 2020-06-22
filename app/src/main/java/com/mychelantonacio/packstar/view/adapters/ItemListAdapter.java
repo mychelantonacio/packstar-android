@@ -1,12 +1,20 @@
 package com.mychelantonacio.packstar.view.adapters;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -36,11 +44,15 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
     private View itemView;
     private final OnStartDragListener dragStartListener;
 
+    private Context context;
+
 
     public ItemListAdapter(Context context, ItemViewModel itemViewModel, OnStartDragListener dragStartListener){
         inflater = LayoutInflater.from(context);
         this.itemViewModel = itemViewModel;
         this.dragStartListener = dragStartListener;
+
+        this.context = context;
     }
 
     //drag & drop
@@ -80,9 +92,47 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         return new ItemViewHolder(itemView, listener);
     }
 
+
+
+    private void setFadeAnimation(View view) {
+        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(10000);
+        view.startAnimation(anim);
+    }
+
+    private void setZoomInAnimation(View view) {
+        Animation zoomIn = AnimationUtils.loadAnimation(context, R.anim.item_animation_bounce);// animation file
+        view.startAnimation(zoomIn);
+    }
+
+
+    private void setBounceAnimation(ItemViewHolder holder){
+
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(-100f, 0f);
+        valueAnimator.setInterpolator(new BounceInterpolator());
+
+        valueAnimator.setDuration(2000);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float progress = (float) animation.getAnimatedValue();
+                holder.itemView.setTranslationX(progress);
+                //holder.itemView.setBackgroundColor(1);
+
+
+            }
+
+        });
+        valueAnimator.start();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Resources res = holder.itemView.getResources();
+
+        if(position == 0)   setBounceAnimation(holder);
+
 
         if (items != null) {
             Item currentItem = items.get(position);
@@ -184,6 +234,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
 
 
 
+
         public ItemViewHolder(@NonNull View itemView,  final OnItemClickListener listener) {
             super(itemView);
 
@@ -193,6 +244,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
             itemStatusItemView = itemView.findViewById(R.id.imageView_chip_status);
             itemHandlerItemView = itemView.findViewById(R.id.handle);
             itemContainerItemView = itemView.findViewById(R.id.constraintlayout_item);
+
+
 
             itemStatusItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -217,7 +270,10 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
                     }
                 }
             });
+
+
         }
+
 
         @Override
         public void onItemSelected() {

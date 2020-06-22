@@ -2,13 +2,21 @@ package com.mychelantonacio.packstar.view.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.PopupMenu;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -27,6 +35,8 @@ import com.mychelantonacio.packstar.view.activities.EditItemActivity;
 import com.mychelantonacio.packstar.view.adapters.ItemListAdapter;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 import java.util.List;
+
+import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
 import com.mychelantonacio.packstar.util.helpers.OnStartDragListener;
 
@@ -40,12 +50,45 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
 
     private ItemTouchHelper itemTouchHelper;
 
+
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recyclerview_list_bag_items, container, false);
         RecyclerView recyclerView = view.getRootView().findViewById(R.id.recyclerview_items);
+
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
         adapter = new ItemListAdapter(getActivity(), itemViewModel, this);
         recyclerView.setAdapter(adapter);
+
+        //animation
+
+        /*
+        recyclerView.getViewTreeObserver().addOnPreDrawListener(
+                new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        recyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                        for (int i = 0; i < recyclerView.getChildCount(); i++) {
+                            Log.d("testing", "testing i " + i);
+                            View v = recyclerView.getChildAt(i);
+                            v.setAlpha(0.0f);
+                            v.animate().alpha(1.0f)
+                                    .setDuration(3000)
+                                    .setStartDelay(i * 500)
+                                    .start();
+                        }
+
+                        return true;
+                    }
+                });
+         */
+
+
+
+        //recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.fragment_fade_enter));
+        recyclerView.scheduleLayoutAnimation();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         layoutManager.scrollToPosition(0);
@@ -113,7 +156,6 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
                     popup.show();
                 }
             }
-
         });
         return view;
     }

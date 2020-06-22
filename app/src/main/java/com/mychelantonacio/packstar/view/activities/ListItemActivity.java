@@ -15,12 +15,13 @@ import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
 
 public class ListItemActivity extends SingleFragmentActivity
-        implements DiscardChangesFragmentDialog.NoticeDialogListener{
+        implements DiscardChangesFragmentDialog.NoticeDialogListener {
 
     private DiscardChangesFragmentDialog discardChangesFragmentDialog;
     private static final String DIALOG_DISCARD = "DiscardChangesFragmentDialog";
     private ItemViewModel itemViewModel;
     private FloatingActionButton fab;
+
 
 
     @Override
