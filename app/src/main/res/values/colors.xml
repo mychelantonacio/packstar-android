@@ -20,4 +20,8 @@
     <!--Chip Stroke-->
     <color name="chipStrokeColor">#1F000000</color>
 
+    <!--SnackBar-->
+    <color name="snackbar_undo">#BB86FC</color>
+
+
 </resources>

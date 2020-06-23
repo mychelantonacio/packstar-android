@@ -36,7 +36,6 @@ import com.mychelantonacio.packstar.view.adapters.ItemListAdapter;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 import java.util.List;
 
-import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
 import com.mychelantonacio.packstar.util.helpers.OnStartDragListener;
 

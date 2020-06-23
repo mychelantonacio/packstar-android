@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.mychelantonacio.packstar.R;
@@ -110,7 +112,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
 
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(-100f, 0f);
         valueAnimator.setInterpolator(new BounceInterpolator());
-
         valueAnimator.setDuration(2000);
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
@@ -119,8 +120,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
                 float progress = (float) animation.getAnimatedValue();
                 holder.itemView.setTranslationX(progress);
                 //holder.itemView.setBackgroundColor(1);
-
-
             }
 
         });
@@ -132,7 +131,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         Resources res = holder.itemView.getResources();
 
         if(position == 0)   setBounceAnimation(holder);
-
 
         if (items != null) {
             Item currentItem = items.get(position);
@@ -208,7 +206,19 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
 
     private void showUndoSnackbar() {
         View view = itemView.findViewById(R.id.constraintlayout_item);
-        Snackbar snackbar = Snackbar.make(view, recentlyDeletedItem.getName(), Snackbar.LENGTH_LONG);
+
+        Snackbar snackbar = Snackbar.make(view, R.string.snackbar_item_deleted, Snackbar.LENGTH_LONG);
+        snackbar.setActionTextColor(view.getResources().getColor(R.color.snackbar_undo));
+
+        TextView tv = (TextView) (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_action);
+        tv.setTextSize(14);
+        tv.setTypeface(ResourcesCompat.getFont(context, R.font.lato));
+
+        TextView snackbarTextView = (TextView) snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+        snackbarTextView.setTextSize(16);
+        snackbarTextView.setTypeface(ResourcesCompat.getFont(context, R.font.lato));
+        snackbarTextView.setMaxLines(1);
+
         snackbar.setAction(R.string.snackbar_undo, v -> undoDelete());
         snackbar.show();
     }
