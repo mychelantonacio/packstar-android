@@ -76,4 +76,10 @@
     <string name="menu_chip_already_have">Juba olemas</string>
     <string name="menu_chip_remove">Eemalda</string>
 
+    <!--Base application - snackbars -->
+    <string name="snackbar_undo">TÜHISTA</string>
+    <string name="snackbar_item_deleted">Toode kustutatud</string>
+
+    <!--Create Item Screen-->
+    <string name="title_screen_edit_item">Muuda toodet</string>
 </resources>
