@@ -46,9 +46,7 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
     private ItemListAdapter adapter;
     private ItemViewModel itemViewModel;
     private FloatingActionButton fab;
-
     private ItemTouchHelper itemTouchHelper;
-
 
 
 
@@ -59,35 +57,6 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
         adapter = new ItemListAdapter(getActivity(), itemViewModel, this);
         recyclerView.setAdapter(adapter);
-
-        //animation
-
-        /*
-        recyclerView.getViewTreeObserver().addOnPreDrawListener(
-                new ViewTreeObserver.OnPreDrawListener() {
-                    @Override
-                    public boolean onPreDraw() {
-                        recyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
-
-                        for (int i = 0; i < recyclerView.getChildCount(); i++) {
-                            Log.d("testing", "testing i " + i);
-                            View v = recyclerView.getChildAt(i);
-                            v.setAlpha(0.0f);
-                            v.animate().alpha(1.0f)
-                                    .setDuration(3000)
-                                    .setStartDelay(i * 500)
-                                    .start();
-                        }
-
-                        return true;
-                    }
-                });
-         */
-
-
-
-        //recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.fragment_fade_enter));
-        recyclerView.scheduleLayoutAnimation();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         layoutManager.scrollToPosition(0);
@@ -172,8 +141,6 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
             });
         }
     }
-
-
 
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {

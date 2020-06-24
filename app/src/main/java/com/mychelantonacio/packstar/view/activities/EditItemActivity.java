@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -36,7 +37,6 @@ public class EditItemActivity extends AppCompatActivity
     private DiscardChangesFragmentDialog discardChangesFragmentDialog;
     private static final String DIALOG_DISCARD = "DiscardChangesFragmentDialog";
 
-
     //Widgets
     private TextInputEditText nameEditText;
     private com.google.android.material.textfield.TextInputLayout nameTextInputLayout;
@@ -44,11 +44,10 @@ public class EditItemActivity extends AppCompatActivity
     private com.google.android.material.textfield.TextInputLayout quantityTextInputLayout;
     private TextInputEditText weightEditText;
     private com.google.android.material.textfield.TextInputLayout weightTextInputLayout;
-    private ChipGroup statusChipGroup;
+    private com.google.android.material.chip.ChipGroup statusChipGroup;
     private com.google.android.material.chip.Chip statusChipNeedToBuy;
     private com.google.android.material.chip.Chip statusChipAlreadyHave;
     private ExtendedFloatingActionButton eFab;
-
 
 
     //DATA
@@ -77,16 +76,16 @@ public class EditItemActivity extends AppCompatActivity
         quantityTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.filledTextField_item_quantity);
         weightEditText = (TextInputEditText) findViewById(R.id.editText_item_weight);
         weightTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.filledTextField_item_weight);
-        statusChipGroup = (ChipGroup)  findViewById(R.id.chip_group);
+        statusChipGroup = (com.google.android.material.chip.ChipGroup)  findViewById(R.id.chip_group_edit);
+
         chipGroupSetup();
-        statusChipNeedToBuy = (com.google.android.material.chip.Chip) findViewById(R.id.chip_red);
-        statusChipAlreadyHave = (com.google.android.material.chip.Chip) findViewById(R.id.chip_green);
+        statusChipNeedToBuy = (com.google.android.material.chip.Chip) findViewById(R.id.chip_red_edit);
+        statusChipAlreadyHave = (com.google.android.material.chip.Chip) findViewById(R.id.chip_green_edit);
         eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
         fabSetup();
 
         Intent intent = getIntent();
         currentItem = (Item) intent.getParcelableExtra("item_parcelable");
-        itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
 
         nameEditText.setText(currentItem.getName());
         nameTextInputLayout.setEndIconVisible(false);
@@ -97,10 +96,12 @@ public class EditItemActivity extends AppCompatActivity
 
         if (currentItem.getStatus().equals(ItemStatusEnum.NEED_TO_BUY.getStatusCode()) ) {
             statusChipNeedToBuy.setChecked(true);
+            statusChipAlreadyHave.setChecked(false);
             itemStatus = ItemStatusEnum.NEED_TO_BUY;
         }
         else if(currentItem.getStatus().equals(ItemStatusEnum.ALREADY_HAVE.getStatusCode())){
             statusChipAlreadyHave.setChecked(true);
+            statusChipNeedToBuy.setChecked(false);
             itemStatus = ItemStatusEnum.ALREADY_HAVE;
         }
         else {
@@ -118,18 +119,17 @@ public class EditItemActivity extends AppCompatActivity
         });
     }
 
-
     private void fabSetup(){
         eFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createItem();
+                editItem();
             }
         });
     }
 
 
-    private void createItem(){
+    private void editItem(){
         if (isNameEmpty() || isQuantityEmpty()) { return; }
 
         currentItem.setName(nameEditText.getText().toString());
@@ -139,6 +139,8 @@ public class EditItemActivity extends AppCompatActivity
         }
 
         currentItem.setStatus(itemStatus.getStatusCode());
+        Log.d("statusChipGroup", "statusChipGroup " + statusChipGroup.getCheckedChipId()  );
+
         itemViewModel.update(currentItem);
         Bag currentBag = bagAdapter.findBagById(currentItem.getBagId());
 
@@ -153,14 +155,14 @@ public class EditItemActivity extends AppCompatActivity
         }
     }
 
-
+    /*
     private void chipGroupSetup(){
-        statusChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+        chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
                 String needToBuy = "Need to buy";
                 String alreadyHave = "Already have";
-                Chip chip = statusChipGroup.findViewById(checkedId);
+                Chip chip = chipGroup.findViewById(checkedId);
                 if(chip == null) {
                     itemStatus = ItemStatusEnum.NON_INFORMATION;
                 }
@@ -168,6 +170,38 @@ public class EditItemActivity extends AppCompatActivity
                     itemStatus = ItemStatusEnum.NEED_TO_BUY;
                 }
                 else{
+                    itemStatus = ItemStatusEnum.ALREADY_HAVE;
+                }
+            }
+        });
+    }
+     */
+
+    private void chipGroupSetup(){
+
+        statusChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(ChipGroup group, int checkedId) {
+
+                Log.d("statusChipGroup", "statusChipGroup " + statusChipGroup);
+
+                String needToBuy = "Need to buy";
+                String alreadyHave = "Already have";
+                Chip chip = statusChipGroup.findViewById(checkedId);
+                if(chip == null) {
+                    //statusChipNeedToBuy.setChecked(false);
+                    //statusChipAlreadyHave.setChecked(false);
+                    itemStatus = ItemStatusEnum.NON_INFORMATION;
+                }
+                else if(chip.getText().toString().equals(needToBuy)){
+                    //statusChipNeedToBuy.setChecked(true);
+                    //statusChipAlreadyHave.setChecked(false);
+                    itemStatus = ItemStatusEnum.NEED_TO_BUY;
+                }
+                else{
+                    //statusChipNeedToBuy.setChecked(false);
+                    //statusChipAlreadyHave.setChecked(true);
                     itemStatus = ItemStatusEnum.ALREADY_HAVE;
                 }
             }

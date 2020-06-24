@@ -45,6 +45,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
     private Item recentlyDeletedItem;
     private int recentlyDeletedItemPosition;
     private View itemView;
+    private View viewParent;
     private final OnStartDragListener dragStartListener;
 
     private Context context;
@@ -93,9 +94,9 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         itemView = inflater.inflate(R.layout.recyclerview_item_bag_item, parent, false);
+        viewParent =  parent;
         return new ItemViewHolder(itemView, listener);
     }
-
 
 
     private void setFadeAnimation(View view) {
@@ -111,7 +112,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
 
 
     private void setBounceAnimation(ItemViewHolder holder){
-
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(-100f, 0f);
         valueAnimator.setInterpolator(new BounceInterpolator());
         valueAnimator.setDuration(2000);
@@ -202,23 +202,25 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         recentlyDeletedItemPosition = position;
         items.remove(position);
         notifyItemRemoved(position);
-        showUndoSnackbar(position);
+        showUndoSnackBar();
         //itemViewModel.delete(recentlyDeletedItem); uncommit it after testing...
     }
 
-    private void showUndoSnackbar(int position) {
-        View view = itemView.findViewById(R.id.coordinatorlayout_item);
+
+    private void showUndoSnackBar() {
+        View view = viewParent.findViewById(R.id.constraintlayout_item);
+
         if(view != null){
             Snackbar snackbar = Snackbar.make(view, R.string.snackbar_item_deleted, Snackbar.LENGTH_LONG);
             snackbar.setActionTextColor(view.getResources().getColor(R.color.snackbar_undo));
             TextView tv = (TextView) (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_action);
             tv.setTextSize(14);
             tv.setTypeface(ResourcesCompat.getFont(context, R.font.lato));
-            TextView snackbarTextView = (TextView) snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
-            snackbarTextView.setTextSize(16);
-            snackbarTextView.setTypeface(ResourcesCompat.getFont(context, R.font.lato));
-            snackbarTextView.setMaxLines(1);
-            snackbar.setAction(R.string.snackbar_undo, v -> undoDelete());
+            TextView snackBarTextView = (TextView) snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+            snackBarTextView.setTextSize(16);
+            snackBarTextView.setTypeface(ResourcesCompat.getFont(context, R.font.lato));
+            snackBarTextView.setMaxLines(1);
+            snackbar.setAction(R.string.snackbar_undo, k -> undoDelete());
             snackbar.show();
         }
     }
@@ -228,6 +230,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         notifyItemInserted(recentlyDeletedItemPosition);
         //itemViewModel.insert(recentlyDeletedItem); uncommit it after testing...
     }
+
+
 
 
 

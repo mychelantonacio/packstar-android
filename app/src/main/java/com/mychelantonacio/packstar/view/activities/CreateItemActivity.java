@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import com.google.android.material.chip.Chip;
@@ -62,6 +63,7 @@ public class CreateItemActivity extends AppCompatActivity
         eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
         fabSetup();
         chipGroup = (ChipGroup) findViewById(R.id.chip_group);
+        Log.d("chipGroupCrete", "chipGroup " + chipGroup.getCheckedChipId());
         chipGroupSetup();
         itemStatus = ItemStatusEnum.NON_INFORMATION;
         Intent intent = getIntent();

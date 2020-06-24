@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
         this.adapter = adapter;
         icon = ContextCompat.getDrawable(context, R.drawable.ic_delete_swipe);
         background = new ColorDrawable(Color.RED);
+
     }
 
 
@@ -41,6 +43,7 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
         int position = viewHolder.getAdapterPosition();
         adapter.deleteItem(position);
     }
+
 
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
