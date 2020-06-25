@@ -14,8 +14,8 @@
     <!--Base application - placeholders -->
     <string name="placeholder_number_zero" translatable="false">0</string>
     <!--Base application - snackbars -->
-    <string name="snackbar_undo" translatable="false">UNDO</string>
-    <string name="snackbar_item_deleted" translatable="false">Item deleted</string>
+    <string name="snackbar_undo">UNDO</string>
+    <string name="snackbar_item_deleted">Item deleted</string>
 
 
 
@@ -77,6 +77,6 @@
 
 
     <!--Create Item Screen-->
-    <string name="title_screen_edit_item" translatable="false">Edit item</string>
+    <string name="title_screen_edit_item">Edit item</string>
 
 </resources>
