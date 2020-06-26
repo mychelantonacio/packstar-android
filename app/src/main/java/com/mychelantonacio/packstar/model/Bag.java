@@ -26,6 +26,9 @@ public class Bag implements Parcelable{
     private String comment;
 
 
+    public Bag(){}
+
+
     public Bag(String name, String travelDate, Double weight, String comment){
         this.name = name;
         this.travelDate = travelDate;

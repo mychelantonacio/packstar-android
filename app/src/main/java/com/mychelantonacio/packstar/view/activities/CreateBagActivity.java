@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mychelantonacio.packstar.R;
+import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.util.Dialogs.DatePickerFragmentDialog;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
@@ -106,7 +107,7 @@ public class CreateBagActivity extends AppCompatActivity
         });
     }
     private void createBag(){
-/*
+
         if (isNameEmpty() || isDateEmpty()) {
             return;
         }
@@ -124,7 +125,7 @@ public class CreateBagActivity extends AppCompatActivity
         dateEditText.setText("");
         weightEditText.setText("");
         commentEditText.setText("");
-*/
+
 
 
         //prePopulateForTestingPurpose();

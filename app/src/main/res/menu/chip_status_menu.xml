@@ -10,6 +10,4 @@
     <item android:id="@+id/menu_chip_remove"
         android:title="@string/menu_chip_remove" />
 
-
-
 </menu>
