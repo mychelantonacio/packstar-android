@@ -3,6 +3,7 @@ package com.mychelantonacio.packstar.view.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,7 +12,9 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -98,6 +101,16 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
             public void onStatusItemClick(int position, View v) {
                 Item currentItem = adapter.findItemByPosition(position);
                 if(currentItem != null) {
+
+                    LinearLayout linearLayout = new LinearLayout(getContext());
+                    PopupWindow popupWindow = new PopupWindow(getContext());
+
+                    popupWindow.showAtLocation(linearLayout, Gravity.BOTTOM, 10, 10);
+                    popupWindow.update(50, 50, 50, 50);
+                    //popupWindow.showAsDropDown(v.findViewById(R.id.imageView_chip_status));
+
+
+                    /*
                     PopupMenu popup = new PopupMenu(getContext(), v.findViewById(R.id.imageView_chip_status));
                     popup.getMenuInflater().inflate(R.menu.chip_status_menu, popup.getMenu());
                     popup.setGravity(0);
@@ -122,6 +135,8 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
                         }
                     });
                     popup.show();
+                    */
+
                 }
             }
         });

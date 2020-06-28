@@ -107,7 +107,7 @@ public class CreateBagActivity extends AppCompatActivity
         });
     }
     private void createBag(){
-
+/*
         if (isNameEmpty() || isDateEmpty()) {
             return;
         }
@@ -125,7 +125,7 @@ public class CreateBagActivity extends AppCompatActivity
         dateEditText.setText("");
         weightEditText.setText("");
         commentEditText.setText("");
-
+*/
 
 
         //prePopulateForTestingPurpose();

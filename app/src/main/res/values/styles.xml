@@ -12,7 +12,12 @@
         <item name="alertDialogTheme">@style/AlertDialogTheme</item>
         <item name="android:datePickerDialogTheme">@style/DatePickerTheme</item>
         <item name="android:timePickerDialogTheme">@style/TimePickerTheme</item>
+
         <item name="popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/myPopupMenuTextAppearanceLarge</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/myPopupMenuTextAppearanceSmall</item>
+
+
         <item name="android:listPreferredItemPaddingRight">2dp</item>
     </style>
 
@@ -90,7 +95,22 @@
     -->
     <style name="PopupMenu" parent="@style/Widget.MaterialComponents.PopupMenu">
         <item name="android:popupBackground">@color/colorAccent</item>
+        <item name="android:textColor">#FF01F0</item>
+        <item name="android:textSize">16sp</item>
     </style>
+
+    <style name="myPopupMenuTextAppearanceLarge" parent="@android:style/TextAppearance.DeviceDefault.Widget.PopupMenu.Large">
+        <item name="android:textColor">#FF01F0</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="myPopupMenuTextAppearanceSmall" parent="@android:style/TextAppearance.DeviceDefault.Widget.PopupMenu.Small">
+        <item name="android:textColor">#FF01F0</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+
 
     <!-- Base application theme - TextInput -->
     <style name="Widget.MaterialComponents.TextInputLayout.FilledBox" parent="Base.Widget.MaterialComponents.TextInputLayout">
