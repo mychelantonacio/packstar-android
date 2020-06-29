@@ -33,6 +33,7 @@ import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.util.enums.ItemStatusEnum;
 import com.mychelantonacio.packstar.util.helpers.ItemTouchHelperCallback;
 import com.mychelantonacio.packstar.util.helpers.SwipeToDeleteCallback;
+import com.mychelantonacio.packstar.util.popupmenus.PopupListItem;
 import com.mychelantonacio.packstar.view.activities.CreateItemActivity;
 import com.mychelantonacio.packstar.view.activities.EditItemActivity;
 import com.mychelantonacio.packstar.view.adapters.ItemListAdapter;
@@ -102,11 +103,9 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
                 Item currentItem = adapter.findItemByPosition(position);
                 if(currentItem != null) {
 
-                    LinearLayout linearLayout = new LinearLayout(getContext());
-                    PopupWindow popupWindow = new PopupWindow(getContext());
+                    PopupListItem popupListItem = new PopupListItem();
+                    popupListItem.showPopupWindow(v);
 
-                    popupWindow.showAtLocation(linearLayout, Gravity.BOTTOM, 10, 10);
-                    popupWindow.update(50, 50, 50, 50);
                     //popupWindow.showAsDropDown(v.findViewById(R.id.imageView_chip_status));
 
 

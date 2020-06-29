@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 
@@ -28,7 +29,7 @@ public class Bag implements Parcelable{
 
     public Bag(){}
 
-
+    @Ignore
     public Bag(String name, String travelDate, Double weight, String comment){
         this.name = name;
         this.travelDate = travelDate;
@@ -83,6 +84,7 @@ public class Bag implements Parcelable{
 
 
     //Parcelable
+    @Ignore
     protected Bag(Parcel in) {
         if (in.readByte() == 0) {
             id = null;
