@@ -2,24 +2,11 @@ package com.mychelantonacio.packstar.view.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
-import android.widget.PopupMenu;
-import android.widget.PopupWindow;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -30,7 +17,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
-import com.mychelantonacio.packstar.util.enums.ItemStatusEnum;
 import com.mychelantonacio.packstar.util.helpers.ItemTouchHelperCallback;
 import com.mychelantonacio.packstar.util.helpers.SwipeToDeleteCallback;
 import com.mychelantonacio.packstar.util.popupmenus.PopupListItem;
@@ -51,7 +37,6 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
     private ItemViewModel itemViewModel;
     private FloatingActionButton fab;
     private ItemTouchHelper itemTouchHelper;
-
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,40 +87,8 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
             public void onStatusItemClick(int position, View v) {
                 Item currentItem = adapter.findItemByPosition(position);
                 if(currentItem != null) {
-
                     PopupListItem popupListItem = new PopupListItem();
-                    popupListItem.showPopupWindow(v);
-
-                    //popupWindow.showAsDropDown(v.findViewById(R.id.imageView_chip_status));
-
-
-                    /*
-                    PopupMenu popup = new PopupMenu(getContext(), v.findViewById(R.id.imageView_chip_status));
-                    popup.getMenuInflater().inflate(R.menu.chip_status_menu, popup.getMenu());
-                    popup.setGravity(0);
-
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            if (item.getItemId() == R.id.menu_chip_need_to_buy) {
-                                currentItem.setStatus(ItemStatusEnum.NEED_TO_BUY.getStatusCode());
-                                Toast.makeText(getContext(), "Status updated!", Toast.LENGTH_SHORT).show();
-                            }
-                            if (item.getItemId() == R.id.menu_chip_already_have) {
-                                currentItem.setStatus(ItemStatusEnum.ALREADY_HAVE.getStatusCode());
-                                Toast.makeText(getContext(), "Status updated!", Toast.LENGTH_SHORT).show();
-                            }
-                            if (item.getItemId() == R.id.menu_chip_remove) {
-                                currentItem.setStatus(ItemStatusEnum.NON_INFORMATION.getStatusCode());
-                                Toast.makeText(getContext(), "Status updated!", Toast.LENGTH_SHORT).show();
-                            }
-                            adapter.updateStatus(currentItem, position);
-                            return true;
-                        }
-                    });
-                    popup.show();
-                    */
-
+                    popupListItem.showPopupWindow(getContext(), v.findViewById(R.id.imageView_chip_status), currentItem, position, adapter);
                 }
             }
         });

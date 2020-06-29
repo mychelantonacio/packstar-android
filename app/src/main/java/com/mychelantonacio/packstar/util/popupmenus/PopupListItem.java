@@ -1,56 +1,62 @@
 package com.mychelantonacio.packstar.util.popupmenus;
 
-
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
+import android.content.Context;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.TextView;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.mychelantonacio.packstar.R;
+import com.mychelantonacio.packstar.model.Item;
+import com.mychelantonacio.packstar.util.enums.ItemStatusEnum;
+import com.mychelantonacio.packstar.view.adapters.ItemListAdapter;
+
 
 public class PopupListItem {
 
+    String itemStatusUpdated;
 
-    public void showPopupWindow(final View view) {
+    public void showPopupWindow(Context context, View view, Item currentItem, int position, ItemListAdapter adapter) {
+        PopupMenu popup = new PopupMenu(context, view.findViewById(R.id.imageView_chip_status));
+        popup.getMenuInflater().inflate(R.menu.chip_status_menu, popup.getMenu());
+        popup.setGravity(0);
 
-        //Create a View object yourself through inflater
-        LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.menu_list_item, null);
-
-        //Specify the length and width through constants
-        int width = LinearLayout.LayoutParams.MATCH_PARENT;
-        int height = LinearLayout.LayoutParams.MATCH_PARENT;
-
-        //Make Inactive Items Outside Of PopupWindow
-        boolean focusable = true;
-
-        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-
-        //Set the location of the window on the screen
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
-        TextView textviewNeedToBuy = popupView.findViewById(R.id.textview_need_to_buy);
-        textviewNeedToBuy.setText(R.string.menu_chip_need_to_buy);
-
-
-
-
-        //Handler for clicking on the inactive zone of the window
-        popupView.setOnTouchListener(new View.OnTouchListener() {
+        itemStatusUpdated = context.getResources().getString(R.string.menu_chip_updated_item);
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                //Close the window when clicked
-                popupWindow.dismiss();
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.menu_chip_need_to_buy) {
+                    currentItem.setStatus(ItemStatusEnum.NEED_TO_BUY.getStatusCode());
+                    Toast.makeText(context, itemStatusUpdated, Toast.LENGTH_SHORT).show();
+                }
+                if (item.getItemId() == R.id.menu_chip_already_have) {
+                    currentItem.setStatus(ItemStatusEnum.ALREADY_HAVE.getStatusCode());
+                    Toast.makeText(context, itemStatusUpdated, Toast.LENGTH_SHORT).show();
+                }
+                if (item.getItemId() == R.id.menu_chip_remove) {
+                    currentItem.setStatus(ItemStatusEnum.NON_INFORMATION.getStatusCode());
+                    Toast.makeText(context, itemStatusUpdated, Toast.LENGTH_SHORT).show();
+                }
+                adapter.updateStatus(currentItem, position);
                 return true;
             }
         });
-
-
-
+        popup.show();
     }
 
-}//endClass...
+    private void popupCustomText(PopupMenu popup) {
+        for(int i = 0; i < popup.getMenu().size(); i++){
+            MenuItem item = popup.getMenu().getItem(i);
+            String tmpText = item.getTitle().toString();
+            SpannableString s = new SpannableString(tmpText);
+            s.setSpan(new RelativeSizeSpan(0.8f), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            s.setSpan(new ForegroundColorSpan(Color.BLUE), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            item.setTitle(s);
+        }
+    }
+}
