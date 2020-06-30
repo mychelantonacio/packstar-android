@@ -73,7 +73,7 @@
     <string name="menu_chip_need_to_buy">Need to buy</string>
     <string name="menu_chip_already_have">Already have</string>
     <string name="menu_chip_remove">Remove</string>
-    <string name="menu_chip_updated_item" translatable="false">Status updated</string>
+    <string name="menu_chip_updated_item">Status updated</string>
 
     <!--Create Item Screen-->
     <string name="title_screen_edit_item">Edit item</string>

@@ -9,6 +9,9 @@
     <string name="dialog_cancel">Tühista</string>
     <string name="dialog_discard">Loobu</string>
 
+    <!--Base application - snackbars -->
+    <string name="snackbar_undo">TÜHISTA</string>
+    <string name="snackbar_item_deleted">Toode kustutatud</string>
 
     <!-- SCREEN SECTION -->
     <!--Home Screen-->
@@ -17,22 +20,16 @@
 
     <!--Create Bag Screen-->
     <string name="title_screen_create_bag">Uus reisikott</string>
-
     <string name="edit_text_hint_bag_name">Nimeta reisikott</string>
     <string name="edit_text_description_bag_name">Kustuta nimi</string>
-
     <string name="edit_text_hint_bag_date">Reisi kuupäev</string>
     <string name="edit_text_description_bag_date">Kustuta reisi kuupäev</string>
-
     <string name="edit_text_hint_bag_weight">Kogukaal(kg)</string>
     <string name="edit_text_description_bag_weight">Kustuta kogukaal</string>
-
     <string name="edit_text_hint_bag_comment">Lisa kommentaar</string>
     <string name="edit_text_description_bag_comment">Kustuta kommentaar</string>
-
     <string name="fab_text">Salvesta</string>
     <string name="fab_description">Salvesta reisikott</string>
-
     <string name="text_view_reminder">Meeldetuletus puudub</string>
     <string name="ic_reminder_description">Meeldetuletuse ikoon</string>
     <string name="ic_calendar_description">Kalendri ikoon</string>
@@ -46,6 +43,9 @@
     <string name="label_bag_item">Toode</string>
     <string name="label_bag_items">Tooted</string>
     <string name="label_add_item">Lisa toode</string>
+    <string name="menu_dots_edit">Muuda</string>
+    <string name="menu_dots_delete">Kustuta</string>
+    <string name="menu_dots_share">Jaga</string>
         
     <!--Create Item Screen-->
     <string name="title_screen_create_item">Lisa toode</string>
@@ -57,6 +57,7 @@
     <string name="edit_text_description_item_weight">Kustuta toote kaal</string>
     <string name="textView_ic_arrow_right_red">Vaja osta</string>
     <string name="textView_ic_arrow_right_green">Juba olemas</string>
+    <string name="title_screen_edit_item">Muuda toodet</string>
         
     <!--List Item Screen-->
     <string name="title_screen_list_item">Tooted</string>
@@ -65,21 +66,9 @@
     <string name="label_item_weight">Kaal (kg):</string>
     <string name="label_item_number_weight">Kaalunumber</string>
     <string name="imageview_description_status">Staatuse pilt</string>
-
-    <!--List Bag Screen-->
-    <string name="menu_dots_edit">Muuda</string>
-    <string name="menu_dots_delete">Kustuta</string>
-    <string name="menu_dots_share">Jaga</string>
-
-    <!--List Item Screen-->
     <string name="menu_chip_need_to_buy">Vaja osta</string>
     <string name="menu_chip_already_have">Juba olemas</string>
     <string name="menu_chip_remove">Eemalda</string>
+    <string name="menu_chip_updated_item">Staatus uuendatud</string>
 
-    <!--Base application - snackbars -->
-    <string name="snackbar_undo">TÜHISTA</string>
-    <string name="snackbar_item_deleted">Toode kustutatud</string>
-
-    <!--Create Item Screen-->
-    <string name="title_screen_edit_item">Muuda toodet</string>
 </resources>
