@@ -25,9 +25,11 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         inflater = LayoutInflater.from(context);
     }
 
+
     public interface OnItemClickListener {
         void onAddItemClick(int position);
         void onCardItemClick(int position);
+        void onPopupMenuItemClick(int position, View view);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -106,6 +108,12 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         return null;
     }
 
+    public Bag findBagByPosition(int position){
+        if(bags != null)
+            return bags.get(position);
+        return null;
+    }
+
     @Override
     public int getItemCount() {
         if (bags != null)
@@ -118,23 +126,26 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         private final TextView bagNameItemView;
         private final TextView bagDateItemView;
         private final TextView bagWeightItemView;
-        private final TextView bagAddItemView;
+        private final TextView addBagItemView;
         private final ImageButton addImageButtonItemView;
         private final TextView itemQuantityItemView;
         private final TextView itemWeightItemView;
         private final MaterialCardView cardViewItemView;
+        private final ImageButton popMenuImageButtonItemView;
 
         private BagViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             bagNameItemView = itemView.findViewById(R.id.text_view_bag_name);
             bagDateItemView = itemView.findViewById(R.id.text_view_bag_date);
             bagWeightItemView = itemView.findViewById(R.id.text_view_bag_weight);
-            bagAddItemView = itemView.findViewById(R.id.textView_add);
+            addBagItemView = itemView.findViewById(R.id.textView_add);
             addImageButtonItemView = itemView.findViewById(R.id.imageButton_add);
             itemQuantityItemView = itemView.findViewById(R.id.textview_counter_item);
             itemWeightItemView = itemView.findViewById(R.id.textview_counter_weight);
             cardViewItemView = itemView.findViewById(R.id.cardview_bag);
+            popMenuImageButtonItemView = itemView.findViewById(R.id.imageButton_menu_dots);
 
+            //add bag via 'plus' button
             addImageButtonItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -147,7 +158,8 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
                 }
             });
 
-            bagAddItemView.setOnClickListener(new View.OnClickListener() {
+            //add bag via 'add item' textview
+            addBagItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(listener != null){
@@ -170,6 +182,18 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
                     }
                 }
             });
+
+            popMenuImageButtonItemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onPopupMenuItemClick(position, itemView);
+                        }
+                    }
+                }
+            });
         }
     }
-}//endClass...
+}

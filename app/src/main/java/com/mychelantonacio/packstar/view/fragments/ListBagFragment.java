@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
+import com.mychelantonacio.packstar.util.popupmenus.PopupListBag;
 import com.mychelantonacio.packstar.view.activities.CreateItemActivity;
 import com.mychelantonacio.packstar.view.activities.ListItemActivity;
 import com.mychelantonacio.packstar.view.adapters.BagListAdapter;
@@ -68,6 +69,16 @@ public class ListBagFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ListItemActivity.class);
                 intent.putExtra("selected_bag", currentBag);
                 startActivity(intent);
+            }
+
+            @Override
+            public void onPopupMenuItemClick(int position, View v) {
+
+                Bag currentBag = adapter.findBagByPosition(position);
+                if(currentBag != null) {
+                    PopupListBag popupListBag = new PopupListBag();
+                    popupListBag.showPopupWindow(getContext(), v.findViewById(R.id.imageButton_menu_dots));
+                }
             }
         });
         return view;

@@ -55,9 +55,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         inflater = LayoutInflater.from(context);
         this.itemViewModel = itemViewModel;
         this.dragStartListener = dragStartListener;
-
         this.context = context;
-
     }
 
     //drag & drop
@@ -233,8 +231,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
 
 
 
-
-
     //VIEW_HOLDER
     public class ItemViewHolder extends RecyclerView.ViewHolder implements
             ItemTouchHelperViewHolder {
@@ -245,8 +241,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         private final ImageView itemStatusItemView;
         private final ImageView itemHandlerItemView;
         private final ConstraintLayout itemContainerItemView;
-
-
 
 
         public ItemViewHolder(@NonNull View itemView,  final OnItemClickListener listener) {
@@ -284,8 +278,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
                     }
                 }
             });
-
-
         }
 
 
