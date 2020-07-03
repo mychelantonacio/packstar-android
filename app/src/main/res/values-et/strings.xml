@@ -57,8 +57,7 @@
     <string name="edit_text_description_item_weight">Kustuta toote kaal</string>
     <string name="textView_ic_arrow_right_red">Vaja osta</string>
     <string name="textView_ic_arrow_right_green">Juba olemas</string>
-    <string name="title_screen_edit_item">Muuda toodet</string>
-        
+
     <!--List Item Screen-->
     <string name="title_screen_list_item">Tooted</string>
     <string name="label_item_quantity">Kogus:</string>
@@ -70,5 +69,11 @@
     <string name="menu_chip_already_have">Juba olemas</string>
     <string name="menu_chip_remove">Eemalda</string>
     <string name="menu_chip_updated_item">Staatus uuendatud</string>
+
+    <!--Edit Item Screen-->
+    <string name="title_screen_edit_item">Muuda toodet</string>
+
+    <!--Edit Bag Screen-->
+    <string name="title_screen_edit_bag">Muuda reisikotti</string>
 
 </resources>

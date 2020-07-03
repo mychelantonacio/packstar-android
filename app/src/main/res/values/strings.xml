@@ -79,7 +79,7 @@
     <string name="title_screen_edit_item">Edit item</string>
 
     <!--Edit Bag Screen-->
-    <string name="title_screen_edit_bag" translatable="false">Edit bag</string>
+    <string name="title_screen_edit_bag">Edit bag</string>
 
 
 
