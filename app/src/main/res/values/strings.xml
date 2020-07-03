@@ -75,7 +75,12 @@
     <string name="menu_chip_remove">Remove</string>
     <string name="menu_chip_updated_item">Status updated</string>
 
-    <!--Create Item Screen-->
+    <!--Edit Item Screen-->
     <string name="title_screen_edit_item">Edit item</string>
+
+    <!--Edit Bag Screen-->
+    <string name="title_screen_edit_bag" translatable="false">Edit bag</string>
+
+
 
 </resources>

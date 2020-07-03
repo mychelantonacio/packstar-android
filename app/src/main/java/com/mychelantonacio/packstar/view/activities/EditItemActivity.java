@@ -23,7 +23,6 @@ import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
 import com.mychelantonacio.packstar.util.enums.ItemStatusEnum;
 import com.mychelantonacio.packstar.view.adapters.BagListAdapter;
-import com.mychelantonacio.packstar.view.fragments.ListBagFragment;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
@@ -48,7 +47,6 @@ public class EditItemActivity extends AppCompatActivity
     private com.google.android.material.chip.Chip statusChipNeedToBuy;
     private com.google.android.material.chip.Chip statusChipAlreadyHave;
     private ExtendedFloatingActionButton eFab;
-
 
     //DATA
     private ItemViewModel itemViewModel;
@@ -128,22 +126,16 @@ public class EditItemActivity extends AppCompatActivity
         });
     }
 
-
     private void editItem(){
         if (isNameEmpty() || isQuantityEmpty()) { return; }
-
         currentItem.setName(nameEditText.getText().toString());
         currentItem.setQuantity(Integer.valueOf(quantityEditText.getText().toString()));
         if(!TextUtils.isEmpty(weightEditText.getText().toString())){
             currentItem.setWeight(new Double(weightEditText.getText().toString()));
         }
-
         currentItem.setStatus(itemStatus.getStatusCode());
-        Log.d("statusChipGroup", "statusChipGroup " + statusChipGroup.getCheckedChipId()  );
-
         itemViewModel.update(currentItem);
         Bag currentBag = bagAdapter.findBagById(currentItem.getBagId());
-
         if (currentBag != null){
             Intent intent = new Intent(this, ListItemActivity.class);
             intent.putExtra("selected_bag", currentBag);
@@ -155,59 +147,25 @@ public class EditItemActivity extends AppCompatActivity
         }
     }
 
-    /*
     private void chipGroupSetup(){
-        chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(ChipGroup group, int checkedId) {
-                String needToBuy = "Need to buy";
-                String alreadyHave = "Already have";
-                Chip chip = chipGroup.findViewById(checkedId);
-                if(chip == null) {
-                    itemStatus = ItemStatusEnum.NON_INFORMATION;
-                }
-                else if(chip.getText().toString().equals(needToBuy)){
-                    itemStatus = ItemStatusEnum.NEED_TO_BUY;
-                }
-                else{
-                    itemStatus = ItemStatusEnum.ALREADY_HAVE;
-                }
-            }
-        });
-    }
-     */
-
-    private void chipGroupSetup(){
-
         statusChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
-
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
-
-                Log.d("statusChipGroup", "statusChipGroup " + statusChipGroup);
-
                 String needToBuy = "Need to buy";
                 String alreadyHave = "Already have";
                 Chip chip = statusChipGroup.findViewById(checkedId);
                 if(chip == null) {
-                    //statusChipNeedToBuy.setChecked(false);
-                    //statusChipAlreadyHave.setChecked(false);
                     itemStatus = ItemStatusEnum.NON_INFORMATION;
                 }
                 else if(chip.getText().toString().equals(needToBuy)){
-                    //statusChipNeedToBuy.setChecked(true);
-                    //statusChipAlreadyHave.setChecked(false);
                     itemStatus = ItemStatusEnum.NEED_TO_BUY;
                 }
                 else{
-                    //statusChipNeedToBuy.setChecked(false);
-                    //statusChipAlreadyHave.setChecked(true);
                     itemStatus = ItemStatusEnum.ALREADY_HAVE;
                 }
             }
         });
     }
-
 
     private boolean isNameEmpty(){
         String itemName = nameEditText.getText().toString().trim();
@@ -248,5 +206,4 @@ public class EditItemActivity extends AppCompatActivity
         //Cancel button...
         dialog.dismiss();
     }
-
-}//endClass...
+}

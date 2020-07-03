@@ -77,7 +77,7 @@ public class ListBagFragment extends Fragment {
                 Bag currentBag = adapter.findBagByPosition(position);
                 if(currentBag != null) {
                     PopupListBag popupListBag = new PopupListBag();
-                    popupListBag.showPopupWindow(getContext(), v.findViewById(R.id.imageButton_menu_dots));
+                    popupListBag.showPopupWindow(getContext(), v.findViewById(R.id.imageButton_menu_dots), currentBag, position);
                 }
             }
         });

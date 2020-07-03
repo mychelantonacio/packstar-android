@@ -25,6 +25,12 @@ public class BagRepository {
         });
     }
 
+    public void update(Bag bag) {
+        BagRoomDatabase.databaseWriteExecutor.execute(() -> {
+            bagDao.update(bag);
+        });
+    }
+
     public void deleteAll(){
         BagRoomDatabase.databaseWriteExecutor.execute(() -> {
             bagDao.deleteAll();

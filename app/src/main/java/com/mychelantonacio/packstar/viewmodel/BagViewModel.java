@@ -24,6 +24,11 @@ public class BagViewModel extends AndroidViewModel {
     public void insert(Bag bag) {
         bagRepository.insert(bag);
     }
+
+    public void update(Bag bag) {
+        bagRepository.update(bag);
+    }
+
     public void deleteAll(){
         bagRepository.deleteAll();
     }

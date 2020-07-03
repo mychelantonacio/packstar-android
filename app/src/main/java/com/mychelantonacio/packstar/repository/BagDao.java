@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
+
 import com.mychelantonacio.packstar.model.Bag;
 import java.util.List;
 
@@ -11,9 +13,11 @@ import java.util.List;
 @Dao
 public interface BagDao {
 
-    //BAG
     @Insert
     void insert(Bag bag);
+
+    @Update
+    void update(Bag bag);
 
     @Query("DELETE FROM tb_bag")
     void deleteAll();

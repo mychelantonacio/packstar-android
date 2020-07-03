@@ -1,9 +1,11 @@
 package com.mychelantonacio.packstar.view.activities;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,50 +18,58 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
-import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.util.Dialogs.DatePickerFragmentDialog;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
+
 import java.text.ParseException;
 import java.util.Calendar;
 
 
-public class CreateBagActivity extends AppCompatActivity
+public class EditBagActivity extends AppCompatActivity
         implements DiscardChangesFragmentDialog.NoticeDialogListener,
         DatePickerFragmentDialog.DatePickerFragmentListener {
 
 
+    private String DATE_DIALOG;
     private DiscardChangesFragmentDialog discardChangesFragmentDialog;
     private static final String DIALOG_DISCARD = "DiscardChangesFragmentDialog";
     private DatePickerFragmentDialog datePickerFragmentDialog;
     private static final String DIALOG_DATE_PICKER = "DatePickerFragmentDialog";
-
-    private String DATE_DIALOG;
     private static final String EDIT_TEXT_DATE_DIALOG = "editTextDateDialog";
     private static final String REMINDER_DATE_TIME_DIALOG = "reminderDateTimeDialog";
 
+
     //Widgets
     private TextInputEditText nameEditText;
+    private com.google.android.material.textfield.TextInputLayout nameTextInputLayout;
     private TextInputEditText dateEditText;
+    private com.google.android.material.textfield.TextInputLayout dateTextInputLayout;
     private TextInputEditText weightEditText;
+    private com.google.android.material.textfield.TextInputLayout weightTextInputLayout;
     private TextInputEditText commentEditText;
+    private com.google.android.material.textfield.TextInputLayout commentTextInputLayout;
     private ImageButton reminderButton;
     private ExtendedFloatingActionButton eFab;
 
     //Data
+    private Bag currentBag;
     private BagViewModel bagViewModel;
     private ItemViewModel itemViewModel;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_bag);
+        setContentView(R.layout.activity_edit_bag);
+
         setupUIOnCreate();
     }
 
@@ -68,97 +78,91 @@ public class CreateBagActivity extends AppCompatActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
         nameEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_name);
+        nameTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.textInputLayout_bag_name);
         dateEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_date);
+        dateTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.textInputLayout_bag_date);
         weightEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_weight);
+        weightTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.textInputLayout_bag_weight);
         commentEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_comment);
-        dateEditTextSetup();
+        commentTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.textInputLayout_bag_comment);
+
         reminderButton = (ImageButton) findViewById(R.id.ic_reminder);
         eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
         fabSetup();
+
+        Intent intent = getIntent();
+        currentBag = (Bag) intent.getParcelableExtra("bag_parcelable");
+
+        nameEditText.setText(currentBag.getName());
+        nameTextInputLayout.setEndIconVisible(false);
+
+        dateEditText.setText(String.valueOf(currentBag.getTravelDate()));
+        dateTextInputLayout.setEndIconVisible(false);
+        dateEditTextSetup();
+
+        weightEditText.setText(String.valueOf(currentBag.getWeight()));
+        weightTextInputLayout.setEndIconVisible(false);
+
+        commentEditText.setText(String.valueOf(currentBag.getComment()));
+        commentTextInputLayout.setEndIconVisible(false);
+
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
         bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
-    }
-
-    //it avoids conflict with datepicker action...
-    private void dateEditTextSetup(){
-        dateEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                dateEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                nameEditText.setFocusable(false);
-            }
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
     }
 
     private void fabSetup(){
         eFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createBag();
+                editBag();
             }
         });
     }
 
-    private void createBag(){
-/*
+    private void editBag(){
         if (isNameEmpty() || isDateEmpty()) {
             return;
         }
-        Bag newBag = new Bag();
-        newBag.setName(nameEditText.getText().toString());
-        newBag.setTravelDate(dateEditText.getText().toString());
-        if(!TextUtils.isEmpty(weightEditText.getText().toString())){
-            newBag.setWeight(new Double(weightEditText.getText().toString()));
-        }
-        newBag.setComment(commentEditText.getText().toString());
-        bagViewModel.insert(newBag);
 
-        //TODO: correct clean fields regards activity lifecycle...
+        currentBag.setName(nameEditText.getText().toString());
+        currentBag.setTravelDate(dateEditText.getText().toString());
+        if(!TextUtils.isEmpty(weightEditText.getText().toString())){
+            currentBag.setWeight(new Double(weightEditText.getText().toString()));
+        }
+        currentBag.setComment(commentEditText.getText().toString());
+        bagViewModel.update(currentBag);
+
         nameEditText.setText("");
         dateEditText.setText("");
         weightEditText.setText("");
         commentEditText.setText("");
-*/
 
-
-        //prePopulateForTestingPurpose();
-        Intent intent = new Intent(CreateBagActivity.this, ListBagActivity.class);
+        Intent intent = new Intent(EditBagActivity.this, ListBagActivity.class);
         startActivity(intent);
     }
 
-    private void prePopulateForTestingPurpose(){
-        //bagViewModel.deleteAll();
-        for(int i = 1; i <= 100; i++){
-           // Bag bag = new Bag("Test Bag " + i, "01/01/2020", new Double(i), "Test Comment " + i);
-            //bagViewModel.insert(bag);
 
-            for(int j = 1; j <= 3; j++){
-                Item item = new Item();
 
-                item.setBagId(new Long(i) );
-                item.setName("Item " + j);
-                item.setQuantity(j);
-                item.setWeight(new Double(j));
-
-                if(j % 2 == 0)
-                    item.setStatus("B");
-                else
-                    item.setStatus("A");
-
-                itemViewModel.insert(item);
+    //it avoids conflict with datepicker action...
+    private void dateEditTextSetup(){
+        dateEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                dateTextInputLayout.setEndIconVisible(true);
             }
-
-        }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                dateEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                nameEditText.setFocusable(false);
+                dateTextInputLayout.setEndIconVisible(false);
+            }
+        });
     }
-
+    
     //back button
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -218,14 +222,14 @@ public class CreateBagActivity extends AppCompatActivity
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 try {
                     if(isUserTimeAfterCurrentTime(hourOfDay, minute)){
-                        Toast.makeText(CreateBagActivity.this,
+                        Toast.makeText(EditBagActivity.this,
                                 "Alarm set to " + day + "/" + (monthPlusOne) + "/" + year + " at " + hourOfDay + "h : " + minute + "m",
                                 Toast.LENGTH_LONG).show();
 
                         //TODO: call reminder function passing this date/time here...
                     }
                     else{
-                        Toast.makeText(CreateBagActivity.this,
+                        Toast.makeText(EditBagActivity.this,
                                 "Invalid time. Please, set future reminder time.", Toast.LENGTH_LONG).show();
                     }
                 } catch (ParseException e) {
@@ -264,4 +268,5 @@ public class CreateBagActivity extends AppCompatActivity
         }
         return false;
     }
+
 }//endClass...
