@@ -43,7 +43,7 @@ public class PopupListBag {
                         itemViewModel.delete(currentItem);
                     }
                     bagViewModel.deleteById(currentBag);
-                    Toast.makeText(context, "Bag Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getResources().getString(R.string.list_bag_popup_delete), Toast.LENGTH_SHORT).show();
                 }
                 if (item.getItemId() == R.id.menu_dots_share) {
                     //TODO: implement share bag

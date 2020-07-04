@@ -51,6 +51,7 @@
     <string name="menu_dots_edit">Edit</string>
     <string name="menu_dots_delete">Delete</string>
     <string name="menu_dots_share">Share</string>
+    <string name="list_bag_popup_delete" translatable="false">Bag deleted</string>
 
     <!--Create Item Screen-->
     <string name="title_screen_create_item">Add item</string>
