@@ -11,15 +11,17 @@ import android.widget.Toast;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.view.activities.EditBagActivity;
-import com.mychelantonacio.packstar.view.activities.EditItemActivity;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 
 public class PopupListBag {
 
     public void showPopupWindow(Context context, View view, Bag currentBag, int position) {
-        Log.d("showPopupWindow", "view " + view);
 
         PopupMenu popup = new PopupMenu(context, view.findViewById(R.id.imageButton_menu_dots));
+        forceShowIcons(popup);
         popup.getMenuInflater().inflate(R.menu.three_dots_menu, popup.getMenu());
         popup.setGravity(5);
 
@@ -44,6 +46,24 @@ public class PopupListBag {
             }
         });
         popup.show();
-
     }
+
+    private void forceShowIcons(PopupMenu popupMenu){
+        try {
+            Field[] fields = popupMenu.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                if ("mPopup".equals(field.getName())) {
+                    field.setAccessible(true);
+                    Object menuPopupHelper = field.get(popupMenu);
+                    Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                    Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
+                    setForceIcons.invoke(menuPopupHelper, true);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

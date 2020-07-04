@@ -162,7 +162,7 @@ public class EditBagActivity extends AppCompatActivity
             }
         });
     }
-    
+
     //back button
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
