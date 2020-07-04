@@ -2,11 +2,13 @@ package com.mychelantonacio.packstar.repository;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
 import com.mychelantonacio.packstar.model.Bag;
+
 import java.util.List;
 
 
@@ -21,6 +23,9 @@ public interface BagDao {
 
     @Query("DELETE FROM tb_bag")
     void deleteAll();
+
+    @Delete
+    void delete(Bag bag);
 
     @Query("SELECT * from tb_bag ORDER BY name ASC")
     LiveData<List<Bag>> getAllBagsSortedByName();

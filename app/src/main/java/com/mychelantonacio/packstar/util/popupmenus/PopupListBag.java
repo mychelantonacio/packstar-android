@@ -2,7 +2,6 @@ package com.mychelantonacio.packstar.util.popupmenus;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -10,15 +9,20 @@ import android.widget.Toast;
 
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
+import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.view.activities.EditBagActivity;
+import com.mychelantonacio.packstar.viewmodel.BagViewModel;
+import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 
 
 public class PopupListBag {
 
-    public void showPopupWindow(Context context, View view, Bag currentBag, int position) {
+    public void showPopupWindow(Context context, View view, Bag currentBag, int position, List<Item> currentItems,
+                                ItemViewModel itemViewModel, BagViewModel bagViewModel) {
 
         PopupMenu popup = new PopupMenu(context, view.findViewById(R.id.imageButton_menu_dots));
         forceShowIcons(popup);
@@ -35,8 +39,11 @@ public class PopupListBag {
                     context.startActivity(intent);
                 }
                 if (item.getItemId() == R.id.menu_dots_delete) {
-                    //TODO: implement delete bag
-                    Toast.makeText(context, "Delete bag", Toast.LENGTH_SHORT).show();
+                    for(Item currentItem : currentItems){
+                        itemViewModel.delete(currentItem);
+                    }
+                    bagViewModel.deleteById(currentBag);
+                    Toast.makeText(context, "Bag Deleted", Toast.LENGTH_SHORT).show();
                 }
                 if (item.getItemId() == R.id.menu_dots_share) {
                     //TODO: implement share bag
@@ -65,5 +72,4 @@ public class PopupListBag {
             e.printStackTrace();
         }
     }
-
 }

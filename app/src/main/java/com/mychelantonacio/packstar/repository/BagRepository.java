@@ -37,6 +37,12 @@ public class BagRepository {
         });
     }
 
+    public void deleteById(Bag bag){
+        BagRoomDatabase.databaseWriteExecutor.execute(() -> {
+            bagDao.delete(bag);
+        });
+    }
+
     public LiveData<List<Bag>> getAllBagsSortedByName() {
         return allBagsSortedByName;
     }

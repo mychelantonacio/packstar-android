@@ -24,7 +24,7 @@ import java.util.List;
 
 public class ListBagFragment extends Fragment {
 
-    private BagListAdapter adapter;
+    private BagListAdapter bagAdapter;
     private BagViewModel bagViewModel;
     private ItemViewModel itemViewModel;
 
@@ -33,15 +33,15 @@ public class ListBagFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recyclerview_list_bags, container, false);
         RecyclerView recyclerView = view.getRootView().findViewById(R.id.recyclerview_bags);
-        adapter = new BagListAdapter(getActivity());
-        recyclerView.setAdapter(adapter);
+        bagAdapter = new BagListAdapter(getActivity());
+        recyclerView.setAdapter(bagAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
         bagViewModel.getAllBagsSortedByName().observe(getActivity(), new Observer<List<Bag>>() {
             @Override
             public void onChanged(List<Bag> bags) {
-                adapter.setBags(bags);
+                bagAdapter.setBags(bags);
             }
         });
 
@@ -49,11 +49,11 @@ public class ListBagFragment extends Fragment {
         itemViewModel.getAllItems().observe(getActivity(), new Observer<List<Item>>() {
             @Override
             public void onChanged(List<Item> items) {
-                adapter.setItems(items);
+                bagAdapter.setItems(items);
             }
         });
 
-        adapter.setOnItemClickListener(new BagListAdapter.OnItemClickListener() {
+        bagAdapter.setOnItemClickListener(new BagListAdapter.OnItemClickListener() {
 
             @Override
             public void onAddItemClick(int position) {
@@ -73,14 +73,15 @@ public class ListBagFragment extends Fragment {
 
             @Override
             public void onPopupMenuItemClick(int position, View v) {
-
-                Bag currentBag = adapter.findBagByPosition(position);
+                Bag currentBag = bagAdapter.findBagByPosition(position);
+                List<Item> currentItems = bagAdapter.getItemsAttatchedWithCurrentBag(currentBag);
                 if(currentBag != null) {
                     PopupListBag popupListBag = new PopupListBag();
-                    popupListBag.showPopupWindow(getContext(), v.findViewById(R.id.imageButton_menu_dots), currentBag, position);
+                    popupListBag.showPopupWindow(getContext(), v.findViewById(R.id.imageButton_menu_dots), currentBag, position, currentItems, itemViewModel, bagViewModel);
                 }
             }
         });
+
         return view;
     }
 }

@@ -11,6 +11,8 @@ import com.google.android.material.card.MaterialCardView;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -113,6 +115,18 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
             return bags.get(position);
         return null;
     }
+
+
+    public List<Item> getItemsAttatchedWithCurrentBag(Bag currentBag){
+        List<Item> currentItems = new ArrayList<>();
+        for(Item item : this.items){
+            if(item.getBagId().equals(currentBag.getId())){
+                currentItems.add(item);
+            }
+        }
+        return currentItems;
+    }
+
 
     @Override
     public int getItemCount() {

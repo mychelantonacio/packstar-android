@@ -32,6 +32,11 @@ public class BagViewModel extends AndroidViewModel {
     public void deleteAll(){
         bagRepository.deleteAll();
     }
+
+    public void deleteById(Bag bag){
+        bagRepository.deleteById(bag);
+    }
+
     public Bag findBagById(long id){
         return bagRepository.findBagById(id);
     }
