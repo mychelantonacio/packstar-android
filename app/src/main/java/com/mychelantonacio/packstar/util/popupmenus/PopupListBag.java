@@ -46,8 +46,12 @@ public class PopupListBag {
                     Toast.makeText(context, context.getResources().getString(R.string.list_bag_popup_delete), Toast.LENGTH_SHORT).show();
                 }
                 if (item.getItemId() == R.id.menu_dots_share) {
-                    //TODO: implement share bag
-                    Toast.makeText(context, "Share bag", Toast.LENGTH_SHORT).show();
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, getSharingMessage(currentBag));
+                    sendIntent.setType("text/plain");
+                    Intent shareIntent = Intent.createChooser(sendIntent, null);
+                    context.startActivity(shareIntent);
                 }
                 return true;
             }
@@ -71,5 +75,10 @@ public class PopupListBag {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private String getSharingMessage(Bag currentBag){
+        String message = currentBag.getName() + " " + currentBag.getTravelDate();
+        return message;
     }
 }
