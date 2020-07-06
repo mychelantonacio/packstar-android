@@ -32,6 +32,7 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         void onAddItemClick(int position);
         void onCardItemClick(int position);
         void onPopupMenuItemClick(int position, View view);
+        void onCommentClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -116,7 +117,6 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         return null;
     }
 
-
     public List<Item> getItemsAttatchedWithCurrentBag(Bag currentBag){
         List<Item> currentItems = new ArrayList<>();
         for(Item item : this.items){
@@ -146,6 +146,7 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         private final TextView itemWeightItemView;
         private final MaterialCardView cardViewItemView;
         private final ImageButton popMenuImageButtonItemView;
+        private final ImageButton commentImageButtonItemView;
 
         private BagViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -158,6 +159,7 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
             itemWeightItemView = itemView.findViewById(R.id.textview_counter_weight);
             cardViewItemView = itemView.findViewById(R.id.cardview_bag);
             popMenuImageButtonItemView = itemView.findViewById(R.id.imageButton_menu_dots);
+            commentImageButtonItemView = itemView.findViewById(R.id.imageButton_comment);
 
             //add bag via 'plus' button
             addImageButtonItemView.setOnClickListener(new View.OnClickListener() {
@@ -204,6 +206,18 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
                             listener.onPopupMenuItemClick(position, itemView);
+                        }
+                    }
+                }
+            });
+
+            commentImageButtonItemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onCommentClick(position);
                         }
                     }
                 }

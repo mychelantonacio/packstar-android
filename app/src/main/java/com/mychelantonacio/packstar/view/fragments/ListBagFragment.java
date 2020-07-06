@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
+import com.mychelantonacio.packstar.util.Dialogs.CommentFragmentDialog;
 import com.mychelantonacio.packstar.util.popupmenus.PopupListBag;
 import com.mychelantonacio.packstar.view.activities.CreateItemActivity;
 import com.mychelantonacio.packstar.view.activities.ListItemActivity;
@@ -22,12 +26,14 @@ import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 import java.util.List;
 
 
-public class ListBagFragment extends Fragment {
+public class ListBagFragment extends Fragment implements CommentFragmentDialog.NoticeDialogListener {
 
     private BagListAdapter bagAdapter;
     private BagViewModel bagViewModel;
     private ItemViewModel itemViewModel;
 
+    private CommentFragmentDialog commentFragmentDialog;
+    private static final String DIALOG_COMMENT = "CommentFragmentDialog";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,8 +86,27 @@ public class ListBagFragment extends Fragment {
                     popupListBag.showPopupWindow(getContext(), v.findViewById(R.id.imageButton_menu_dots), currentBag, position, currentItems, itemViewModel, bagViewModel);
                 }
             }
-        });
 
+            @Override
+            public void onCommentClick(int position) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                Bag currentBag = bagViewModel.getAllBagsSortedByName().getValue().get(position);
+                if(currentBag != null){
+                    if (!currentBag.getComment().equals(null) && !currentBag.getComment().equals(""))    {
+                        commentFragmentDialog = new CommentFragmentDialog(currentBag.getComment());
+                        commentFragmentDialog.show(fragmentManager, DIALOG_COMMENT);
+                    }
+                    else {
+                        commentFragmentDialog = new CommentFragmentDialog(getResources().getString(R.string.list_bag_comment_empty));
+                        commentFragmentDialog.show(fragmentManager, DIALOG_COMMENT);
+                    }
+                }
+            }
+        });
         return view;
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
     }
 }
