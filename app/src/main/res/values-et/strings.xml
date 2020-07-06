@@ -47,6 +47,7 @@
     <string name="menu_dots_delete">Kustuta</string>
     <string name="menu_dots_share">Jaga</string>
     <string name="list_bag_popup_delete">Reisikott kustutatud</string>
+    <string name="list_bag_comment_empty">Kommentaar puudub. Lisada on võimalik muutes reisikoti andmeid</string>
         
     <!--Create Item Screen-->
     <string name="title_screen_create_item">Lisa toode</string>
