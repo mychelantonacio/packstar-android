@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
+import com.mychelantonacio.packstar.util.enums.ItemStatusEnum;
 import com.mychelantonacio.packstar.view.activities.EditBagActivity;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
@@ -48,7 +49,7 @@ public class PopupListBag {
                 if (item.getItemId() == R.id.menu_dots_share) {
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, getSharingMessage(currentBag));
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, getSharingMessage(currentBag, currentItems));
                     sendIntent.setType("text/plain");
                     Intent shareIntent = Intent.createChooser(sendIntent, null);
                     context.startActivity(shareIntent);
@@ -77,8 +78,23 @@ public class PopupListBag {
         }
     }
 
-    private String getSharingMessage(Bag currentBag){
-        String message = currentBag.getName() + " " + currentBag.getTravelDate();
+    private String getSharingMessage(Bag currentBag, List<Item> currentItems){
+        String itemsString = new String();
+        for(int i = 0; i < currentItems.size(); i++){
+            if(currentItems.get(i).getStatus().equals(ItemStatusEnum.NEED_TO_BUY.getStatusCode())) {
+                itemsString += currentItems.get(i).getName()  +
+                         "(" + currentItems.get(i).getQuantity() + ")" + " - " + "Need to buy" + "\n";
+            }
+            else if(currentItems.get(i).getStatus().equals(ItemStatusEnum.ALREADY_HAVE.getStatusCode())) {
+                itemsString += currentItems.get(i).getName() +
+                        "(" + currentItems.get(i).getQuantity() + ")" + " - " + "Already have" + "\n";
+            }
+            else  {
+                itemsString += currentItems.get(i).getName() +
+                        "(" + currentItems.get(i).getQuantity() + ")" + " - " + "Non information" + "\n";
+            }
+        }
+        String message = "PACKSTAR \n\n" + currentBag.getName() + "\n" + currentBag.getTravelDate() +"\n\n" + itemsString;
         return message;
     }
 }
