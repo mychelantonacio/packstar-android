@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -26,6 +25,7 @@ import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class CreateBagActivity extends AppCompatActivity
@@ -41,6 +41,10 @@ public class CreateBagActivity extends AppCompatActivity
     private String DATE_DIALOG;
     private static final String EDIT_TEXT_DATE_DIALOG = "editTextDateDialog";
     private static final String REMINDER_DATE_TIME_DIALOG = "reminderDateTimeDialog";
+
+    //Reminder
+    private boolean isUserSetReminder;
+    private Date reminderDate;
 
     //Widgets
     private TextInputEditText nameEditText;
@@ -73,7 +77,12 @@ public class CreateBagActivity extends AppCompatActivity
         weightEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_weight);
         commentEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_comment);
         dateEditTextSetup();
+
+        //Reminder...
         reminderButton = (ImageButton) findViewById(R.id.ic_reminder);
+        isUserSetReminder = false;
+
+
         eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
         fabSetup();
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
@@ -119,12 +128,6 @@ public class CreateBagActivity extends AppCompatActivity
         }
         newBag.setComment(commentEditText.getText().toString());
         bagViewModel.insert(newBag);
-
-        //TODO: correct clean fields regards activity lifecycle...
-        nameEditText.setText("");
-        dateEditText.setText("");
-        weightEditText.setText("");
-        commentEditText.setText("");
 */
 
 
@@ -187,8 +190,21 @@ public class CreateBagActivity extends AppCompatActivity
             dateEditText.setText(day + "/" + (++month) + "/" + year);
         }
         else if(DATE_DIALOG == REMINDER_DATE_TIME_DIALOG){
-            showTimePickerDialog(year, month, day);
+            boolean isCurrentDay = isCurrentDay(year, month, day);
+            showTimePickerDialog(year, month, day, isCurrentDay);
         }
+    }
+
+    private boolean isCurrentDay(int year, int month, int day){
+        final Calendar c = Calendar.getInstance();
+        int currentYear = c.get(Calendar.YEAR);
+        int currentMonth = c.get(Calendar.MONTH);
+        int currentDay = c.get(Calendar.DAY_OF_MONTH);
+
+        if(year == currentYear && month == currentMonth && day == currentDay){
+            return true;
+        }
+        return false;
     }
 
     public void showDatePickerDialog(View v) {
@@ -206,7 +222,7 @@ public class CreateBagActivity extends AppCompatActivity
         openDialog();
     }
 
-    private void showTimePickerDialog(final int year, final int month, final int day){
+    private void showTimePickerDialog(final int year, final int month, final int day, final boolean isCurrentDay){
         final Calendar c = Calendar.getInstance();
         final int currentHour = c.get(Calendar.HOUR_OF_DAY);
         final int currentMinute = c.get(Calendar.MINUTE);
@@ -214,14 +230,13 @@ public class CreateBagActivity extends AppCompatActivity
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            public void onTimeSet(TimePicker view, int hour, int minute) {
                 try {
-                    if(isUserTimeAfterCurrentTime(hourOfDay, minute)){
+                    if(isCurrentDay && isUserTimeAfterCurrentTime(hour, minute)){
                         Toast.makeText(CreateBagActivity.this,
-                                "Alarm set to " + day + "/" + (monthPlusOne) + "/" + year + " at " + hourOfDay + "h : " + minute + "m",
+                                "Alarm set to " + day + "/" + (monthPlusOne) + "/" + year + " at " + hour + "h : " + minute + "m",
                                 Toast.LENGTH_LONG).show();
-
-                        //TODO: call reminder function passing this date/time here...
+                            setReminderDateTime(year, month, day, hour, minute);
                     }
                     else{
                         Toast.makeText(CreateBagActivity.this,
@@ -235,15 +250,17 @@ public class CreateBagActivity extends AppCompatActivity
         timePickerDialog.show();
     }
 
-    private boolean isUserTimeAfterCurrentTime(int hourOfDay, int minute) throws ParseException {
+    private boolean isUserTimeAfterCurrentTime(int hour, int minute) throws ParseException {
         Calendar c = Calendar.getInstance();
-        if ( hourOfDay >= c.get(Calendar.HOUR_OF_DAY) && minute > c.get(Calendar.MINUTE) ) {
-            Log.i("hourOfDay", hourOfDay + " >= " + c.get(Calendar.HOUR_OF_DAY) + " && " + minute + " > " + c.get(Calendar.MINUTE));
+
+        if (hour > c.get(Calendar.HOUR_OF_DAY)){
             return true;
         }
-        else{
-            return false;
+
+        if(hour == c.get(Calendar.HOUR_OF_DAY) && minute > c.get(Calendar.MINUTE )){
+            return true;
         }
+        return false;
     }
 
     private boolean isNameEmpty(){
@@ -263,4 +280,11 @@ public class CreateBagActivity extends AppCompatActivity
         }
         return false;
     }
+
+    //REMINDER
+    public void setReminderDateTime(int year, int month, int day, int hour, int minute) {
+
+        //TODO: prepare Date to save via Room...
+    }
+
 }//endClass...
