@@ -4,8 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -24,6 +29,9 @@ import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -45,6 +53,10 @@ public class CreateBagActivity extends AppCompatActivity
     //Reminder
     private boolean isUserSetReminder;
     private Date reminderDate;
+
+    private AlarmManager alarmManager;
+    private PendingIntent pendingIntent;
+
 
     //Widgets
     private TextInputEditText nameEditText;
@@ -81,6 +93,12 @@ public class CreateBagActivity extends AppCompatActivity
         //Reminder...
         reminderButton = (ImageButton) findViewById(R.id.ic_reminder);
         isUserSetReminder = false;
+
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Intent alarmIntent = new Intent(this, ReminderBroadCastReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
 
 
         eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
@@ -232,15 +250,22 @@ public class CreateBagActivity extends AppCompatActivity
             @Override
             public void onTimeSet(TimePicker view, int hour, int minute) {
                 try {
-                    if(isCurrentDay && isUserTimeAfterCurrentTime(hour, minute)){
-                        Toast.makeText(CreateBagActivity.this,
-                                "Alarm set to " + day + "/" + (monthPlusOne) + "/" + year + " at " + hour + "h : " + minute + "m",
-                                Toast.LENGTH_LONG).show();
+                    if( isCurrentDay ){
+                        if( isUserTimeAfterCurrentTime(hour, minute) ){
+                            Toast.makeText(CreateBagActivity.this,
+                                    "Alarm set to " + day + "/" + (monthPlusOne) + "/" + year + " at " + hour + "h : " + minute + "m",
+                                    Toast.LENGTH_LONG).show();
                             setReminderDateTime(year, month, day, hour, minute);
+                        }
+                        else{
+                            Toast.makeText(CreateBagActivity.this,"Invalid time. Please, set future reminder time.", Toast.LENGTH_LONG).show();
+                        }
                     }
                     else{
                         Toast.makeText(CreateBagActivity.this,
-                                "Invalid time. Please, set future reminder time.", Toast.LENGTH_LONG).show();
+                                "Alarm set to " + day + "/" + (monthPlusOne) + "/" + year + " at " + hour + "h : " + minute + "m",
+                                Toast.LENGTH_LONG).show();
+                        setReminderDateTime(year, month, day, hour, minute);
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -282,9 +307,31 @@ public class CreateBagActivity extends AppCompatActivity
     }
 
     //REMINDER
-    public void setReminderDateTime(int year, int month, int day, int hour, int minute) {
+    private void setReminderDateTime(int year, int month, int day, int hour, int minute) {
 
-        //TODO: prepare Date to save via Room...
+        LocalDateTime currenteDate = LocalDateTime.now();
+        LocalDateTime reminderDate = LocalDateTime.of(year, Month.of(month+1), day, hour, minute);
+
+        long p2 = ChronoUnit.SECONDS.between(currenteDate, reminderDate);
+
+        Toast.makeText(CreateBagActivity.this,
+                "p2 " + p2, Toast.LENGTH_LONG).show();
+
     }
+
+    private void createReminder(){
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, 0, pendingIntent);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, 0, pendingIntent);
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, 0, pendingIntent);
+        }
+
+    }
+
+
 
 }//endClass...
