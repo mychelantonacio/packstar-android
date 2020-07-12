@@ -15,22 +15,12 @@
 
 
         <receiver
-            android:name=".view.activities.ReminderBroadCastReceiver"
-            android:directBootAware="true"
-            android:enabled="true"
-            android:exported="true">
+            android:name= ".view.activities.ReminderBroadcastReceiver"
+            android:enabled="true" >
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
         </receiver>
-
-        <service
-            android:name=".view.activities.ReminderService"
-            android:enabled="true"
-            android:exported="false"
-            android:process=":remote" />
-
 
 
         <activity

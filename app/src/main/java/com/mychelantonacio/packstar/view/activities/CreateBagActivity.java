@@ -1,11 +1,16 @@
 package com.mychelantonacio.packstar.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -15,8 +20,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -54,8 +61,8 @@ public class CreateBagActivity extends AppCompatActivity
     private boolean isUserSetReminder;
     private Date reminderDate;
 
-    private AlarmManager alarmManager;
-    private PendingIntent pendingIntent;
+    public static final String NOTIFICATION_CHANNEL_ID = "10001";
+    private final static String default_notification_channel_id = "default";
 
 
     //Widgets
@@ -94,10 +101,7 @@ public class CreateBagActivity extends AppCompatActivity
         reminderButton = (ImageButton) findViewById(R.id.ic_reminder);
         isUserSetReminder = false;
 
-        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        Intent alarmIntent = new Intent(this, ReminderBroadCastReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
 
 
 
@@ -312,26 +316,68 @@ public class CreateBagActivity extends AppCompatActivity
         LocalDateTime currenteDate = LocalDateTime.now();
         LocalDateTime reminderDate = LocalDateTime.of(year, Month.of(month+1), day, hour, minute);
 
-        long p2 = ChronoUnit.SECONDS.between(currenteDate, reminderDate);
+        long futureTimeInSeconds = ChronoUnit.SECONDS.between(currenteDate, reminderDate);
 
         Toast.makeText(CreateBagActivity.this,
-                "p2 " + p2, Toast.LENGTH_LONG).show();
+                "futureTimeInSeconds " + futureTimeInSeconds, Toast.LENGTH_LONG).show();
+
+        createReminder(futureTimeInSeconds);
 
     }
 
-    private void createReminder(){
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, 0, pendingIntent);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, 0, pendingIntent);
-        } else {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, 0, pendingIntent);
-        }
+    private void createReminder(long futureTimeInSeconds ){
+        //createNotificationChannel();
+        scheduleNotification(getNotification( "Your trip is coming soon!") , futureTimeInSeconds ) ;
 
     }
 
+    private Notification getNotification (String content) {
+
+        Intent intent = new Intent(this, ListBagActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, default_notification_channel_id)
+                .setSmallIcon(R.drawable.splashscreen_image)
+                .setContentTitle("Packstar Notification")
+                .setContentText(content)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setCategory(NotificationCompat.CATEGORY_REMINDER)
+                .setChannelId( NOTIFICATION_CHANNEL_ID )
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(false);
 
 
-}//endClass...
+        /*
+        NotificationCompat.Builder builder = new NotificationCompat.Builder( this, default_notification_channel_id ) ;
+      builder.setContentTitle( "Scheduled Notification" ) ;
+      builder.setContentText(content) ;
+      builder.setSmallIcon(R.drawable. ic_launcher_foreground ) ;
+      builder.setAutoCancel( true ) ;
+      builder.setChannelId( NOTIFICATION_CHANNEL_ID ) ;
+      return builder.build() ;
+         */
+
+
+
+
+
+
+        return builder.build() ;
+    }
+
+    private void scheduleNotification (Notification notification, long delay) {
+
+        Intent notificationIntent = new Intent( this, ReminderBroadcastReceiver.class );
+
+        notificationIntent.putExtra(ReminderBroadcastReceiver.NOTIFICATION_ID, 1 );
+        notificationIntent.putExtra(ReminderBroadcastReceiver.NOTIFICATION, notification);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast ( this, 0 , notificationIntent , PendingIntent.FLAG_UPDATE_CURRENT );
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE );
+        assert alarmManager != null;
+
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP , 10 * 10000 , pendingIntent) ;
+    }
+
+}
