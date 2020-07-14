@@ -101,10 +101,6 @@ public class CreateBagActivity extends AppCompatActivity
         reminderButton = (ImageButton) findViewById(R.id.ic_reminder);
         isUserSetReminder = false;
 
-
-
-
-
         eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
         fabSetup();
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
@@ -317,18 +313,11 @@ public class CreateBagActivity extends AppCompatActivity
         LocalDateTime reminderDate = LocalDateTime.of(year, Month.of(month+1), day, hour, minute);
 
         long futureTimeInSeconds = ChronoUnit.SECONDS.between(currenteDate, reminderDate);
-
-        Toast.makeText(CreateBagActivity.this,
-                "futureTimeInSeconds " + futureTimeInSeconds, Toast.LENGTH_LONG).show();
-
         createReminder(futureTimeInSeconds);
-
     }
 
     private void createReminder(long futureTimeInSeconds ){
-        //createNotificationChannel();
         scheduleNotification(getNotification( "Your trip is coming soon!") , futureTimeInSeconds ) ;
-
     }
 
     private Notification getNotification (String content) {
@@ -346,38 +335,25 @@ public class CreateBagActivity extends AppCompatActivity
                 .setChannelId( NOTIFICATION_CHANNEL_ID )
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(false);
-
-
-        /*
-        NotificationCompat.Builder builder = new NotificationCompat.Builder( this, default_notification_channel_id ) ;
-      builder.setContentTitle( "Scheduled Notification" ) ;
-      builder.setContentText(content) ;
-      builder.setSmallIcon(R.drawable. ic_launcher_foreground ) ;
-      builder.setAutoCancel( true ) ;
-      builder.setChannelId( NOTIFICATION_CHANNEL_ID ) ;
-      return builder.build() ;
-         */
-
-
-
-
-
-
         return builder.build() ;
     }
 
     private void scheduleNotification (Notification notification, long delay) {
 
-        Intent notificationIntent = new Intent( this, ReminderBroadcastReceiver.class );
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE );
 
+        Intent notificationIntent = new Intent( this, ReminderBroadcastReceiver.class );
         notificationIntent.putExtra(ReminderBroadcastReceiver.NOTIFICATION_ID, 1 );
         notificationIntent.putExtra(ReminderBroadcastReceiver.NOTIFICATION, notification);
 
+        //PendingIntent.FLAG_CANCEL_CURRENT
         PendingIntent pendingIntent = PendingIntent.getBroadcast ( this, 0 , notificationIntent , PendingIntent.FLAG_UPDATE_CURRENT );
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE );
         assert alarmManager != null;
+        long ALARM_DELAY_IN_SECOND = 60;
+        long alarmTimeAtUTC = System.currentTimeMillis() + ALARM_DELAY_IN_SECOND * 1_000L;
 
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP , 10 * 10000 , pendingIntent) ;
+        long delayAlarmTimeAtUTC = System.currentTimeMillis() + delay * 1_000L;
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, delayAlarmTimeAtUTC, pendingIntent);
     }
 
 }

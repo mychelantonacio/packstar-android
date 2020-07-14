@@ -16,10 +16,8 @@
 
         <receiver
             android:name= ".view.activities.ReminderBroadcastReceiver"
-            android:enabled="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
-            </intent-filter>
+            android:enabled="true"
+            android:exported="true">
         </receiver>
 
 
