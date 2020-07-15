@@ -3,9 +3,13 @@ package com.mychelantonacio.packstar.view.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -15,6 +19,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -41,6 +46,7 @@ import java.time.Month;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 
 public class CreateBagActivity extends AppCompatActivity
@@ -313,7 +319,9 @@ public class CreateBagActivity extends AppCompatActivity
         LocalDateTime reminderDate = LocalDateTime.of(year, Month.of(month+1), day, hour, minute);
 
         long futureTimeInSeconds = ChronoUnit.SECONDS.between(currenteDate, reminderDate);
-        createReminder(futureTimeInSeconds);
+        //createReminder(futureTimeInSeconds);
+
+        createAlarmViaWorkManager(futureTimeInSeconds);
     }
 
     private void createReminder(long futureTimeInSeconds ){
@@ -324,6 +332,10 @@ public class CreateBagActivity extends AppCompatActivity
 
         Intent intent = new Intent(this, ListBagActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+
+        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, default_notification_channel_id)
@@ -334,7 +346,10 @@ public class CreateBagActivity extends AppCompatActivity
                 .setCategory(NotificationCompat.CATEGORY_REMINDER)
                 .setChannelId( NOTIFICATION_CHANNEL_ID )
                 .setContentIntent(pendingIntent)
-                .setAutoCancel(false);
+                .setAutoCancel(true)
+
+                .setColor(ContextCompat.getColor(this, R.color.colorAccent))
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         return builder.build() ;
     }
 
@@ -346,7 +361,9 @@ public class CreateBagActivity extends AppCompatActivity
         notificationIntent.putExtra(ReminderBroadcastReceiver.NOTIFICATION_ID, 1 );
         notificationIntent.putExtra(ReminderBroadcastReceiver.NOTIFICATION, notification);
 
+
         //PendingIntent.FLAG_CANCEL_CURRENT
+        notificationIntent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
         PendingIntent pendingIntent = PendingIntent.getBroadcast ( this, 0 , notificationIntent , PendingIntent.FLAG_UPDATE_CURRENT );
         assert alarmManager != null;
         long ALARM_DELAY_IN_SECOND = 60;
@@ -354,6 +371,41 @@ public class CreateBagActivity extends AppCompatActivity
 
         long delayAlarmTimeAtUTC = System.currentTimeMillis() + delay * 1_000L;
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, delayAlarmTimeAtUTC, pendingIntent);
+    }
+
+
+
+
+
+
+
+    private void createAlarmViaWorkManager(long delay){
+
+        Log.d("jojoba", "delay " + delay);
+
+        long delayAlarmTimeAtUTC = System.currentTimeMillis() + delay * 1_000L;
+
+
+        //we set a tag to be able to cancel all work of this type if needed
+        final String workTag = "notificationWork";
+
+        //store DBEventID to pass it to the PendingIntent and open the appropriate event page on notification click
+        //Data inputData = new Data.Builder().putInt(DBEventIDTag, DBEventID).build();
+
+        Data inputData = new Data.Builder().putLong("delay", delayAlarmTimeAtUTC).build();
+
+        // we then retrieve it inside the NotifyWorker with:
+        // final int DBEventID = getInputData().getInt(DBEventIDTag, ERROR_VALUE);
+
+
+
+        OneTimeWorkRequest notificationWork = new OneTimeWorkRequest.Builder(NotifyWorker.class)
+                .setInitialDelay(delay * 1_000, TimeUnit.MILLISECONDS)
+                .setInputData(inputData)
+                .addTag(workTag)
+                .build();
+
+        WorkManager.getInstance(this).enqueue(notificationWork);
     }
 
 }
