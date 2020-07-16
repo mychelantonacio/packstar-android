@@ -2,32 +2,18 @@ package com.mychelantonacio.packstar.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.work.Data;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
 
 import android.Manifest;
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.text.Editable;
@@ -36,8 +22,8 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -51,12 +37,8 @@ import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
 import java.text.ParseException;
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 
 public class CreateBagActivity extends AppCompatActivity
@@ -74,18 +56,16 @@ public class CreateBagActivity extends AppCompatActivity
     private static final String REMINDER_DATE_TIME_DIALOG = "reminderDateTimeDialog";
 
     //Reminder
-    private boolean isUserSetReminder;
-    private Date reminderDate;
-
-    public static final String NOTIFICATION_CHANNEL_ID = "10001";
-    private final static String default_notification_channel_id = "default";
-
+    private long globalEventID = 0L;
+    private boolean isEventSet = false;
+    private static final int REQUEST_PERMISSION_WRITE_CALENDAR = 007;
 
     //Widgets
     private TextInputEditText nameEditText;
     private TextInputEditText dateEditText;
     private TextInputEditText weightEditText;
     private TextInputEditText commentEditText;
+    private TextView reminderEditText;
     private ImageButton reminderButton;
     private ExtendedFloatingActionButton eFab;
 
@@ -99,6 +79,24 @@ public class CreateBagActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_bag);
         setupUIOnCreate();
+
+        /*
+        if(savedInstanceState != null){
+            this.isEventSet = savedInstanceState.getBoolean("isEventSet");
+            this.globalEventID = savedInstanceState.getLong("globalEventID");
+            this.reminderEditText.setText(savedInstanceState.getString("reminderEditText"));
+        }
+         */
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState != null){
+            this.isEventSet = savedInstanceState.getBoolean("isEventSet");
+            this.globalEventID = savedInstanceState.getLong("globalEventID");
+            this.reminderEditText.setText(savedInstanceState.getString("reminderEditText"));
+        }
     }
 
     private void setupUIOnCreate() {
@@ -111,12 +109,12 @@ public class CreateBagActivity extends AppCompatActivity
         dateEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_date);
         weightEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_weight);
         commentEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_comment);
+        reminderEditText = (TextView) findViewById(R.id.textView_no_reminders);
         dateEditTextSetup();
 
         //Reminder...
         reminderButton = (ImageButton) findViewById(R.id.ic_reminder);
-        isUserSetReminder = false;
-
+        //TODO: setup reminderButton...
         eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
         fabSetup();
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
@@ -131,11 +129,9 @@ public class CreateBagActivity extends AppCompatActivity
                 dateEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 nameEditText.setFocusable(false);
             }
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -152,7 +148,7 @@ public class CreateBagActivity extends AppCompatActivity
     }
 
     private void createBag() {
-/*
+    /*
         if (isNameEmpty() || isDateEmpty()) {
             return;
         }
@@ -164,37 +160,9 @@ public class CreateBagActivity extends AppCompatActivity
         }
         newBag.setComment(commentEditText.getText().toString());
         bagViewModel.insert(newBag);
-*/
-
-
-        //prePopulateForTestingPurpose();
+    */
         Intent intent = new Intent(CreateBagActivity.this, ListBagActivity.class);
         startActivity(intent);
-    }
-
-    private void prePopulateForTestingPurpose() {
-        //bagViewModel.deleteAll();
-        for (int i = 1; i <= 100; i++) {
-            // Bag bag = new Bag("Test Bag " + i, "01/01/2020", new Double(i), "Test Comment " + i);
-            //bagViewModel.insert(bag);
-
-            for (int j = 1; j <= 3; j++) {
-                Item item = new Item();
-
-                item.setBagId(new Long(i));
-                item.setName("Item " + j);
-                item.setQuantity(j);
-                item.setWeight(new Double(j));
-
-                if (j % 2 == 0)
-                    item.setStatus("B");
-                else
-                    item.setStatus("A");
-
-                itemViewModel.insert(item);
-            }
-
-        }
     }
 
     //back button
@@ -209,13 +177,11 @@ public class CreateBagActivity extends AppCompatActivity
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        //Discard button...
         this.finish();
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-        //Cancel button...
         dialog.dismiss();
     }
 
@@ -253,9 +219,15 @@ public class CreateBagActivity extends AppCompatActivity
     }
 
     public void showDatePickerReminderDialog(View v) {
-
-        DATE_DIALOG = REMINDER_DATE_TIME_DIALOG;
-        openDialog();
+        if (this.isEventSet){
+            Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, this.globalEventID);
+            Intent intent = new Intent(Intent.ACTION_VIEW).setData(uri);
+            startActivity(intent);
+        }
+        else{
+            DATE_DIALOG = REMINDER_DATE_TIME_DIALOG;
+            openDialog();
+        }
     }
 
     private void showTimePickerDialog(final int year, final int month, final int day, final boolean isCurrentDay) {
@@ -270,17 +242,11 @@ public class CreateBagActivity extends AppCompatActivity
                 try {
                     if (isCurrentDay) {
                         if (isUserTimeAfterCurrentTime(hour, minute)) {
-                            //Toast.makeText(CreateBagActivity.this,
-                            //      "Alarm set to " + day + "/" + (monthPlusOne) + "/" + year + " at " + hour + "h : " + minute + "m",
-                            //    Toast.LENGTH_LONG).show();
                             setReminderDateTime(year, month, day, hour, minute);
                         } else {
                             Toast.makeText(CreateBagActivity.this, "Invalid time. Please, set future reminder time.", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        //Toast.makeText(CreateBagActivity.this,
-                        //      "Alarm set to " + day + "/" + (monthPlusOne) + "/" + year + " at " + hour + "h : " + minute + "m",
-                        //    Toast.LENGTH_LONG).show();
                         setReminderDateTime(year, month, day, hour, minute);
                     }
                 } catch (ParseException e) {
@@ -293,11 +259,9 @@ public class CreateBagActivity extends AppCompatActivity
 
     private boolean isUserTimeAfterCurrentTime(int hour, int minute) throws ParseException {
         Calendar c = Calendar.getInstance();
-
         if (hour > c.get(Calendar.HOUR_OF_DAY)) {
             return true;
         }
-
         if (hour == c.get(Calendar.HOUR_OF_DAY) && minute > c.get(Calendar.MINUTE)) {
             return true;
         }
@@ -325,195 +289,54 @@ public class CreateBagActivity extends AppCompatActivity
     //REMINDER
     private void setReminderDateTime(int year, int month, int day, int hour, int minute) {
 
-
-        long calID = 3;
+        //TODO: get range of calID from user system...
+        long calID = 1L;
         long startMillis = 0;
         long endMillis = 0;
-        Calendar beginTime = Calendar.getInstance();
-        beginTime.set(2020, 8, 15, 8, 0);
-        startMillis = beginTime.getTimeInMillis();
-        Calendar endTime = Calendar.getInstance();
-        endTime.set(2020, 8, 15, 9, 0);
-        endMillis = endTime.getTimeInMillis();
-
-
-        ContentResolver cr = getContentResolver();
-        ContentValues values = new ContentValues();
-        values.put(CalendarContract.Events.DTSTART, startMillis);
-        values.put(CalendarContract.Events.DTEND, endMillis);
-        values.put(CalendarContract.Events.TITLE, "PackStar - Test");
-        values.put(CalendarContract.Events.DESCRIPTION, "Testing");
-        values.put(CalendarContract.Events.CALENDAR_ID, calID);
-        values.put(CalendarContract.Events.EVENT_TIMEZONE, "America/Los_Angeles");
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-
-        Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
-
-
-        long eventID = Long.parseLong(uri.getLastPathSegment());
-        Log.d("eventID", "eventID " + eventID);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /* VIEW
-        long eventID = 6666L;
-
-        Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventID);
-        Intent intent = new Intent(Intent.ACTION_VIEW)
-                .setData(uri);
-        startActivity(intent);
-*/
-
-
-/* EDIT
-        long eventID = 111;
-        Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventID);
-        Intent intent = new Intent(Intent.ACTION_EDIT)
-                .setData(uri);
-                //.putExtra(CalendarContract.Events.TITLE, "Editing bolado!");
-
-        startActivity(intent);
-*/
-
-
-/* INSERT
 
         Calendar beginTime = Calendar.getInstance();
         beginTime.set(year, month, day, hour, minute);
+        startMillis = beginTime.getTimeInMillis();
+
         Calendar endTime = Calendar.getInstance();
         endTime.set(year, month, day, (hour+1), minute);
+        endMillis = endTime.getTimeInMillis();
 
-        Intent intent = new Intent(Intent.ACTION_INSERT)
-                .setData(CalendarContract.Events.CONTENT_URI)
-                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
-                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
-                .putExtra(CalendarContract.Events.TITLE, "PackStar")
-                .putExtra(CalendarContract.Events.DESCRIPTION, "Your trip is coming soon!");
+        ContentResolver cr = getContentResolver();
+        ContentValues values = new ContentValues();
 
-        startActivity(intent);
-*/
+        values.put(CalendarContract.Events.DTSTART, startMillis);
+        values.put(CalendarContract.Events.DTEND, endMillis);
+        values.put(CalendarContract.Events.TITLE, "PackStar");
+        values.put(CalendarContract.Events.DESCRIPTION, "Your trip is coming soon!");
+        values.put(CalendarContract.Events.CALENDAR_ID, calID);
+        values.put(CalendarContract.Events.EVENT_TIMEZONE, "Europe/London");
 
-        /* ALARM + NOTIFICATION...
-        LocalDateTime currenteDate = LocalDateTime.now();
-        LocalDateTime reminderDate = LocalDateTime.of(year, Month.of(month+1), day, hour, minute);
 
-        long futureTimeInSeconds = ChronoUnit.SECONDS.between(currenteDate, reminderDate);
-        //createReminder(futureTimeInSeconds);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+            Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
 
-        createAlarmViaWorkManager(futureTimeInSeconds);
-
-         */
+            long eventID = Long.parseLong(uri.getLastPathSegment());
+            Log.d("TAG", "uri " + uri.toString());
+            Log.d("TAG", "eventID " + eventID);
+            Toast.makeText(CreateBagActivity.this, "Success! Your event was added to your calendar.  ", Toast.LENGTH_LONG).show();
+            this.isEventSet = true;
+            this.globalEventID = eventID;
+            this.reminderEditText.setText("Reminder already set");
+        }
+        else{
+            if( shouldShowRequestPermissionRationale(Manifest.permission.WRITE_CALENDAR) ){
+                Toast.makeText(CreateBagActivity.this, "Write to calendar permission is needed to create reminders", Toast.LENGTH_LONG).show();
+            }
+            requestPermissions(new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_PERMISSION_WRITE_CALENDAR);
+        }
     }
 
-
-
-
-
-
-
-
-    private void createReminder(long futureTimeInSeconds ){
-        scheduleNotification(getNotification( "Your trip is coming soon!") , futureTimeInSeconds ) ;
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean("isEventSet", this.isEventSet);
+        savedInstanceState.putLong("globalEventID", this.globalEventID);
+        savedInstanceState.putString("reminderEditText", this.reminderEditText.getText().toString());
     }
-
-    private Notification getNotification (String content) {
-
-        Intent intent = new Intent(this, ListBagActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, default_notification_channel_id)
-                .setSmallIcon(R.drawable.splashscreen_image)
-                .setContentTitle("Packstar Notification")
-                .setContentText(content)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setCategory(NotificationCompat.CATEGORY_REMINDER)
-                .setChannelId( NOTIFICATION_CHANNEL_ID )
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-
-                .setColor(ContextCompat.getColor(this, R.color.colorAccent))
-                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-        return builder.build() ;
-    }
-
-    private void scheduleNotification (Notification notification, long delay) {
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE );
-
-        Intent notificationIntent = new Intent( this, ReminderBroadcastReceiver.class );
-        notificationIntent.putExtra(ReminderBroadcastReceiver.NOTIFICATION_ID, 1 );
-        notificationIntent.putExtra(ReminderBroadcastReceiver.NOTIFICATION, notification);
-
-
-        //PendingIntent.FLAG_CANCEL_CURRENT
-        notificationIntent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast ( this, 0 , notificationIntent , PendingIntent.FLAG_UPDATE_CURRENT );
-        assert alarmManager != null;
-        long ALARM_DELAY_IN_SECOND = 60;
-        long alarmTimeAtUTC = System.currentTimeMillis() + ALARM_DELAY_IN_SECOND * 1_000L;
-
-        long delayAlarmTimeAtUTC = System.currentTimeMillis() + delay * 1_000L;
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, delayAlarmTimeAtUTC, pendingIntent);
-    }
-
-
-    private void createAlarmViaWorkManager(long delay){
-
-        Log.d("jojoba", "delay " + delay);
-
-        long delayAlarmTimeAtUTC = System.currentTimeMillis() + delay * 1_000L;
-
-
-        //we set a tag to be able to cancel all work of this type if needed
-        final String workTag = "notificationWork";
-
-        //store DBEventID to pass it to the PendingIntent and open the appropriate event page on notification click
-        //Data inputData = new Data.Builder().putInt(DBEventIDTag, DBEventID).build();
-
-        Data inputData = new Data.Builder().putLong("delay", delayAlarmTimeAtUTC).build();
-
-        // we then retrieve it inside the NotifyWorker with:
-        // final int DBEventID = getInputData().getInt(DBEventIDTag, ERROR_VALUE);
-
-
-
-        OneTimeWorkRequest notificationWork = new OneTimeWorkRequest.Builder(NotifyWorker.class)
-                .setInitialDelay(delay * 1_000, TimeUnit.MILLISECONDS)
-                .setInputData(inputData)
-                .addTag(workTag)
-                .build();
-
-        WorkManager.getInstance(this).enqueue(notificationWork);
-    }
-
 }
