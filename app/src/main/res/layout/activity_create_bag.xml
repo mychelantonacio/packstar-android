@@ -205,12 +205,10 @@
                 android:backgroundTint="@color/colorPrimary"
                 android:contentDescription="@string/ic_reminder_description"
                 android:hapticFeedbackEnabled="false"
-                android:onClick="showDatePickerReminderDialog"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout_bag_comment"
                 app:srcCompat="@drawable/ic_reminder" />
-
 
             <TextView
                 android:id="@+id/textView_no_reminders"
@@ -249,7 +247,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollview_create_bag" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

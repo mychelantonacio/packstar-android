@@ -30,7 +30,6 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mychelantonacio.packstar.R;
-import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.util.Dialogs.DatePickerFragmentDialog;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
@@ -38,7 +37,6 @@ import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
 
 
 public class CreateBagActivity extends AppCompatActivity
@@ -56,7 +54,7 @@ public class CreateBagActivity extends AppCompatActivity
     private static final String REMINDER_DATE_TIME_DIALOG = "reminderDateTimeDialog";
 
     //Reminder
-    private long globalEventID = 0L;
+    private long reminderEventId = 0L;
     private boolean isEventSet = false;
     private static final int REQUEST_PERMISSION_WRITE_CALENDAR = 007;
 
@@ -78,23 +76,20 @@ public class CreateBagActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_bag);
-        setupUIOnCreate();
-
-        /*
         if(savedInstanceState != null){
             this.isEventSet = savedInstanceState.getBoolean("isEventSet");
-            this.globalEventID = savedInstanceState.getLong("globalEventID");
+            this.reminderEventId = savedInstanceState.getLong("globalEventID");
             this.reminderEditText.setText(savedInstanceState.getString("reminderEditText"));
         }
-         */
+        setupUIOnCreate();
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        if(savedInstanceState != null){
+        if(savedInstanceState != null) {
             this.isEventSet = savedInstanceState.getBoolean("isEventSet");
-            this.globalEventID = savedInstanceState.getLong("globalEventID");
+            this.reminderEventId = savedInstanceState.getLong("globalEventID");
             this.reminderEditText.setText(savedInstanceState.getString("reminderEditText"));
         }
     }
@@ -111,10 +106,8 @@ public class CreateBagActivity extends AppCompatActivity
         commentEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_comment);
         reminderEditText = (TextView) findViewById(R.id.textView_no_reminders);
         dateEditTextSetup();
-
-        //Reminder...
         reminderButton = (ImageButton) findViewById(R.id.ic_reminder);
-        //TODO: setup reminderButton...
+        reminderSetup();
         eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
         fabSetup();
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
@@ -143,6 +136,23 @@ public class CreateBagActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 createBag();
+            }
+        });
+    }
+
+    private void reminderSetup(){
+        reminderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (CreateBagActivity.this.isEventSet){
+                    Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, reminderEventId);
+                    Intent intent = new Intent(Intent.ACTION_VIEW).setData(uri);
+                    startActivity(intent);
+                }
+                else{
+                    DATE_DIALOG = REMINDER_DATE_TIME_DIALOG;
+                    openDialog();
+                }
             }
         });
     }
@@ -208,11 +218,6 @@ public class CreateBagActivity extends AppCompatActivity
         return false;
     }
 
-    public void showDatePickerDialog(View v) {
-        DATE_DIALOG = EDIT_TEXT_DATE_DIALOG;
-        openDialog();
-    }
-
     public void openDialog() {
         DatePickerFragmentDialog datePickerFragmentDialog = new DatePickerFragmentDialog();
         datePickerFragmentDialog.show(getSupportFragmentManager(), DIALOG_DATE_PICKER);
@@ -220,7 +225,7 @@ public class CreateBagActivity extends AppCompatActivity
 
     public void showDatePickerReminderDialog(View v) {
         if (this.isEventSet){
-            Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, this.globalEventID);
+            Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, reminderEventId);
             Intent intent = new Intent(Intent.ACTION_VIEW).setData(uri);
             startActivity(intent);
         }
@@ -321,7 +326,7 @@ public class CreateBagActivity extends AppCompatActivity
             Log.d("TAG", "eventID " + eventID);
             Toast.makeText(CreateBagActivity.this, "Success! Your event was added to your calendar.  ", Toast.LENGTH_LONG).show();
             this.isEventSet = true;
-            this.globalEventID = eventID;
+            reminderEventId = eventID;
             this.reminderEditText.setText("Reminder already set");
         }
         else{
@@ -336,7 +341,7 @@ public class CreateBagActivity extends AppCompatActivity
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putBoolean("isEventSet", this.isEventSet);
-        savedInstanceState.putLong("globalEventID", this.globalEventID);
+        savedInstanceState.putLong("globalEventID", reminderEventId);
         savedInstanceState.putString("reminderEditText", this.reminderEditText.getText().toString());
     }
 }
