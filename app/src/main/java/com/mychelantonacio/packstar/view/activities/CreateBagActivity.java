@@ -11,15 +11,16 @@ import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -56,7 +57,7 @@ public class CreateBagActivity extends AppCompatActivity
     //Reminder
     private long reminderEventId = 0L;
     private boolean isEventSet = false;
-    private static final int REQUEST_PERMISSION_WRITE_CALENDAR = 007;
+    private static final int REQUEST_PERMISSION_READ_WRITE_CALENDAR = 007;
 
     //Widgets
     private TextInputEditText nameEditText;
@@ -76,7 +77,7 @@ public class CreateBagActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_bag);
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             this.isEventSet = savedInstanceState.getBoolean("isEventSet");
             this.reminderEventId = savedInstanceState.getLong("globalEventID");
             this.reminderEditText.setText(savedInstanceState.getString("reminderEditText"));
@@ -87,7 +88,7 @@ public class CreateBagActivity extends AppCompatActivity
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             this.isEventSet = savedInstanceState.getBoolean("isEventSet");
             this.reminderEventId = savedInstanceState.getLong("globalEventID");
             this.reminderEditText.setText(savedInstanceState.getString("reminderEditText"));
@@ -140,16 +141,15 @@ public class CreateBagActivity extends AppCompatActivity
         });
     }
 
-    private void reminderSetup(){
+    private void reminderSetup() {
         reminderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (CreateBagActivity.this.isEventSet){
+                if (CreateBagActivity.this.isEventSet) {
                     Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, reminderEventId);
                     Intent intent = new Intent(Intent.ACTION_VIEW).setData(uri);
                     startActivity(intent);
-                }
-                else{
+                } else {
                     DATE_DIALOG = REMINDER_DATE_TIME_DIALOG;
                     openDialog();
                 }
@@ -223,23 +223,10 @@ public class CreateBagActivity extends AppCompatActivity
         datePickerFragmentDialog.show(getSupportFragmentManager(), DIALOG_DATE_PICKER);
     }
 
-    public void showDatePickerReminderDialog(View v) {
-        if (this.isEventSet){
-            Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, reminderEventId);
-            Intent intent = new Intent(Intent.ACTION_VIEW).setData(uri);
-            startActivity(intent);
-        }
-        else{
-            DATE_DIALOG = REMINDER_DATE_TIME_DIALOG;
-            openDialog();
-        }
-    }
-
     private void showTimePickerDialog(final int year, final int month, final int day, final boolean isCurrentDay) {
         final Calendar c = Calendar.getInstance();
         final int currentHour = c.get(Calendar.HOUR_OF_DAY);
         final int currentMinute = c.get(Calendar.MINUTE);
-        final int monthPlusOne = month + 1;
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -294,46 +281,45 @@ public class CreateBagActivity extends AppCompatActivity
     //REMINDER
     private void setReminderDateTime(int year, int month, int day, int hour, int minute) {
 
-        //TODO: get range of calID from user system...
-        long calID = 1L;
-        long startMillis = 0;
-        long endMillis = 0;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
 
-        Calendar beginTime = Calendar.getInstance();
-        beginTime.set(year, month, day, hour, minute);
-        startMillis = beginTime.getTimeInMillis();
+            long startMillis = 0L;
+            long endMillis = 0L;
 
-        Calendar endTime = Calendar.getInstance();
-        endTime.set(year, month, day, (hour+1), minute);
-        endMillis = endTime.getTimeInMillis();
+            Calendar beginTime = Calendar.getInstance();
+            beginTime.set(year, month, day, hour, minute);
+            startMillis = beginTime.getTimeInMillis();
 
-        ContentResolver cr = getContentResolver();
-        ContentValues values = new ContentValues();
+            Calendar endTime = Calendar.getInstance();
+            endTime.set(year, month, day, (hour + 1), minute);
+            endMillis = endTime.getTimeInMillis();
 
-        values.put(CalendarContract.Events.DTSTART, startMillis);
-        values.put(CalendarContract.Events.DTEND, endMillis);
-        values.put(CalendarContract.Events.TITLE, "PackStar");
-        values.put(CalendarContract.Events.DESCRIPTION, "Your trip is coming soon!");
-        values.put(CalendarContract.Events.CALENDAR_ID, calID);
-        values.put(CalendarContract.Events.EVENT_TIMEZONE, "Europe/London");
+            ContentResolver cr = getContentResolver();
+            ContentValues values = new ContentValues();
 
+            values.put(CalendarContract.Events.DTSTART, startMillis);
+            values.put(CalendarContract.Events.DTEND, endMillis);
+            values.put(CalendarContract.Events.TITLE, "PackStar");
+            values.put(CalendarContract.Events.DESCRIPTION, "Your trip is coming soon!");
+            values.put(CalendarContract.Events.CALENDAR_ID, getCalendarId(this));
+            values.put(CalendarContract.Events.EVENT_TIMEZONE, "Europe/London");
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
             Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
 
             long eventID = Long.parseLong(uri.getLastPathSegment());
-            Log.d("TAG", "uri " + uri.toString());
-            Log.d("TAG", "eventID " + eventID);
-            Toast.makeText(CreateBagActivity.this, "Success! Your event was added to your calendar.  ", Toast.LENGTH_LONG).show();
+            Toast.makeText(CreateBagActivity.this, "Success! Your event was added to your calendar.", Toast.LENGTH_LONG).show();
+
             this.isEventSet = true;
-            reminderEventId = eventID;
+            //TODO: add it to bag being created...
+            this.reminderEventId = eventID;
             this.reminderEditText.setText("Reminder already set");
-        }
-        else{
-            if( shouldShowRequestPermissionRationale(Manifest.permission.WRITE_CALENDAR) ){
-                Toast.makeText(CreateBagActivity.this, "Write to calendar permission is needed to create reminders", Toast.LENGTH_LONG).show();
+        } else {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CALENDAR) &&
+                    shouldShowRequestPermissionRationale(Manifest.permission.WRITE_CALENDAR)) {
+                Toast.makeText(CreateBagActivity.this, "Read/Write to the calendar permission is needed to create reminders", Toast.LENGTH_LONG).show();
             }
-            requestPermissions(new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_PERMISSION_WRITE_CALENDAR);
+            requestPermissions(new String[]{Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR}, REQUEST_PERMISSION_READ_WRITE_CALENDAR);
         }
     }
 
@@ -344,4 +330,48 @@ public class CreateBagActivity extends AppCompatActivity
         savedInstanceState.putLong("globalEventID", reminderEventId);
         savedInstanceState.putString("reminderEditText", this.reminderEditText.getText().toString());
     }
-}
+
+
+    public long getCalendarId(Context context) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+            Cursor cursor = null;
+            ContentResolver contentResolver = context.getContentResolver();
+            Uri calendars = CalendarContract.Calendars.CONTENT_URI;
+
+            String[] EVENT_PROJECTION = new String[]{
+                    CalendarContract.Calendars._ID,                           // 0
+                    CalendarContract.Calendars.ACCOUNT_NAME,                  // 1
+                    CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 2
+                    CalendarContract.Calendars.OWNER_ACCOUNT,                 // 3
+                    CalendarContract.Calendars.IS_PRIMARY                     // 4
+            };
+
+            int PROJECTION_ID_INDEX = 0;
+            int PROJECTION_ACCOUNT_NAME_INDEX = 1;
+            int PROJECTION_DISPLAY_NAME_INDEX = 2;
+            int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
+            int PROJECTION_VISIBLE = 4;
+
+            cursor = contentResolver.query(calendars, EVENT_PROJECTION, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                long calId = 0;
+                String visible;
+                do {
+                    calId = cursor.getLong(PROJECTION_ID_INDEX);
+                    visible = cursor.getString(PROJECTION_VISIBLE);
+                    if (visible.equals("1")) {
+                        return calId;
+                    }
+                } while (cursor.moveToNext());
+                return calId;
+            }
+        } else {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CALENDAR)) {
+                Toast.makeText(CreateBagActivity.this, "Read/Write to the calendar permission is needed to create reminders", Toast.LENGTH_LONG).show();
+            }
+            requestPermissions(new String[]{Manifest.permission.READ_CALENDAR}, REQUEST_PERMISSION_READ_WRITE_CALENDAR);
+        }
+        return 1L;
+    }
+}//endClass...
