@@ -41,7 +41,10 @@ public class ListBagFragment extends Fragment implements CommentFragmentDialog.N
         RecyclerView recyclerView = view.getRootView().findViewById(R.id.recyclerview_bags);
         bagAdapter = new BagListAdapter(getActivity());
         recyclerView.setAdapter(bagAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
+        layoutManager.scrollToPosition(0);
+        recyclerView.setLayoutManager(layoutManager);
 
         bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
         bagViewModel.getAllBagsSortedByName().observe(getActivity(), new Observer<List<Bag>>() {

@@ -24,7 +24,6 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -36,6 +35,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mychelantonacio.packstar.R;
+import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.util.Dialogs.DatePickerFragmentDialog;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
@@ -111,6 +111,8 @@ public class CreateBagActivity extends AppCompatActivity
         weightEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_weight);
         commentEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_comment);
 
+        dateTextInputLayout = (TextInputLayout) findViewById(R.id.textInputLayout_bag_date);
+
         reminderEditText = (TextView) findViewById(R.id.textView_no_reminders);
         dateEditTextSetup();
 
@@ -179,7 +181,7 @@ public class CreateBagActivity extends AppCompatActivity
     }
 
     private void createBag() {
-    /*
+
         if (isNameEmpty() || isDateEmpty()) {
             return;
         }
@@ -190,10 +192,17 @@ public class CreateBagActivity extends AppCompatActivity
             newBag.setWeight(new Double(weightEditText.getText().toString()));
         }
         newBag.setComment(commentEditText.getText().toString());
+
+        if(this.isEventSet){
+            newBag.setEventSet(true);
+            newBag.setEventId(this.reminderEventId);
+            newBag.setEventDateTime(reminderEditText.getText().toString());
+        }
+
         bagViewModel.insert(newBag);
-    */
         Intent intent = new Intent(CreateBagActivity.this, ListBagActivity.class);
         startActivity(intent);
+        finish();
     }
 
     //back button
@@ -329,10 +338,9 @@ public class CreateBagActivity extends AppCompatActivity
             Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
 
             long eventID = Long.parseLong(uri.getLastPathSegment());
-            Toast.makeText(CreateBagActivity.this, "Success! Your event was added to your calendar.", Toast.LENGTH_LONG).show();
+            Toast.makeText(CreateBagActivity.this, "Success! Your event was added to your calendar.", Toast.LENGTH_SHORT).show();
 
             this.isEventSet = true;
-            //TODO: add it to bag being created...
             this.reminderEventId = eventID;
             this.reminderEditText.setText( formatReminderDateTime(year, month, day, hour, minute) );
         } else {

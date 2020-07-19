@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-@Database(entities = {Bag.class, Item.class}, version = 1, exportSchema = false)
+@Database(entities = {Bag.class, Item.class}, version = 3, exportSchema = false)
 public abstract class BagRoomDatabase extends RoomDatabase {
 
     public abstract BagDao bagDao();

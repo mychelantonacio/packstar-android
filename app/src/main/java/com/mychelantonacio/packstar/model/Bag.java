@@ -26,6 +26,9 @@ public class Bag implements Parcelable{
     private Double weight;
     private String comment;
 
+    private boolean isEventSet;
+    private long eventId;
+    private String eventDateTime;
 
     public Bag(){}
 
@@ -81,6 +84,29 @@ public class Bag implements Parcelable{
         this.comment = comment;
     }
 
+    public boolean isEventSet() {
+        return isEventSet;
+    }
+
+    public void setEventSet(boolean eventSet) {
+        isEventSet = eventSet;
+    }
+
+    public long getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(long eventId) {
+        this.eventId = eventId;
+    }
+
+    public String getEventDateTime() {
+        return eventDateTime;
+    }
+
+    public void setEventDateTime(String eventDateTime) {
+        this.eventDateTime = eventDateTime;
+    }
 
 
     //Parcelable
