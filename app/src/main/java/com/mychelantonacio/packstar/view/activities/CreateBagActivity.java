@@ -2,7 +2,6 @@ package com.mychelantonacio.packstar.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -15,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
@@ -22,7 +22,11 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -30,6 +34,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.util.Dialogs.DatePickerFragmentDialog;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
@@ -64,6 +69,7 @@ public class CreateBagActivity extends AppCompatActivity
     private TextInputEditText dateEditText;
     private TextInputEditText weightEditText;
     private TextInputEditText commentEditText;
+    private TextInputLayout dateTextInputLayout;
     private TextView reminderEditText;
     private ImageButton reminderButton;
     private ExtendedFloatingActionButton eFab;
@@ -100,34 +106,43 @@ public class CreateBagActivity extends AppCompatActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
         nameEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_name);
         dateEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_date);
         weightEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_weight);
         commentEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_comment);
+
         reminderEditText = (TextView) findViewById(R.id.textView_no_reminders);
         dateEditTextSetup();
+
         reminderButton = (ImageButton) findViewById(R.id.ic_reminder);
         reminderSetup();
+
         eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
         fabSetup();
+
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
         bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
     }
 
-    //it avoids conflict with datepicker action...
+
     private void dateEditTextSetup() {
+        dateEditText.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  DATE_DIALOG = EDIT_TEXT_DATE_DIALOG;
+                  openDialog();
+              }
+          });
         dateEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                dateEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                nameEditText.setFocusable(false);
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
             @Override
             public void afterTextChanged(Editable s) {
+                dateTextInputLayout.setEndIconVisible(false);
             }
         });
     }
@@ -146,10 +161,16 @@ public class CreateBagActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if (CreateBagActivity.this.isEventSet) {
+                    if (isNameEmpty() || isDateEmpty()) {
+                        return;
+                    }
                     Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, reminderEventId);
                     Intent intent = new Intent(Intent.ACTION_VIEW).setData(uri);
                     startActivity(intent);
                 } else {
+                    if (isNameEmpty() || isDateEmpty()) {
+                        return;
+                    }
                     DATE_DIALOG = REMINDER_DATE_TIME_DIALOG;
                     openDialog();
                 }
@@ -186,12 +207,12 @@ public class CreateBagActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
+    public void onDialogPositiveClick(androidx.fragment.app.DialogFragment dialog) {
         this.finish();
     }
 
     @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
+    public void onDialogNegativeClick(androidx.fragment.app.DialogFragment dialog) {
         dialog.dismiss();
     }
 
@@ -313,7 +334,7 @@ public class CreateBagActivity extends AppCompatActivity
             this.isEventSet = true;
             //TODO: add it to bag being created...
             this.reminderEventId = eventID;
-            this.reminderEditText.setText("Reminder already set");
+            this.reminderEditText.setText( formatReminderDateTime(year, month, day, hour, minute) );
         } else {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CALENDAR) &&
                     shouldShowRequestPermissionRationale(Manifest.permission.WRITE_CALENDAR)) {
@@ -321,6 +342,16 @@ public class CreateBagActivity extends AppCompatActivity
             }
             requestPermissions(new String[]{Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR}, REQUEST_PERMISSION_READ_WRITE_CALENDAR);
         }
+    }
+
+    private String formatReminderDateTime(int year, int month, int day, int hour, int minute){
+
+        if(month < 10 && minute < 10)
+            return  day + "/" + "0" + month + "/" + year + "  " + hour + ":" + "0" + minute;
+        else if(month < 10)
+            return day + "/" + "0" + month + "/" + year + "  " + hour + ":" + minute;
+        else
+            return day + "/" + month + "/" + year + "  " + hour + ":" + minute;
     }
 
     @Override
@@ -374,4 +405,23 @@ public class CreateBagActivity extends AppCompatActivity
         }
         return 1L;
     }
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
+    }
+
 }//endClass...

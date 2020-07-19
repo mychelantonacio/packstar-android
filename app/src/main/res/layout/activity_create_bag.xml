@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/contraintlayout_inner_scrollview"
+            android:id="@+id/constraintlayout_inner_scrollview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -86,7 +86,6 @@
                     android:fontFamily="@font/lato"
                     android:imeOptions="flagNoExtractUi"
                     android:inputType="date"
-                    android:onClick="showDatePickerDialog"
                     android:singleLine="true"
                     android:textCursorDrawable="@drawable/shape_cursor_color"
                     android:textSize="16sp"
@@ -173,7 +172,7 @@
                     android:lines="8"
                     android:maxLines="10"
                     android:minLines="6"
-                    android:paddingTop="22dp"
+                    android:paddingTop="24dp"
                     android:scrollbars="vertical"
                     android:singleLine="false"
 
