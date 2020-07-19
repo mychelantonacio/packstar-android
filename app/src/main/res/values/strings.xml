@@ -9,8 +9,13 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_discard">Discard</string>
 
-    <!--Base application theme - Discard Dialog-->
+    <!--Base application theme - Comment Dialog-->
     <string name="dialog_ok" translatable="false">OK</string>
+
+    <!--Base application theme - Discard Dialog-->
+    <string name="dialog_reminder_title" translatable="false">Which action would you like to take?</string>
+    <string name="dialog_reminder_edit" translatable="false">Edit</string>
+    <string name="dialog_reminder_delete" translatable="false">Delete</string>
 
     <!--Base application - units -->
     <string name="unit_kg" translatable="false">kg</string>

@@ -2,6 +2,7 @@ package com.mychelantonacio.packstar.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -38,6 +39,7 @@ import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.util.Dialogs.DatePickerFragmentDialog;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
+import com.mychelantonacio.packstar.util.Dialogs.ReminderFragmentDialog;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
@@ -47,20 +49,24 @@ import java.util.Calendar;
 
 public class CreateBagActivity extends AppCompatActivity
         implements DiscardChangesFragmentDialog.NoticeDialogListener,
-        DatePickerFragmentDialog.DatePickerFragmentListener {
+        DatePickerFragmentDialog.DatePickerFragmentListener,
+        ReminderFragmentDialog.NoticeDialogListener{
 
 
     private DiscardChangesFragmentDialog discardChangesFragmentDialog;
     private static final String DIALOG_DISCARD = "DiscardChangesFragmentDialog";
     private DatePickerFragmentDialog datePickerFragmentDialog;
     private static final String DIALOG_DATE_PICKER = "DatePickerFragmentDialog";
+    private ReminderFragmentDialog reminderFragmentDialog;
+    private static final String DIALOG_REMINDER = "ReminderFragmentDialog";
 
     private String DATE_DIALOG;
     private static final String EDIT_TEXT_DATE_DIALOG = "editTextDateDialog";
     private static final String REMINDER_DATE_TIME_DIALOG = "reminderDateTimeDialog";
 
     //Reminder
-    private long reminderEventId = 0L;
+    private long NO_REMINDERS = -1L;
+    private long reminderEventId = NO_REMINDERS;
     private boolean isEventSet = false;
     private static final int REQUEST_PERMISSION_READ_WRITE_CALENDAR = 007;
 
@@ -166,9 +172,9 @@ public class CreateBagActivity extends AppCompatActivity
                     if (isNameEmpty() || isDateEmpty()) {
                         return;
                     }
-                    Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, reminderEventId);
-                    Intent intent = new Intent(Intent.ACTION_VIEW).setData(uri);
-                    startActivity(intent);
+                    reminderFragmentDialog = new ReminderFragmentDialog();
+                    reminderFragmentDialog.show(getSupportFragmentManager(), DIALOG_REMINDER);
+
                 } else {
                     if (isNameEmpty() || isDateEmpty()) {
                         return;
@@ -249,7 +255,7 @@ public class CreateBagActivity extends AppCompatActivity
     }
 
     public void openDialog() {
-        DatePickerFragmentDialog datePickerFragmentDialog = new DatePickerFragmentDialog();
+        datePickerFragmentDialog = new DatePickerFragmentDialog();
         datePickerFragmentDialog.show(getSupportFragmentManager(), DIALOG_DATE_PICKER);
     }
 
@@ -335,14 +341,23 @@ public class CreateBagActivity extends AppCompatActivity
             values.put(CalendarContract.Events.CALENDAR_ID, getCalendarId(this));
             values.put(CalendarContract.Events.EVENT_TIMEZONE, "Europe/London");
 
-            Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+            if(this.reminderEventId == NO_REMINDERS){
+                Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
 
-            long eventID = Long.parseLong(uri.getLastPathSegment());
-            Toast.makeText(CreateBagActivity.this, "Success! Your event was added to your calendar.", Toast.LENGTH_SHORT).show();
+                long eventID = Long.parseLong(uri.getLastPathSegment());
+                Toast.makeText(CreateBagActivity.this, "Success! Your reminder was added to your calendar", Toast.LENGTH_SHORT).show();
 
-            this.isEventSet = true;
-            this.reminderEventId = eventID;
-            this.reminderEditText.setText( formatReminderDateTime(year, month, day, hour, minute) );
+                this.isEventSet = true;
+                this.reminderEventId = eventID;
+                this.reminderEditText.setText( formatReminderDateTime(year, month, day, hour, minute) );
+            }
+            else{
+                Uri updateUri = null;
+                updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, this.reminderEventId);
+                cr.update(updateUri, values, null, null);
+                this.reminderEditText.setText( formatReminderDateTime(year, month, day, hour, minute) );
+                Toast.makeText(CreateBagActivity.this, "Success! Your reminder was updated", Toast.LENGTH_SHORT).show();
+            }
         } else {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CALENDAR) &&
                     shouldShowRequestPermissionRationale(Manifest.permission.WRITE_CALENDAR)) {
@@ -430,6 +445,28 @@ public class CreateBagActivity extends AppCompatActivity
             }
         }
         return super.dispatchTouchEvent( event );
+    }
+
+    @Override
+    public void onDialogEditClick(DialogFragment dialog) {
+        editReminderEvent();
+    }
+
+    @Override
+    public void onDialogDeleteClick(DialogFragment dialog) {
+        ContentResolver cr = getContentResolver();
+        Uri deleteUri = null;
+        deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, this.reminderEventId);
+        cr.delete(deleteUri, null, null);
+        this.reminderEventId = NO_REMINDERS;
+        Toast.makeText(CreateBagActivity.this, "Success! Your reminder was deleted", Toast.LENGTH_SHORT).show();
+        this.reminderEditText.setText("No reminders" );
+    }
+
+
+    private void editReminderEvent(){
+        DATE_DIALOG = REMINDER_DATE_TIME_DIALOG;
+        openDialog();
     }
 
 }//endClass...
