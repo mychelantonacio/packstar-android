@@ -13,6 +13,11 @@
     <string name="snackbar_undo">TÜHISTA</string>
     <string name="snackbar_item_deleted">Toode kustutatud</string>
 
+    <!--Base application theme - Discard Dialog-->
+    <string name="dialog_reminder_title">Millist toimingut soovid teha?</string>
+    <string name="dialog_reminder_edit">Muuda</string>
+    <string name="dialog_reminder_delete">Kustuta</string>
+
     <!-- SCREEN SECTION -->
     <!--Home Screen-->
     <string name="welcome_packstar">Seiklusteks valmis?</string>
@@ -34,6 +39,16 @@
     <string name="ic_reminder_description">Meeldetuletuse ikoon</string>
     <string name="ic_calendar_description">Kalendri ikoon</string>
     <string name="ic_add_comment_description">Lisa kommentaar ikoon</string>
+    <string name="alert_create_bag_name_required">Sisesta reisikoti nimi</string>
+    <string name="alert_create_bag_date_required">Sisesta reisi kuupäev</string>
+    <string name="reminder_create_bag_invalid_time">Vale sisestus. Määra aeg tulevikuks</string>
+    <string name="reminder_create_bag_trip_is_coming">Sinu reis on peagi saabumas</string>
+    <string name="reminder_create_bag_add_success">Meeldetuletus kalendrisse lisatud</string>
+    <string name="reminder_create_bag_update_success">Meeldetuletus on uuendatud</string>
+    <string name="reminder_create_bag_delete_success">Meeldetuletus kustutatud</string>
+    <string name="reminder_create_bag_update_delete_failure">Sisestust ei leitud. Koosta uus meeldetuletus</string>
+    <string name="reminder_permission_read_write">Kalendri luba on nõutud meeldetuletuste loomiseks</string>
+    <string name="reminder_none">Meeldetuletus puudub</string>
     
     <!--List Bag Screen-->
     <string name="title_screen_list_bag">PackStar</string>
