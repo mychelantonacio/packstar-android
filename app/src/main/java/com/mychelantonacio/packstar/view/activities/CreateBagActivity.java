@@ -22,6 +22,7 @@ import android.provider.CalendarContract;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -66,6 +67,7 @@ public class CreateBagActivity extends AppCompatActivity
 
     //Reminder
     private long NO_REMINDERS = -1L;
+    private long REMINDER_NOT_FOUND = -2l;
     private long reminderEventId = NO_REMINDERS;
     private boolean isEventSet = false;
     private static final int REQUEST_PERMISSION_READ_WRITE_CALENDAR = 007;
@@ -272,7 +274,7 @@ public class CreateBagActivity extends AppCompatActivity
                         if (isUserTimeAfterCurrentTime(hour, minute)) {
                             setReminderDateTime(year, month, day, hour, minute);
                         } else {
-                            Toast.makeText(CreateBagActivity.this, "Invalid time. Please, set future reminder time.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(CreateBagActivity.this, getResources().getString(R.string.reminder_create_bag_invalid_time), Toast.LENGTH_LONG).show();
                         }
                     } else {
                         setReminderDateTime(year, month, day, hour, minute);
@@ -298,8 +300,9 @@ public class CreateBagActivity extends AppCompatActivity
 
     private boolean isNameEmpty() {
         String bagName = nameEditText.getText().toString().trim();
+        String alertMessage = getResources().getString(R.string.alert_create_bag_name_required);
         if (TextUtils.isEmpty(bagName)) {
-            nameEditText.setError("Please, enter Bag name");
+            nameEditText.setError(alertMessage);
             return true;
         }
         return false;
@@ -307,8 +310,9 @@ public class CreateBagActivity extends AppCompatActivity
 
     private boolean isDateEmpty() {
         String bagDate = dateEditText.getText().toString();
+        String alertMessage = getResources().getString(R.string.alert_create_bag_date_required);
         if (TextUtils.isEmpty(bagDate)) {
-            dateEditText.setError("Please, enter Date name");
+            dateEditText.setError(alertMessage);
             return true;
         }
         return false;
@@ -336,32 +340,40 @@ public class CreateBagActivity extends AppCompatActivity
 
             values.put(CalendarContract.Events.DTSTART, startMillis);
             values.put(CalendarContract.Events.DTEND, endMillis);
-            values.put(CalendarContract.Events.TITLE, "PackStar");
-            values.put(CalendarContract.Events.DESCRIPTION, "Your trip is coming soon!");
-            values.put(CalendarContract.Events.CALENDAR_ID, getCalendarId(this));
+            values.put(CalendarContract.Events.TITLE, getResources().getString(R.string.app_name));
+            values.put(CalendarContract.Events.DESCRIPTION, nameEditText.getText().toString() == null ? getResources().getString(R.string.reminder_create_bag_trip_is_coming) : nameEditText.getText().toString());
+            long calendarIdResult = getCalendarId(this);
+            values.put(CalendarContract.Events.CALENDAR_ID, calendarIdResult);
             values.put(CalendarContract.Events.EVENT_TIMEZONE, "Europe/London");
 
             if(this.reminderEventId == NO_REMINDERS){
                 Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
-
                 long eventID = Long.parseLong(uri.getLastPathSegment());
-                Toast.makeText(CreateBagActivity.this, "Success! Your reminder was added to your calendar", Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(CreateBagActivity.this, getResources().getString(R.string.reminder_create_bag_add_success), Toast.LENGTH_SHORT).show();
                 this.isEventSet = true;
                 this.reminderEventId = eventID;
                 this.reminderEditText.setText( formatReminderDateTime(year, month, day, hour, minute) );
             }
             else{
+                if(calendarIdResult == REMINDER_NOT_FOUND){
+                    Log.d("jojobaUpdateNotFound", "calendarIdResult = " + calendarIdResult);
+                    Log.d("jojobaUpdateNotFound", "REMINDER_NOT_FOUND = " + REMINDER_NOT_FOUND);
+                    this.isEventSet = false;
+                    this.reminderEventId = NO_REMINDERS;
+                    this.reminderEditText.setText(getResources().getString(R.string.reminder_none));
+                    Toast.makeText(CreateBagActivity.this, getResources().getString(R.string.reminder_create_bag_update_delete_failure), Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Uri updateUri = null;
                 updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, this.reminderEventId);
                 cr.update(updateUri, values, null, null);
                 this.reminderEditText.setText( formatReminderDateTime(year, month, day, hour, minute) );
-                Toast.makeText(CreateBagActivity.this, "Success! Your reminder was updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreateBagActivity.this, getResources().getString(R.string.reminder_create_bag_update_success), Toast.LENGTH_SHORT).show();
             }
         } else {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CALENDAR) &&
                     shouldShowRequestPermissionRationale(Manifest.permission.WRITE_CALENDAR)) {
-                Toast.makeText(CreateBagActivity.this, "Read/Write to the calendar permission is needed to create reminders", Toast.LENGTH_LONG).show();
+                Toast.makeText(CreateBagActivity.this, getResources().getString(R.string.reminder_permission_read_write), Toast.LENGTH_LONG).show();
             }
             requestPermissions(new String[]{Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR}, REQUEST_PERMISSION_READ_WRITE_CALENDAR);
         }
@@ -385,7 +397,6 @@ public class CreateBagActivity extends AppCompatActivity
         savedInstanceState.putString("reminderEditText", this.reminderEditText.getText().toString());
     }
 
-
     public long getCalendarId(Context context) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
             Cursor cursor = null;
@@ -399,15 +410,12 @@ public class CreateBagActivity extends AppCompatActivity
                     CalendarContract.Calendars.OWNER_ACCOUNT,                 // 3
                     CalendarContract.Calendars.IS_PRIMARY                     // 4
             };
-
             int PROJECTION_ID_INDEX = 0;
             int PROJECTION_ACCOUNT_NAME_INDEX = 1;
             int PROJECTION_DISPLAY_NAME_INDEX = 2;
             int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
             int PROJECTION_VISIBLE = 4;
-
             cursor = contentResolver.query(calendars, EVENT_PROJECTION, null, null, null);
-
             if (cursor.moveToFirst()) {
                 long calId = 0;
                 String visible;
@@ -422,13 +430,12 @@ public class CreateBagActivity extends AppCompatActivity
             }
         } else {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CALENDAR)) {
-                Toast.makeText(CreateBagActivity.this, "Read/Write to the calendar permission is needed to create reminders", Toast.LENGTH_LONG).show();
+                Toast.makeText(CreateBagActivity.this, getResources().getString(R.string.reminder_permission_read_write), Toast.LENGTH_LONG).show();
             }
             requestPermissions(new String[]{Manifest.permission.READ_CALENDAR}, REQUEST_PERMISSION_READ_WRITE_CALENDAR);
         }
-        return 1L;
+        return REMINDER_NOT_FOUND;
     }
-
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
@@ -457,16 +464,21 @@ public class CreateBagActivity extends AppCompatActivity
         ContentResolver cr = getContentResolver();
         Uri deleteUri = null;
         deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, this.reminderEventId);
-        cr.delete(deleteUri, null, null);
-        this.reminderEventId = NO_REMINDERS;
-        Toast.makeText(CreateBagActivity.this, "Success! Your reminder was deleted", Toast.LENGTH_SHORT).show();
-        this.reminderEditText.setText("No reminders" );
-    }
+        int deletedRows = cr.delete(deleteUri, null, null);
 
+        if(deletedRows == 0){
+            Toast.makeText(CreateBagActivity.this, getResources().getString(R.string.reminder_create_bag_update_delete_failure), Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(CreateBagActivity.this, getResources().getString(R.string.reminder_create_bag_delete_success), Toast.LENGTH_SHORT).show();
+        }
+
+        this.reminderEventId = NO_REMINDERS;
+        this.reminderEditText.setText(getResources().getString(R.string.reminder_none));
+    }
 
     private void editReminderEvent(){
         DATE_DIALOG = REMINDER_DATE_TIME_DIALOG;
         openDialog();
     }
-
-}//endClass...
+}

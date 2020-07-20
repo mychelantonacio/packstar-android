@@ -19,8 +19,10 @@
 
     <!--Base application - units -->
     <string name="unit_kg" translatable="false">kg</string>
+
     <!--Base application - placeholders -->
     <string name="placeholder_number_zero" translatable="false">0</string>
+
     <!--Base application - snackbars -->
     <string name="snackbar_undo">UNDO</string>
     <string name="snackbar_item_deleted">Item deleted</string>
@@ -47,6 +49,17 @@
     <string name="ic_reminder_description">Reminder icon</string>
     <string name="ic_calendar_description">Calendar icon</string>
     <string name="ic_add_comment_description">Add comment icon</string>
+    <string name="alert_create_bag_name_required" translatable="false">Please, enter Bag name</string>
+    <string name="alert_create_bag_date_required" translatable="false">Please, enter Bag date</string>
+    <string name="reminder_create_bag_invalid_time" translatable="false">Invalid time. Please, set future reminder time</string>
+    <string name="reminder_create_bag_trip_is_coming" translatable="false">Your trip is coming soon</string>
+    <string name="reminder_create_bag_add_success" translatable="false">Success! Your reminder was added to your calendar</string>
+    <string name="reminder_create_bag_update_success" translatable="false">Success! Your reminder was updated in your calendar</string>
+    <string name="reminder_create_bag_delete_success" translatable="false">Success! Your reminder was deleted</string>
+    <string name="reminder_create_bag_update_delete_failure" translatable="false">Calendar not found, create new one</string>
+    <string name="reminder_permission_read_write" translatable="false">Read/Write calendar permission is needed to create reminders</string>
+    <string name="reminder_none" translatable="false">No reminders</string>
+
 
     <!--List Bag Screen-->
     <string name="title_screen_list_bag">List bag</string>
@@ -90,7 +103,5 @@
 
     <!--Edit Bag Screen-->
     <string name="title_screen_edit_bag">Edit bag</string>
-
-
 
 </resources>

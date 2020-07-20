@@ -46,7 +46,7 @@ public class DatePickerFragmentDialog extends DialogFragment implements DatePick
     }
 
     public interface DatePickerFragmentListener{
-        public void onDateSet(int year, int month, int day);
+        void onDateSet(int year, int month, int day);
     }
 
     @Override
