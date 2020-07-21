@@ -59,6 +59,7 @@
     <string name="reminder_create_bag_update_delete_failure">Entry not found, create new one</string>
     <string name="reminder_permission_read_write">Read/Write calendar permission is needed to create reminders</string>
     <string name="reminder_none">No reminders</string>
+    <string name="reminder_calendar_not_found" translatable="false">Calendar not found.</string>
 
 
     <!--List Bag Screen-->

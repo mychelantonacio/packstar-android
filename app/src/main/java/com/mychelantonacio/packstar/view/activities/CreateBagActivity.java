@@ -22,7 +22,6 @@ import android.provider.CalendarContract;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -51,7 +50,7 @@ import java.util.Calendar;
 public class CreateBagActivity extends AppCompatActivity
         implements DiscardChangesFragmentDialog.NoticeDialogListener,
         DatePickerFragmentDialog.DatePickerFragmentListener,
-        ReminderFragmentDialog.NoticeDialogListener{
+        ReminderFragmentDialog.NoticeDialogListener {
 
 
     private DiscardChangesFragmentDialog discardChangesFragmentDialog;
@@ -66,10 +65,10 @@ public class CreateBagActivity extends AppCompatActivity
     private static final String REMINDER_DATE_TIME_DIALOG = "reminderDateTimeDialog";
 
     //Reminder
-    private long NO_REMINDERS = -1L;
-    private long REMINDER_NOT_FOUND = -2l;
-    private long reminderEventId = NO_REMINDERS;
+    private long NO_EVENT_SET = -1L;
+    private long reminderEventId = NO_EVENT_SET;
     private boolean isEventSet = false;
+    private long CALENDAR_NOT_FOUND = -10L;
     private static final int REQUEST_PERMISSION_READ_WRITE_CALENDAR = 007;
 
     //Widgets
@@ -137,19 +136,21 @@ public class CreateBagActivity extends AppCompatActivity
 
     private void dateEditTextSetup() {
         dateEditText.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  DATE_DIALOG = EDIT_TEXT_DATE_DIALOG;
-                  openDialog();
-              }
-          });
+            @Override
+            public void onClick(View v) {
+                DATE_DIALOG = EDIT_TEXT_DATE_DIALOG;
+                openDialog();
+            }
+        });
         dateEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void afterTextChanged(Editable s) {
                 dateTextInputLayout.setEndIconVisible(false);
@@ -196,12 +197,12 @@ public class CreateBagActivity extends AppCompatActivity
         Bag newBag = new Bag();
         newBag.setName(nameEditText.getText().toString());
         newBag.setTravelDate(dateEditText.getText().toString());
-        if(!TextUtils.isEmpty(weightEditText.getText().toString())){
+        if (!TextUtils.isEmpty(weightEditText.getText().toString())) {
             newBag.setWeight(new Double(weightEditText.getText().toString()));
         }
         newBag.setComment(commentEditText.getText().toString());
 
-        if(this.isEventSet){
+        if (this.isEventSet) {
             newBag.setEventSet(true);
             newBag.setEventId(this.reminderEventId);
             newBag.setEventDateTime(reminderEditText.getText().toString());
@@ -261,6 +262,52 @@ public class CreateBagActivity extends AppCompatActivity
         datePickerFragmentDialog.show(getSupportFragmentManager(), DIALOG_DATE_PICKER);
     }
 
+    private boolean isNameEmpty() {
+        String bagName = nameEditText.getText().toString().trim();
+        String alertMessage = getResources().getString(R.string.alert_create_bag_name_required);
+        if (TextUtils.isEmpty(bagName)) {
+            nameEditText.setError(alertMessage);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isDateEmpty() {
+        String bagDate = dateEditText.getText().toString();
+        String alertMessage = getResources().getString(R.string.alert_create_bag_date_required);
+        if (TextUtils.isEmpty(bagDate)) {
+            dateEditText.setError(alertMessage);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean("isEventSet", this.isEventSet);
+        savedInstanceState.putLong("globalEventID", reminderEventId);
+        savedInstanceState.putString("reminderEditText", this.reminderEditText.getText().toString());
+    }
+
+    //Calendar
     private void showTimePickerDialog(final int year, final int month, final int day, final boolean isCurrentDay) {
         final Calendar c = Calendar.getInstance();
         final int currentHour = c.get(Calendar.HOUR_OF_DAY);
@@ -298,34 +345,17 @@ public class CreateBagActivity extends AppCompatActivity
         return false;
     }
 
-    private boolean isNameEmpty() {
-        String bagName = nameEditText.getText().toString().trim();
-        String alertMessage = getResources().getString(R.string.alert_create_bag_name_required);
-        if (TextUtils.isEmpty(bagName)) {
-            nameEditText.setError(alertMessage);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean isDateEmpty() {
-        String bagDate = dateEditText.getText().toString();
-        String alertMessage = getResources().getString(R.string.alert_create_bag_date_required);
-        if (TextUtils.isEmpty(bagDate)) {
-            dateEditText.setError(alertMessage);
-            return true;
-        }
-        return false;
-    }
-
-    //REMINDER
     private void setReminderDateTime(int year, int month, int day, int hour, int minute) {
+
+        long startMillis = 0L;
+        long endMillis = 0L;
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
 
-            long startMillis = 0L;
-            long endMillis = 0L;
+            long calendarIdResult = getCalendarId(this);
+            if (calendarIdResult == CALENDAR_NOT_FOUND)
+                Toast.makeText(CreateBagActivity.this, getResources().getString(R.string.reminder_calendar_not_found), Toast.LENGTH_LONG).show();
 
             Calendar beginTime = Calendar.getInstance();
             beginTime.set(year, month, day, hour, minute);
@@ -341,25 +371,24 @@ public class CreateBagActivity extends AppCompatActivity
             values.put(CalendarContract.Events.DTSTART, startMillis);
             values.put(CalendarContract.Events.DTEND, endMillis);
             values.put(CalendarContract.Events.TITLE, getResources().getString(R.string.app_name));
-            values.put(CalendarContract.Events.DESCRIPTION, nameEditText.getText().toString() == null ? getResources().getString(R.string.reminder_create_bag_trip_is_coming) : nameEditText.getText().toString());
-            long calendarIdResult = getCalendarId(this);
+            values.put(CalendarContract.Events.DESCRIPTION, nameEditText.getText().toString() == null ? getResources().getString(R.string.reminder_create_bag_trip_is_coming) : "Bag name: " + nameEditText.getText().toString());
             values.put(CalendarContract.Events.CALENDAR_ID, calendarIdResult);
             values.put(CalendarContract.Events.EVENT_TIMEZONE, "Europe/London");
 
-            if(this.reminderEventId == NO_REMINDERS){
+            //create event
+            if (this.reminderEventId == NO_EVENT_SET) {
                 Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
                 long eventID = Long.parseLong(uri.getLastPathSegment());
                 Toast.makeText(CreateBagActivity.this, getResources().getString(R.string.reminder_create_bag_add_success), Toast.LENGTH_SHORT).show();
                 this.isEventSet = true;
                 this.reminderEventId = eventID;
-                this.reminderEditText.setText( formatReminderDateTime(year, month, day, hour, minute) );
+                this.reminderEditText.setText(formatReminderDateTime(year, month, day, hour, minute));
             }
-            else{
-                if(calendarIdResult == REMINDER_NOT_FOUND){
-                    Log.d("jojobaUpdateNotFound", "calendarIdResult = " + calendarIdResult);
-                    Log.d("jojobaUpdateNotFound", "REMINDER_NOT_FOUND = " + REMINDER_NOT_FOUND);
+            //update event
+            else {
+                if (!isEventExistOnCalendar()) {
                     this.isEventSet = false;
-                    this.reminderEventId = NO_REMINDERS;
+                    this.reminderEventId = NO_EVENT_SET;
                     this.reminderEditText.setText(getResources().getString(R.string.reminder_none));
                     Toast.makeText(CreateBagActivity.this, getResources().getString(R.string.reminder_create_bag_update_delete_failure), Toast.LENGTH_SHORT).show();
                     return;
@@ -367,7 +396,7 @@ public class CreateBagActivity extends AppCompatActivity
                 Uri updateUri = null;
                 updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, this.reminderEventId);
                 cr.update(updateUri, values, null, null);
-                this.reminderEditText.setText( formatReminderDateTime(year, month, day, hour, minute) );
+                this.reminderEditText.setText(formatReminderDateTime(year, month, day, hour, minute));
                 Toast.makeText(CreateBagActivity.this, getResources().getString(R.string.reminder_create_bag_update_success), Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -379,23 +408,16 @@ public class CreateBagActivity extends AppCompatActivity
         }
     }
 
-    private String formatReminderDateTime(int year, int month, int day, int hour, int minute){
+    private String formatReminderDateTime(int year, int month, int day, int hour, int minute) {
 
-        if(month < 10 && minute < 10)
-            return  day + "/" + "0" + month + "/" + year + "  " + hour + ":" + "0" + minute;
-        else if(month < 10)
+        if (month < 10 && minute < 10)
+            return day + "/" + "0" + month + "/" + year + "  " + hour + ":" + "0" + minute;
+        else if (month < 10)
             return day + "/" + "0" + month + "/" + year + "  " + hour + ":" + minute;
         else
             return day + "/" + month + "/" + year + "  " + hour + ":" + minute;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putBoolean("isEventSet", this.isEventSet);
-        savedInstanceState.putLong("globalEventID", reminderEventId);
-        savedInstanceState.putString("reminderEditText", this.reminderEditText.getText().toString());
-    }
 
     public long getCalendarId(Context context) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
@@ -426,7 +448,7 @@ public class CreateBagActivity extends AppCompatActivity
                         return calId;
                     }
                 } while (cursor.moveToNext());
-                return calId;
+                return CALENDAR_NOT_FOUND;
             }
         } else {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CALENDAR)) {
@@ -434,24 +456,7 @@ public class CreateBagActivity extends AppCompatActivity
             }
             requestPermissions(new String[]{Manifest.permission.READ_CALENDAR}, REQUEST_PERMISSION_READ_WRITE_CALENDAR);
         }
-        return REMINDER_NOT_FOUND;
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            View v = getCurrentFocus();
-            if ( v instanceof EditText) {
-                Rect outRect = new Rect();
-                v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
-                    v.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                }
-            }
-        }
-        return super.dispatchTouchEvent( event );
+        return CALENDAR_NOT_FOUND;
     }
 
     @Override
@@ -466,19 +471,54 @@ public class CreateBagActivity extends AppCompatActivity
         deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, this.reminderEventId);
         int deletedRows = cr.delete(deleteUri, null, null);
 
-        if(deletedRows == 0){
+        if (deletedRows == 0) {
             Toast.makeText(CreateBagActivity.this, getResources().getString(R.string.reminder_create_bag_update_delete_failure), Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             Toast.makeText(CreateBagActivity.this, getResources().getString(R.string.reminder_create_bag_delete_success), Toast.LENGTH_SHORT).show();
         }
-
-        this.reminderEventId = NO_REMINDERS;
+        this.reminderEventId = NO_EVENT_SET;
+        this.isEventSet = false;
         this.reminderEditText.setText(getResources().getString(R.string.reminder_none));
     }
 
-    private void editReminderEvent(){
+    private void editReminderEvent() {
         DATE_DIALOG = REMINDER_DATE_TIME_DIALOG;
         openDialog();
     }
-}
+
+    private boolean isEventExistOnCalendar() {
+        boolean isEventFound = false;
+        long selectedEventId = this.reminderEventId;
+
+        String[] proj =
+                new String[]{
+                        CalendarContract.Events._ID,
+                        CalendarContract.Events.DTSTART,
+                        CalendarContract.Events.DTEND,
+                        CalendarContract.Events.RRULE,
+                        CalendarContract.Events.TITLE,
+                        CalendarContract.Events.DELETED
+        };
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+            Cursor cursor = getContentResolver().query(CalendarContract.Events.CONTENT_URI,
+                                                         proj,
+                                                CalendarContract.Events._ID + " = ? ",
+                                                         new String[]{Long.toString(selectedEventId)},
+                                                null);
+
+            if (cursor != null  && cursor.getCount() > 0) {
+                if(cursor.moveToFirst()){
+                    if(cursor.getString(5).equals("0"))
+                        isEventFound = true;
+                }
+            }
+        } else {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CALENDAR)) {
+                Toast.makeText(CreateBagActivity.this, getResources().getString(R.string.reminder_permission_read_write), Toast.LENGTH_LONG).show();
+            }
+            requestPermissions(new String[]{Manifest.permission.READ_CALENDAR}, REQUEST_PERMISSION_READ_WRITE_CALENDAR);
+        }
+        return isEventFound;
+    }
+}//endClass...
