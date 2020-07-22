@@ -98,16 +98,6 @@ public class CreateBagActivity extends AppCompatActivity
         setupUIOnCreate();
     }
 
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState != null) {
-            this.isEventSet = savedInstanceState.getBoolean("isEventSet");
-            this.reminderEventId = savedInstanceState.getLong("globalEventID");
-            this.reminderEditText.setText(savedInstanceState.getString("reminderEditText"));
-        }
-    }
-
     private void setupUIOnCreate() {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -129,10 +119,19 @@ public class CreateBagActivity extends AppCompatActivity
         eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
         fabSetup();
 
-        itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
         bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
+        itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
     }
 
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            this.isEventSet = savedInstanceState.getBoolean("isEventSet");
+            this.reminderEventId = savedInstanceState.getLong("globalEventID");
+            this.reminderEditText.setText(savedInstanceState.getString("reminderEditText"));
+        }
+    }
 
     private void dateEditTextSetup() {
         dateEditText.setOnClickListener(new View.OnClickListener() {
@@ -146,11 +145,9 @@ public class CreateBagActivity extends AppCompatActivity
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void afterTextChanged(Editable s) {
                 dateTextInputLayout.setEndIconVisible(false);

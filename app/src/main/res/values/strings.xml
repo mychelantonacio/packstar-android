@@ -27,6 +27,9 @@
     <string name="snackbar_undo">UNDO</string>
     <string name="snackbar_item_deleted">Item deleted</string>
 
+    <!--Base application - shared preferences -->
+    <string name="shared_preferences_first_run" translatable="false">FIRST_TIME</string>
+
 
     <!-- SCREEN SECTION -->
     <!--Home Screen-->
