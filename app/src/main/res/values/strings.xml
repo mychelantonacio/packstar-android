@@ -114,4 +114,11 @@
     <!--Edit Bag Screen-->
     <string name="title_screen_edit_bag">Edit bag</string>
 
+    <!--Empty Bag Screen-->
+    <string name="title_screen_empty_bag" translatable="false">PackStar</string>
+    <string name="image_empty_bag_description" translatable="false">flying spaceship</string>
+    <string name="label_no_entry" translatable="false">There\'s nothing here</string>
+    <string name="label_no_entry_bag" translatable="false">You have not added anything yet</string>
+    <string name="label_add_new_bag" translatable="false">Tap the "+" button below to create a new bag</string>
+
 </resources>
