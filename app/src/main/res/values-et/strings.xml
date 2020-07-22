@@ -18,10 +18,18 @@
     <string name="dialog_reminder_edit">Muuda</string>
     <string name="dialog_reminder_delete">Kustuta</string>
 
+    <!--Base application - shared preferences -->
+    <string name="shared_preferences_first_run">ESIMEST_KORDA</string>
+
     <!-- SCREEN SECTION -->
     <!--Home Screen-->
-    <string name="welcome_packstar">Seiklusteks valmis?</string>
-    <string name="create_first_bag">Koosta oma esimene reisikott vajutades allolevat nuppu</string>
+
+    <string name="welcome_packstar">Tere tulemast</string>
+    <string name="welcome_packstar_going">Kas</string>
+    <string name="welcome_packstar_on">olete</string>
+    <string name="welcome_packstar_an">valmis</string>
+    <string name="welcome_packstar_adventure">seiklusteks?</string>
+    <string name="create_first_bag">Koosta oma esimene reisikott\nvajutades allolevat nuppu</string>
 
     <!--Create Bag Screen-->
     <string name="title_screen_create_bag">Uus reisikott</string>
@@ -49,12 +57,13 @@
     <string name="reminder_create_bag_update_delete_failure">Sisestust ei leitud. Koosta uus meeldetuletus</string>
     <string name="reminder_permission_read_write">Kalendri luba on nõutud meeldetuletuste loomiseks</string>
     <string name="reminder_none">Meeldetuletus puudub</string>
+    <string name="reminder_calendar_not_found">Kalendrit ei leitud</string>
     
     <!--List Bag Screen-->
     <string name="title_screen_list_bag">PackStar</string>
     <string name="label_bag_name">Reisikoti nimi</string>
     <string name="label_bag_date">Reisi kuupäev</string>
-    <string name="label_bag_weigth">Reisikoti kogukaal</string>
+    <string name="label_bag_weight">Reisikoti kogukaal</string>
     <string name="label_bag_item">Toode</string>
     <string name="label_bag_items">Tooted</string>
     <string name="label_add_item">Lisa toode</string>
@@ -92,5 +101,12 @@
 
     <!--Edit Bag Screen-->
     <string name="title_screen_edit_bag">Muuda reisikotti</string>
+
+    <!--Empty Bag Screen-->
+    <string name="title_screen_empty_bag">PackStar</string>
+    <string name="image_empty_bag_description">lendav kosmoselaev</string>
+    <string name="label_no_entry">Tühjus</string>
+    <string name="label_no_entry_bag">Siia pole midagi lisatud</string>
+    <string name="label_add_new_bag">Vajuta "+" nuppu kui soovid koostada uut reisikotti</string>
 
 </resources>

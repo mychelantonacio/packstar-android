@@ -28,18 +28,17 @@
     <string name="snackbar_item_deleted">Item deleted</string>
 
     <!--Base application - shared preferences -->
-    <string name="shared_preferences_first_run" translatable="false">FIRST_TIME</string>
+    <string name="shared_preferences_first_run">FIRST_TIME</string>
 
 
     <!-- SCREEN SECTION -->
     <!--Home Screen-->
 
-    <string name="welcome_packstar" translatable="false">Welcome to Packstar</string>
-    <string name="welcome_packstar_going" translatable="false">Going</string>
-    <string name="welcome_packstar_on" translatable="false">on</string>
-    <string name="welcome_packstar_an" translatable="false">an</string>
-    <string name="welcome_packstar_adventure" translatable="false">adventure?</string>
-
+    <string name="welcome_packstar">Welcome to Packstar</string>
+    <string name="welcome_packstar_going">Going</string>
+    <string name="welcome_packstar_on">on</string>
+    <string name="welcome_packstar_an">an</string>
+    <string name="welcome_packstar_adventure">adventure?</string>
     <string name="create_first_bag">Create your first bag by tapping the\nplus button</string>
 
     <!--Create Bag Screen-->
@@ -68,14 +67,14 @@
     <string name="reminder_create_bag_update_delete_failure">Entry not found, create new one</string>
     <string name="reminder_permission_read_write">Read/Write calendar permission is needed to create reminders</string>
     <string name="reminder_none">No reminders</string>
-    <string name="reminder_calendar_not_found" translatable="false">Calendar not found.</string>
+    <string name="reminder_calendar_not_found">Calendar not found</string>
 
 
     <!--List Bag Screen-->
     <string name="title_screen_list_bag">List bag</string>
     <string name="label_bag_name">Bag name</string>
     <string name="label_bag_date">Bag date</string>
-    <string name="label_bag_weigth">Bag weight</string>
+    <string name="label_bag_weight">Bag weight</string>
     <string name="label_bag_item">item</string>
     <string name="label_bag_items">items</string>
     <string name="label_add_item">Add item</string>
@@ -115,10 +114,10 @@
     <string name="title_screen_edit_bag">Edit bag</string>
 
     <!--Empty Bag Screen-->
-    <string name="title_screen_empty_bag" translatable="false">PackStar</string>
-    <string name="image_empty_bag_description" translatable="false">flying spaceship</string>
-    <string name="label_no_entry" translatable="false">There\'s nothing here</string>
-    <string name="label_no_entry_bag" translatable="false">You have not added anything yet</string>
-    <string name="label_add_new_bag" translatable="false">Tap the "+" button below to create a new bag</string>
+    <string name="title_screen_empty_bag">PackStar</string>
+    <string name="image_empty_bag_description">flying spaceship</string>
+    <string name="label_no_entry">There\'s nothing here</string>
+    <string name="label_no_entry_bag">You have not added anything yet</string>
+    <string name="label_add_new_bag">Tap the "+" button below to create a new bag</string>
 
 </resources>
