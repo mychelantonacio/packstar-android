@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
         else{
-            Intent intent = new Intent(MainActivity.this, CreateBagActivity.class);
+            Intent intent = new Intent(MainActivity.this, ListBagActivity.class);
             startActivity(intent);
             finish();
         }
@@ -94,5 +94,4 @@ public class MainActivity extends AppCompatActivity {
         isFirstRun = sharedPreferences.getBoolean(getResources().getString((R.string.shared_preferences_first_run)), true);
         return isFirstRun;
     }
-
 }

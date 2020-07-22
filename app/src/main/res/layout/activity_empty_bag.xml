@@ -6,4 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".view.activities.EmptyBagActivity">
 
+
+
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

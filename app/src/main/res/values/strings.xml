@@ -33,10 +33,13 @@
 
     <!-- SCREEN SECTION -->
     <!--Home Screen-->
+
+    <string name="welcome_packstar" translatable="false">Welcome to Packstar</string>
     <string name="welcome_packstar_going" translatable="false">Going</string>
     <string name="welcome_packstar_on" translatable="false">on</string>
     <string name="welcome_packstar_an" translatable="false">an</string>
     <string name="welcome_packstar_adventure" translatable="false">adventure?</string>
+
     <string name="create_first_bag">Create your first bag by tapping the\nplus button</string>
 
     <!--Create Bag Screen-->
