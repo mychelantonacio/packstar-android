@@ -58,7 +58,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/lato"
                 android:includeFontPadding="false"
-                android:text="@string/label_bag_weigth"
+                android:text="@string/label_bag_weight"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/text_view_bag_date"

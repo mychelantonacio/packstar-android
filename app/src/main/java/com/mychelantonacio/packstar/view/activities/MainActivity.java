@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.facebook.stetho.Stetho;
@@ -39,12 +40,17 @@ public class MainActivity extends AppCompatActivity {
             setupFirstRun();
         }
         else if(bagAdapter.getItemCount() > 0){
-            Intent intent = new Intent(MainActivity.this, EmptyBagActivity.class);
+
+            Log.w("jojoba", "ListBagActivity " + bagAdapter.getItemCount());
+
+            Intent intent = new Intent(MainActivity.this, ListBagActivity.class);
             startActivity(intent);
             finish();
         }
         else{
-            Intent intent = new Intent(MainActivity.this, ListBagActivity.class);
+            Log.w("jojoba", "bagAdapter.getItemCount() " + bagAdapter.getItemCount());
+
+            Intent intent = new Intent(MainActivity.this, EmptyBagActivity.class);
             startActivity(intent);
             finish();
         }

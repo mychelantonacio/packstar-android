@@ -45,6 +45,8 @@ public class PopupListBag {
                     }
                     bagViewModel.deleteById(currentBag);
                     Toast.makeText(context, context.getResources().getString(R.string.list_bag_popup_delete), Toast.LENGTH_SHORT).show();
+
+                    //TODO: check if is empty bag, if so, call the empty bag screen...
                 }
                 if (item.getItemId() == R.id.menu_dots_share) {
                     Intent sendIntent = new Intent();
