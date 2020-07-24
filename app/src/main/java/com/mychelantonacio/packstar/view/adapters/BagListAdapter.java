@@ -52,7 +52,7 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
             Bag currentBag = bags.get(position);
             holder.bagNameItemView.setText(currentBag.getName());
             holder.bagDateItemView.setText(currentBag.getTravelDate());
-            holder.bagWeightItemView.setText(String.valueOf(currentBag.getWeight()) + " kg");
+            holder.bagWeightItemView.setText( currentBag.getWeight() == null ? "0 kg" :  String.valueOf(currentBag.getWeight()) + " kg");
             holder.itemQuantityItemView.setText(String.valueOf(getItemQuantity(currentBag)));
             holder.itemWeightItemView.setText( String.format("%.1f", getItemWeight(currentBag)) );
         } else {
@@ -132,7 +132,6 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
     @Override
     public int getItemCount() {
         if (bags != null){
-            Log.d("jojobaListAdapter", "bags.size() " + bags.size() );
             return bags.size();
         }
         else{

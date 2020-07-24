@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                int num = bagRepository.getCount2();
+                int num = bagRepository.getCount();
                 fcount.set(num);
             }
         });
