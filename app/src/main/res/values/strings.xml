@@ -120,4 +120,11 @@
     <string name="label_no_entry_bag">You have not added anything yet</string>
     <string name="label_add_new_bag">Tap the "+" button below to create a new bag</string>
 
+    <!--Empty Item Screen-->
+    <string name="title_screen_empty_item" translatable="false">PackStar</string>
+    <string name="image_empty_item_description" translatable="false">robot hiding behind a bag</string>
+    <string name="label_no_entry_item" translatable="false">There\'s nothing here</string>
+    <string name="label_no_entry_item2" translatable="false">You have not added anything yet</string>
+    <string name="label_add_new_item" translatable="false">Tap the "+" button below to create a new item</string>
+
 </resources>

@@ -1,73 +1,60 @@
 package com.mychelantonacio.packstar.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.WindowManager;
 
 import com.facebook.stetho.Stetho;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mychelantonacio.packstar.R;
-import com.mychelantonacio.packstar.model.Bag;
-import com.mychelantonacio.packstar.view.adapters.BagListAdapter;
-import com.mychelantonacio.packstar.viewmodel.BagViewModel;
+import com.mychelantonacio.packstar.repository.BagRepository;
 
-import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private BagViewModel bagViewModel;
-    private BagListAdapter bagAdapter;
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
+    private BagRepository bagRepository;
+    private int bagCount;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_App);
         super.onCreate(savedInstanceState);
-        initialSetup();
+
+        try {
+            initialSetup();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         if(isFirstRun()) {
             setupFirstRun();
         }
-        else if(bagAdapter.getItemCount() > 0){
-
-            Log.w("jojoba", "ListBagActivity " + bagAdapter.getItemCount());
-
+        else if(bagCount > 0){
             Intent intent = new Intent(MainActivity.this, ListBagActivity.class);
             startActivity(intent);
             finish();
         }
-        else{
-            Log.w("jojoba", "bagAdapter.getItemCount() " + bagAdapter.getItemCount());
-
+        else if(bagCount == 0){
             Intent intent = new Intent(MainActivity.this, EmptyBagActivity.class);
             startActivity(intent);
             finish();
         }
     }
 
-    private void initialSetup(){
-        //debugging purpose...
-        Stetho.initializeWithDefaults(this);
-        bagAdapter = new BagListAdapter(this);
-        bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
-
-        bagViewModel.getAllBagsSortedByName().observe(this, new Observer<List<Bag>>() {
-            @Override
-            public void onChanged(List<Bag> bags) {
-                bagAdapter.setBags(bags);
-            }
-        });
+    private void initialSetup() throws InterruptedException {
+        bagRepository = new BagRepository(getApplication());
+        startStetho();
+        bagCount = getCountBags();
     }
 
     private void setupFirstRun() {
@@ -100,4 +87,25 @@ public class MainActivity extends AppCompatActivity {
         isFirstRun = sharedPreferences.getBoolean(getResources().getString((R.string.shared_preferences_first_run)), true);
         return isFirstRun;
     }
+
+    private void startStetho(){
+        //debugging purpose...
+        Stetho.initializeWithDefaults(this);
+    }
+
+    private int getCountBags() throws InterruptedException {
+        final AtomicInteger fcount = new AtomicInteger();
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int num = bagRepository.getCount2();
+                fcount.set(num);
+            }
+        });
+        t.setPriority(10);
+        t.start();
+        t.join();
+        return fcount.intValue();
+    }
+
 }

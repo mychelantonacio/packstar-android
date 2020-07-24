@@ -32,4 +32,7 @@ public interface BagDao {
 
     @Query("SELECT * from tb_bag WHERE id = :id")
     Bag findBagById(long id);
+
+    @Query("SELECT COUNT(*) FROM tb_bag")
+    int getCount();
 }

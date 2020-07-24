@@ -1,6 +1,7 @@
 package com.mychelantonacio.packstar.view.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,9 +131,13 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
 
     @Override
     public int getItemCount() {
-        if (bags != null)
+        if (bags != null){
+            Log.d("jojobaListAdapter", "bags.size() " + bags.size() );
             return bags.size();
-        else return 0;
+        }
+        else{
+            return 0;
+        }
     }
 
     class BagViewHolder extends RecyclerView.ViewHolder {

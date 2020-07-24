@@ -7,23 +7,28 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mychelantonacio.packstar.R;
+import com.mychelantonacio.packstar.model.Bag;
 
-public class EmptyBagActivity extends AppCompatActivity {
+public class EmptyItemActivity extends AppCompatActivity {
 
     private FloatingActionButton fab;
+    private Bag currentBag;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_empty_bag);
+        setContentView(R.layout.activity_empty_item);
         setupUIOnCreate();
     }
 
     private void setupUIOnCreate(){
+        Intent intentParcelable = getIntent();
+        currentBag = (Bag) intentParcelable.getParcelableExtra("bag_parcelable");
         fab = (FloatingActionButton) findViewById(R.id.fab_plus);
         fab.setOnClickListener(v -> {
-            Intent intent = new Intent(this, CreateBagActivity.class);
+            Intent intent = new Intent(this, CreateItemActivity.class);
+            intent.putExtra("selected_bag", currentBag);
             startActivity(intent);
         });
     }

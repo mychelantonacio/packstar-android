@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activities.EmptyBagActivity">
+    tools:context=".view.activities.EmptyItemActivity">
+
 
 
     <TextView
@@ -14,45 +15,45 @@
         android:layout_marginStart="112dp"
         android:layout_marginTop="48dp"
         android:fontFamily="@font/lato"
-        android:text="@string/label_no_entry"
+        android:text="@string/label_no_entry_item"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_empty_bag" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView_empty_item" />
 
     <ImageView
-        android:id="@+id/imageView_empty_bag"
+        android:id="@+id/imageView_empty_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="60dp"
-        android:contentDescription="@string/image_empty_bag_description"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/image_empty_item_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bg_empty_bag" />
+        app:srcCompat="@drawable/bg_empty_item" />
 
     <TextView
-        android:id="@+id/textView_no_entry_bag"
+        android:id="@+id/textView_no_entry_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="92dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/lato"
-        android:text="@string/label_no_entry_bag"
+        android:text="@string/label_no_entry_item2"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_no_entry" />
 
     <TextView
-        android:id="@+id/textView_add_new_bag"
+        android:id="@+id/textView_add_new_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="92dp"
         android:fontFamily="@font/lato"
-        android:text="@string/label_add_new_bag"
+        android:text="@string/label_add_new_item"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_no_entry_bag" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_no_entry_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_plus"
@@ -70,5 +71,7 @@
         app:maxImageSize="56dp"
         app:srcCompat="@drawable/fab_plus"
         app:tint="@null" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.mychelantonacio.packstar.view.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,10 @@ import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.util.Dialogs.CommentFragmentDialog;
 import com.mychelantonacio.packstar.util.popupmenus.PopupListBag;
 import com.mychelantonacio.packstar.view.activities.CreateItemActivity;
+import com.mychelantonacio.packstar.view.activities.EmptyItemActivity;
 import com.mychelantonacio.packstar.view.activities.ListItemActivity;
 import com.mychelantonacio.packstar.view.adapters.BagListAdapter;
+import com.mychelantonacio.packstar.view.adapters.ItemListAdapter;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 import java.util.List;
@@ -63,7 +66,6 @@ public class ListBagFragment extends Fragment implements CommentFragmentDialog.N
         });
 
         bagAdapter.setOnItemClickListener(new BagListAdapter.OnItemClickListener() {
-
             @Override
             public void onAddItemClick(int position) {
                 Bag currentBag = bagViewModel.getAllBagsSortedByName().getValue().get(position);
@@ -75,9 +77,19 @@ public class ListBagFragment extends Fragment implements CommentFragmentDialog.N
             @Override
             public void onCardItemClick(int position) {
                 Bag currentBag = bagViewModel.getAllBagsSortedByName().getValue().get(position);
-                Intent intent = new Intent(getActivity(), ListItemActivity.class);
-                intent.putExtra("selected_bag", currentBag);
-                startActivity(intent);
+                int itemsInCurrentBag = bagAdapter.getItemsAttatchedWithCurrentBag(currentBag).size();
+                Log.d("jojoba", "itemsInCurrentBag " + itemsInCurrentBag);
+
+                if(itemsInCurrentBag > 0){
+                    Intent intent = new Intent(getActivity(), ListItemActivity.class);
+                    intent.putExtra("selected_bag", currentBag);
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(getActivity(), EmptyItemActivity.class);
+                    intent.putExtra("selected_bag", currentBag);
+                    startActivity(intent);
+                }
             }
 
             @Override
