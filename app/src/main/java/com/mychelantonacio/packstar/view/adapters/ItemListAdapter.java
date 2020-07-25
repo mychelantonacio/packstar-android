@@ -66,14 +66,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         notifyItemMoved(fromPosition, toPosition);
     }
 
-    /*
-    @Override
-    public void onItemDismiss(int position) {
-        items.remove(position);
-        notifyItemRemoved(position);
-    }
-     */
-
     public interface OnDragStartListener {
         void onDragStarted(RecyclerView.ViewHolder viewHolder);
     }
@@ -226,10 +218,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
     private void undoDelete() {
         items.add(recentlyDeletedItemPosition, recentlyDeletedItem);
         notifyItemInserted(recentlyDeletedItemPosition);
-        //itemViewModel.insert(recentlyDeletedItem); uncommit it after testing...
+        itemViewModel.insert(recentlyDeletedItem);
     }
-
-
 
     //VIEW_HOLDER
     public class ItemViewHolder extends RecyclerView.ViewHolder implements

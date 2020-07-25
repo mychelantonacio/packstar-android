@@ -5,22 +5,24 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
+import com.mychelantonacio.packstar.util.Dialogs.HelpFragmentDialog;
 import com.mychelantonacio.packstar.view.fragments.ListItemFragment;
 import com.mychelantonacio.packstar.view.fragments.SingleFragmentActivity;
-import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
 
 public class ListItemActivity extends SingleFragmentActivity
-        implements DiscardChangesFragmentDialog.NoticeDialogListener {
+        implements DiscardChangesFragmentDialog.NoticeDialogListener,
+        HelpFragmentDialog.NoticeDialogListener {
 
     private DiscardChangesFragmentDialog discardChangesFragmentDialog;
     private static final String DIALOG_DISCARD = "DiscardChangesFragmentDialog";
-    private ItemViewModel itemViewModel;
-    private FloatingActionButton fab;
+    private HelpFragmentDialog helpFragmentDialog;
+    private static final String DIALOG_HELP = "HelpFragmentDialog";
 
 
 
@@ -33,12 +35,17 @@ public class ListItemActivity extends SingleFragmentActivity
         setupUIOnCreate();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.help_menu, menu);
+        return true;
+    }
+
     private void setupUIOnCreate() {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -46,6 +53,11 @@ public class ListItemActivity extends SingleFragmentActivity
             FragmentManager fragmentManager = getSupportFragmentManager();
             discardChangesFragmentDialog = new DiscardChangesFragmentDialog();
             discardChangesFragmentDialog.show(fragmentManager, DIALOG_DISCARD);
+        }
+        else if (item.getItemId() == R.id.ic_help) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            helpFragmentDialog = new HelpFragmentDialog();
+            helpFragmentDialog.show(fragmentManager, DIALOG_HELP);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -61,4 +73,7 @@ public class ListItemActivity extends SingleFragmentActivity
         //Cancel button...
         dialog.dismiss();
     }
+
+    @Override
+    public void onDialogOkClick(DialogFragment dialog) {}
 }

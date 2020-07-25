@@ -17,6 +17,15 @@
     <string name="dialog_reminder_edit">Edit</string>
     <string name="dialog_reminder_delete">Delete</string>
 
+    <!--Base application theme - Help Dialog-->
+    <string name="dialog_help" translatable="false">
+        Gestures \n\n\n
+        Single tap - edit the item \n\n
+        Swipe left - delete the item \n\n
+        Drag and Drop - reorganize items
+    </string>
+
+
     <!--Base application - units -->
     <string name="unit_kg" translatable="false">kg</string>
 
@@ -118,13 +127,13 @@
     <string name="image_empty_bag_description">flying spaceship</string>
     <string name="label_no_entry">There\'s nothing here</string>
     <string name="label_no_entry_bag">You have not added anything yet</string>
-    <string name="label_add_new_bag">Tap the "+" button below to create a new bag</string>
+    <string name="label_add_new_bag">Tap the \"+\" button below to create a new bag</string>
 
     <!--Empty Item Screen-->
     <string name="title_screen_empty_item" translatable="false">PackStar</string>
     <string name="image_empty_item_description" translatable="false">robot hiding behind a bag</string>
     <string name="label_no_entry_item" translatable="false">There\'s nothing here</string>
     <string name="label_no_entry_item2" translatable="false">You have not added anything yet</string>
-    <string name="label_add_new_item" translatable="false">Tap the "+" button below to create a new item</string>
+    <string name="label_add_new_item" translatable="false">Tap the \"+\" button below to create a new item</string>
 
 </resources>

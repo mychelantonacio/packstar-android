@@ -21,7 +21,7 @@
     <color name="chipStrokeColor">#1F000000</color>
 
     <!--SnackBar-->
-    <color name="snackbar_undo">#BB86FC</color>
+    <color name="snackbar_undo">#F8785A</color>
 
 
 </resources>

@@ -1,5 +1,6 @@
 package com.mychelantonacio.packstar.util.Dialogs;
 
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,26 +11,24 @@ import androidx.fragment.app.DialogFragment;
 
 import com.mychelantonacio.packstar.R;
 
-
-public class CommentFragmentDialog extends DialogFragment  {
-
-    private NoticeDialogListener listener;
-    private String comment;
+public class HelpFragmentDialog extends DialogFragment {
 
 
-    public CommentFragmentDialog(String comment){
-        this.comment = comment;
+    private HelpFragmentDialog.NoticeDialogListener listener;
+
+
+    public HelpFragmentDialog(){
     }
 
     public interface NoticeDialogListener {
-        void onDialogPositiveClick(DialogFragment dialog);
+        void onDialogOkClick(DialogFragment dialog);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            listener = (NoticeDialogListener) context;
+            listener = (HelpFragmentDialog.NoticeDialogListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(e.toString());
         }
@@ -38,12 +37,13 @@ public class CommentFragmentDialog extends DialogFragment  {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(this.comment)
+        builder.setMessage(getResources().getString(R.string.dialog_help)    )
                 .setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        listener.onDialogPositiveClick(CommentFragmentDialog.this);
+                        listener.onDialogOkClick(HelpFragmentDialog.this);
                     }
                 });
         return builder.create();
     }
+
 }

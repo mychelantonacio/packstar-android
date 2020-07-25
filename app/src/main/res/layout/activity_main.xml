@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="34dp"
         android:layout_marginBottom="20dp"
+        android:fontFamily="@font/lato"
         android:text="@string/create_first_bag"
         android:textAlignment="viewEnd"
         android:textColor="@android:color/black"

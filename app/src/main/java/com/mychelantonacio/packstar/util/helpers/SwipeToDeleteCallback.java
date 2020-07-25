@@ -23,12 +23,13 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     private Drawable icon;
     private final ColorDrawable background;
     private Activity currentActivity;
+    private String BACKGROUND_DELETE_COLOR = "#C64334";
 
     public SwipeToDeleteCallback(ItemListAdapter adapter, Context context, Activity activity) {
         super(0, ItemTouchHelper.LEFT);
         this.adapter = adapter;
         icon = ContextCompat.getDrawable(context, R.drawable.ic_delete_swipe);
-        background = new ColorDrawable(Color.RED);
+        background = new ColorDrawable(Color.parseColor(BACKGROUND_DELETE_COLOR));
         currentActivity = activity;
     }
 
@@ -41,10 +42,6 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
         adapter.deleteItem(position);
-
-        if(adapter.getItemCount() == 0){
-            currentActivity.finish();
-        }
     }
 
     @Override

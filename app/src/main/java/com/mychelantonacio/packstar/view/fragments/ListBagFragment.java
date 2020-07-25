@@ -14,11 +14,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.util.Dialogs.CommentFragmentDialog;
 import com.mychelantonacio.packstar.util.popupmenus.PopupListBag;
+import com.mychelantonacio.packstar.view.activities.CreateBagActivity;
 import com.mychelantonacio.packstar.view.activities.CreateItemActivity;
 import com.mychelantonacio.packstar.view.activities.EmptyItemActivity;
 import com.mychelantonacio.packstar.view.activities.ListItemActivity;
@@ -33,6 +36,8 @@ public class ListBagFragment extends Fragment implements CommentFragmentDialog.N
     private BagListAdapter bagAdapter;
     private BagViewModel bagViewModel;
     private ItemViewModel itemViewModel;
+    private FloatingActionButton fab;
+
 
     private CommentFragmentDialog commentFragmentDialog;
     private static final String DIALOG_COMMENT = "CommentFragmentDialog";
@@ -62,6 +67,12 @@ public class ListBagFragment extends Fragment implements CommentFragmentDialog.N
             public void onChanged(List<Item> items) {
                 bagAdapter.setItems(items);
             }
+        });
+
+        fab = (FloatingActionButton) view.getRootView().findViewById(R.id.fab_home);
+        fab.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), CreateBagActivity.class);
+            startActivity(intent);
         });
 
         bagAdapter.setOnItemClickListener(new BagListAdapter.OnItemClickListener() {
