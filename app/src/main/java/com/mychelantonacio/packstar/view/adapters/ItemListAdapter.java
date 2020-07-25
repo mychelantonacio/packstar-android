@@ -201,7 +201,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         items.remove(position);
         notifyItemRemoved(position);
         showUndoSnackBar();
-        //itemViewModel.delete(recentlyDeletedItem); uncommit it after testing...
+        itemViewModel.delete(recentlyDeletedItem);
     }
 
 

@@ -75,12 +75,7 @@ public class CreateItemActivity extends AppCompatActivity
 
 
     private void fabSetup(){
-        eFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createItem();
-            }
-        });
+        eFab.setOnClickListener(v -> createItem());
     }
 
     private void chipGroupSetup(){

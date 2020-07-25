@@ -1,11 +1,11 @@
 package com.mychelantonacio.packstar.util.helpers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -22,16 +22,15 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     private ItemListAdapter adapter;
     private Drawable icon;
     private final ColorDrawable background;
+    private Activity currentActivity;
 
-
-    public SwipeToDeleteCallback(ItemListAdapter adapter, Context context) {
+    public SwipeToDeleteCallback(ItemListAdapter adapter, Context context, Activity activity) {
         super(0, ItemTouchHelper.LEFT);
         this.adapter = adapter;
         icon = ContextCompat.getDrawable(context, R.drawable.ic_delete_swipe);
         background = new ColorDrawable(Color.RED);
-
+        currentActivity = activity;
     }
-
 
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -42,8 +41,11 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
         adapter.deleteItem(position);
-    }
 
+        if(adapter.getItemCount() == 0){
+            currentActivity.finish();
+        }
+    }
 
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,

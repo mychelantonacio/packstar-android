@@ -51,7 +51,7 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
         layoutManager.scrollToPosition(0);
         recyclerView.setLayoutManager(layoutManager);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter, getContext()));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter, getContext(), getActivity()));
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         ItemTouchHelper.Callback callback =  new ItemTouchHelperCallback(adapter);
@@ -63,13 +63,10 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
         getItemsFromSelectedBag();
 
         fab = (FloatingActionButton) view.getRootView().findViewById(R.id.fab_home);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CreateItemActivity.class);
-                intent.putExtra("bag_parcelable", currentBag);
-                startActivity(intent);
-            }
+        fab.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), CreateItemActivity.class);
+            intent.putExtra("bag_parcelable", currentBag);
+            startActivity(intent);
         });
 
         adapter.setOnItemClickListener(new ItemListAdapter.OnItemClickListener() {

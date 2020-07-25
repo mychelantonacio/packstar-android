@@ -24,11 +24,11 @@ public class EmptyItemActivity extends AppCompatActivity {
 
     private void setupUIOnCreate(){
         Intent intentParcelable = getIntent();
-        currentBag = (Bag) intentParcelable.getParcelableExtra("bag_parcelable");
+        currentBag = (Bag) intentParcelable.getParcelableExtra("selected_bag");
         fab = (FloatingActionButton) findViewById(R.id.fab_plus);
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(this, CreateItemActivity.class);
-            intent.putExtra("selected_bag", currentBag);
+            intent.putExtra("bag_parcelable", currentBag);
             startActivity(intent);
         });
     }

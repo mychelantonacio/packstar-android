@@ -1,5 +1,6 @@
 package com.mychelantonacio.packstar.util.popupmenus;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.MenuItem;
@@ -12,6 +13,8 @@ import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.util.enums.ItemStatusEnum;
 import com.mychelantonacio.packstar.view.activities.EditBagActivity;
+import com.mychelantonacio.packstar.view.activities.EmptyBagActivity;
+import com.mychelantonacio.packstar.view.adapters.BagListAdapter;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
@@ -22,8 +25,8 @@ import java.util.List;
 
 public class PopupListBag {
 
-    public void showPopupWindow(Context context, View view, Bag currentBag, int position, List<Item> currentItems,
-                                ItemViewModel itemViewModel, BagViewModel bagViewModel) {
+    public void showPopupWindow(Context context, View view, Bag currentBag, List<Item> currentItems,
+                                ItemViewModel itemViewModel, BagViewModel bagViewModel, BagListAdapter bagAdapter, Activity activity) {
 
         PopupMenu popup = new PopupMenu(context, view.findViewById(R.id.imageButton_menu_dots));
         forceShowIcons(popup);
@@ -40,13 +43,21 @@ public class PopupListBag {
                     context.startActivity(intent);
                 }
                 if (item.getItemId() == R.id.menu_dots_delete) {
-                    for(Item currentItem : currentItems){
-                        itemViewModel.delete(currentItem);
-                    }
+                    boolean isLastBag = false;
+                    currentItems.stream().forEach(i -> itemViewModel.delete(i));
+
+                    if(bagAdapter.getItemCount() == 1)
+                        isLastBag = true;
+
+                    //TODO: refactor to use only adapter...
                     bagViewModel.deleteById(currentBag);
                     Toast.makeText(context, context.getResources().getString(R.string.list_bag_popup_delete), Toast.LENGTH_SHORT).show();
 
-                    //TODO: check if is empty bag, if so, call the empty bag screen...
+                    if(isLastBag) {
+                        Intent intent = new Intent(context, EmptyBagActivity.class);
+                        context.startActivity(intent);
+                        activity.finish();
+                    }
                 }
                 if (item.getItemId() == R.id.menu_dots_share) {
                     Intent sendIntent = new Intent();
@@ -59,6 +70,7 @@ public class PopupListBag {
                 return true;
             }
         });
+
         popup.show();
     }
 

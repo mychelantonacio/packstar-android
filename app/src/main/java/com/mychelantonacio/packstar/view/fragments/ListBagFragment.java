@@ -23,7 +23,6 @@ import com.mychelantonacio.packstar.view.activities.CreateItemActivity;
 import com.mychelantonacio.packstar.view.activities.EmptyItemActivity;
 import com.mychelantonacio.packstar.view.activities.ListItemActivity;
 import com.mychelantonacio.packstar.view.adapters.BagListAdapter;
-import com.mychelantonacio.packstar.view.adapters.ItemListAdapter;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 import java.util.List;
@@ -78,7 +77,6 @@ public class ListBagFragment extends Fragment implements CommentFragmentDialog.N
             public void onCardItemClick(int position) {
                 Bag currentBag = bagViewModel.getAllBagsSortedByName().getValue().get(position);
                 int itemsInCurrentBag = bagAdapter.getItemsAttatchedWithCurrentBag(currentBag).size();
-                Log.d("jojoba", "itemsInCurrentBag " + itemsInCurrentBag);
 
                 if(itemsInCurrentBag > 0){
                     Intent intent = new Intent(getActivity(), ListItemActivity.class);
@@ -94,11 +92,12 @@ public class ListBagFragment extends Fragment implements CommentFragmentDialog.N
 
             @Override
             public void onPopupMenuItemClick(int position, View v) {
+
                 Bag currentBag = bagAdapter.findBagByPosition(position);
                 List<Item> currentItems = bagAdapter.getItemsAttatchedWithCurrentBag(currentBag);
                 if(currentBag != null) {
                     PopupListBag popupListBag = new PopupListBag();
-                    popupListBag.showPopupWindow(getContext(), v.findViewById(R.id.imageButton_menu_dots), currentBag, position, currentItems, itemViewModel, bagViewModel);
+                    popupListBag.showPopupWindow(getContext(), v.findViewById(R.id.imageButton_menu_dots), currentBag, currentItems, itemViewModel, bagViewModel, bagAdapter, getActivity());
                 }
             }
 
