@@ -128,7 +128,7 @@
                     android:layout_marginEnd="10dp"
                     android:fontFamily="@font/lato"
                     android:inputType="number"
-                    android:maxLength="3"
+                    android:maxLength="2"
                     android:singleLine="true"
                     android:textCursorDrawable="@drawable/shape_cursor_color"
                     android:textSize="16sp"

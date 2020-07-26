@@ -28,7 +28,7 @@
     </style>
 
     <style name="BodyTextStyleCenter" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
-        <item name="android:alpha">0.85</item>
+        <item name="android:alpha">0.87</item>
         <item name="android:textSize">16sp</item>
     </style>
 
