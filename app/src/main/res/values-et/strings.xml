@@ -18,6 +18,14 @@
     <string name="dialog_reminder_edit">Muuda</string>
     <string name="dialog_reminder_delete">Kustuta</string>
 
+    <!--Base application theme - Help Dialog-->
+    <string name="dialog_help">
+        Toimingud \n\n\n
+        Ühekordne puudutus - muudab toodet \n\n
+        Tõmme vasakule - kustutab toote \n\n
+        Hoia ning liiguta üles-alla - paigutab toote ümber
+    </string>
+
     <!--Base application - shared preferences -->
     <string name="shared_preferences_first_run">ESIMEST_KORDA</string>
 
@@ -108,5 +116,12 @@
     <string name="label_no_entry">Tühjus</string>
     <string name="label_no_entry_bag">Siia pole midagi lisatud</string>
     <string name="label_add_new_bag">Vajuta "+" nuppu kui soovid koostada uut reisikotti</string>
+
+    <!--Empty Item Screen-->
+    <string name="title_screen_empty_item">PackStar</string>
+    <string name="image_empty_item_description">Astronaut ja reisikott</string>
+    <string name="label_no_entry_item">Tühjus</string>
+    <string name="label_no_entry_item2">Siia pole midagi lisatud</string>
+    <string name="label_add_new_item">Vajuta "+" nuppu kui soovid koostada uut toodet</string>
 
 </resources>
