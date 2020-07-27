@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -38,18 +40,18 @@ public class ListBagFragment extends Fragment implements CommentFragmentDialog.N
     private ItemViewModel itemViewModel;
     private FloatingActionButton fab;
 
-
     private CommentFragmentDialog commentFragmentDialog;
     private static final String DIALOG_COMMENT = "CommentFragmentDialog";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recyclerview_list_bags, container, false);
+        view.setBackgroundColor(getResources().getColor(R.color.editTextBackgroundColor));
         RecyclerView recyclerView = view.getRootView().findViewById(R.id.recyclerview_bags);
         bagAdapter = new BagListAdapter(getActivity());
         recyclerView.setAdapter(bagAdapter);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         layoutManager.scrollToPosition(0);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -130,6 +132,9 @@ public class ListBagFragment extends Fragment implements CommentFragmentDialog.N
         });
         return view;
     }
+
+
+
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {

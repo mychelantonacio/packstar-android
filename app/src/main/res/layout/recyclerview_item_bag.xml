@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="4dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardview_bag"
         android:layout_width="match_parent"
-        android:layout_height="214dp"
+        android:layout_height="290dp"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="5dp"
-        app:strokeColor="@color/colorAccent"
-        app:strokeWidth="1dp">
+        app:cardElevation="4dp"
+        app:cardMaxElevation="6dp"
+        app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout_item_bag"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="2dp">
 
             <TextView
                 android:id="@+id/text_view_bag_name"
@@ -54,7 +56,7 @@
                 android:id="@+id/text_view_bag_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="87dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/lato"
                 android:includeFontPadding="false"
@@ -68,8 +70,8 @@
                 android:id="@+id/textview_counter_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginStart="88dp"
+                android:layout_marginTop="29dp"
                 android:fontFamily="@font/lato_medium"
                 android:includeFontPadding="false"
                 android:text="@string/placeholder_number_zero"
@@ -96,14 +98,14 @@
                 android:id="@+id/textview_counter_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="44dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="29dp"
                 android:fontFamily="@font/lato_medium"
                 android:includeFontPadding="false"
                 android:text="@string/placeholder_number_zero"
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp"
-                app:layout_constraintStart_toEndOf="@+id/textview_unit_kg"
+                app:layout_constraintStart_toEndOf="@+id/divider2"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_bag_date" />
 
             <TextView
@@ -121,65 +123,147 @@
                 app:layout_constraintTop_toBottomOf="@+id/text_view_bag_date" />
 
             <ImageButton
-                android:id="@+id/imageButton_comment"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="@color/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_counter_weight"
-                app:srcCompat="@drawable/ic_comment_neutral" />
-
-            <ImageButton
-                android:id="@+id/imageButton_remeinder"
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="56dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="@color/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageButton_comment"
-                app:layout_constraintTop_toBottomOf="@+id/textview_counter_item"
-                app:srcCompat="@drawable/ic_reminder_neutral" />
-
-            <ImageButton
-                android:id="@+id/imageButton_add"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="@color/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@drawable/ic_add_green" />
-
-            <TextView
-                android:id="@+id/textView_add"
-                android:layout_width="0dp"
-                android:layout_height="14dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="22dp"
-                android:fontFamily="@font/lato"
-                android:includeFontPadding="false"
-                android:text="@string/label_add_item"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageButton_add" />
-
-            <ImageButton
                 android:id="@+id/imageButton_menu_dots"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:backgroundTint="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_menu_dots" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="0.30"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_bag_weight" />
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="1dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:alpha="0.30"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintStart_toEndOf="@+id/textview_unit_kg"
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+            <ImageView
+                android:id="@+id/imageView_bullet_no_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview_counter_weight"
+                app:srcCompat="@drawable/ic_bullet" />
+
+
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@+id/imageView_bullet_no_comment"
+                app:layout_constraintTop_toBottomOf="@+id/textview_counter_weight">
+
+                <TextView
+                    android:id="@+id/textView_no_comments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:alpha="0.50"
+                    android:fontFamily="@font/lato"
+                    android:text="No comments"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/imageView_bullet_no_comment"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_counter_weight" />
+
+                <ImageView
+                    android:id="@+id/imageView_one_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:elevation="7dp"
+                    app:layout_constraintStart_toEndOf="@+id/imageView_bullet_no_comment"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_counter_weight"
+                    app:srcCompat="@drawable/btn_one_comment" />
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/imageView_bullet_no_reminders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_bullet_no_comment"
+                app:srcCompat="@drawable/ic_bullet" />
+
+            <TextView
+                android:id="@+id/textView_no_rerminders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:alpha="0.50"
+                android:fontFamily="@font/lato"
+                android:text="No reminders"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView_bullet_no_reminders"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_bullet_no_comment" />
+
+            <ImageButton
+                android:id="@+id/imageButton_add_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:adjustViewBounds="true"
+                android:backgroundTint="@android:color/white"
+                android:cropToPadding="false"
+                android:padding="2dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/btn_add_item_states" />
+
+            <ImageView
+                android:id="@+id/imageView_red_bullet"
+                android:layout_width="8dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="1dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/textview_unit_item"
+                app:layout_constraintEnd_toStartOf="@+id/textView_overweight"
+                app:srcCompat="@drawable/ic_red_bullet" />
+
+            <TextView
+                android:id="@+id/textView_overweight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/lato"
+                android:visibility="gone"
+                android:text="OVERWEIGHT"
+                android:textColor="#C64334"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toTopOf="@+id/textview_unit_item"
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

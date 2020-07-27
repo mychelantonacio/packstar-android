@@ -52,6 +52,7 @@ public class CreateItemActivity extends AppCompatActivity
         setContentView(R.layout.activity_create_item);
         setupUIOnCreate();
     }
+
     private void setupUIOnCreate() {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -109,8 +110,10 @@ public class CreateItemActivity extends AppCompatActivity
         newItem.setStatus(itemStatus.getStatusCode());
         newItem.setBagId(currentBag.getId());
         itemViewModel.insert(newItem);
-        Intent intent = new Intent(CreateItemActivity.this, ListBagActivity.class);
+        Intent intent = new Intent(CreateItemActivity.this, ListItemActivity.class);
+        intent.putExtra("selected_bag", currentBag);
         startActivity(intent);
+        finish();
     }
 
     private boolean isNameEmpty(){

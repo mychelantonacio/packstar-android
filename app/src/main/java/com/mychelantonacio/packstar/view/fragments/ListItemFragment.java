@@ -67,6 +67,7 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
             Intent intent = new Intent(getActivity(), CreateItemActivity.class);
             intent.putExtra("bag_parcelable", currentBag);
             startActivity(intent);
+            getActivity().finish();
         });
 
         adapter.setOnItemClickListener(new ItemListAdapter.OnItemClickListener() {

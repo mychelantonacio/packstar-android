@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.card.MaterialCardView;
@@ -55,12 +56,52 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
             holder.bagWeightItemView.setText( currentBag.getWeight() == null ? "0 kg" :  String.valueOf(currentBag.getWeight()) + " kg");
             holder.itemQuantityItemView.setText(String.valueOf(getItemQuantity(currentBag)));
             holder.itemWeightItemView.setText( String.format("%.1f", getItemWeight(currentBag)) );
+
+            if(isOverweight(currentBag)){
+                holder.redBulletItemView.setVisibility(View.VISIBLE);
+                holder.overweightItemView.setVisibility(View.VISIBLE);
+            }
+            else{
+                holder.redBulletItemView.setVisibility(View.GONE);
+                holder.overweightItemView.setVisibility(View.GONE);
+            }
+
+            if(currentBag.isEventSet()){
+                holder.reminderTextViewItemView.setText(currentBag.getEventDateTime());
+            }
+
+            if(currentBag.getComment() != null && !currentBag.getComment().isEmpty()){
+                holder.oneCommentImageItemView.setVisibility(View.VISIBLE);
+                holder.commentTextItemView.setVisibility(View.GONE);
+
+            }
+            else {
+                holder.oneCommentImageItemView.setVisibility(View.GONE);
+                holder.commentTextItemView.setVisibility(View.VISIBLE);
+            }
+
         } else {
             holder.bagNameItemView.setText("Bag name");
             holder.bagDateItemView.setText("Bag Date");
             holder.bagWeightItemView.setText("Bag Weight");
+            holder.itemQuantityItemView.setText("0");
+            holder.itemWeightItemView.setText("0");
         }
+
+
+
     }
+
+    private boolean isOverweight(Bag bag){
+        if(bag.getWeight() != null){
+            if( getItemWeight(bag) > bag.getWeight() ){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
     private int getItemQuantity(Bag bag){
         int countItems = 0;
@@ -128,7 +169,6 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         return currentItems;
     }
 
-
     @Override
     public int getItemCount() {
         if (bags != null){
@@ -144,42 +184,38 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         private final TextView bagNameItemView;
         private final TextView bagDateItemView;
         private final TextView bagWeightItemView;
-        private final TextView addBagItemView;
         private final ImageButton addImageButtonItemView;
         private final TextView itemQuantityItemView;
         private final TextView itemWeightItemView;
         private final MaterialCardView cardViewItemView;
         private final ImageButton popMenuImageButtonItemView;
-        private final ImageButton commentImageButtonItemView;
+        private final ImageView redBulletItemView;
+        private final TextView overweightItemView;
+        private final TextView reminderTextViewItemView;
+
+        private final ImageView oneCommentImageItemView;
+        private final TextView commentTextItemView;
+
+
 
         private BagViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             bagNameItemView = itemView.findViewById(R.id.text_view_bag_name);
             bagDateItemView = itemView.findViewById(R.id.text_view_bag_date);
             bagWeightItemView = itemView.findViewById(R.id.text_view_bag_weight);
-            addBagItemView = itemView.findViewById(R.id.textView_add);
-            addImageButtonItemView = itemView.findViewById(R.id.imageButton_add);
+            addImageButtonItemView = itemView.findViewById(R.id.imageButton_add_item);
             itemQuantityItemView = itemView.findViewById(R.id.textview_counter_item);
             itemWeightItemView = itemView.findViewById(R.id.textview_counter_weight);
             cardViewItemView = itemView.findViewById(R.id.cardview_bag);
             popMenuImageButtonItemView = itemView.findViewById(R.id.imageButton_menu_dots);
-            commentImageButtonItemView = itemView.findViewById(R.id.imageButton_comment);
+            redBulletItemView = itemView.findViewById(R.id.imageView_red_bullet);
+            overweightItemView = itemView.findViewById(R.id.textView_overweight);
+            reminderTextViewItemView = itemView.findViewById(R.id.textView_no_rerminders);
 
-            //add bag via 'plus' button
+            oneCommentImageItemView = itemView.findViewById(R.id.imageView_one_comment);
+            commentTextItemView = itemView.findViewById(R.id.textView_no_comments);
+
             addImageButtonItemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
-                            listener.onAddItemClick(position);
-                        }
-                    }
-                }
-            });
-
-            //add bag via 'add item' textview
-            addBagItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(listener != null){
@@ -215,6 +251,7 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
                 }
             });
 
+            /* REPLACED FOR TEXT ""NO COMMENTS"
             commentImageButtonItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -226,6 +263,8 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
                     }
                 }
             });
+            */
+
         }
     }
 }
