@@ -90,7 +90,17 @@
     <string name="menu_dots_delete">Delete</string>
     <string name="menu_dots_share">Share</string>
     <string name="list_bag_popup_delete">Bag deleted</string>
-    <string name="list_bag_comment_empty" translatable="false">No comments. To add one, edit your bag</string>
+    <string name="list_bag_comment_empty">No comments. To add one, edit your bag</string>
+    <string name="menu_dots_description" translatable="false">Menu</string>
+    <string name="bullet_no_comment" translatable="false">Bullet gray</string>
+    <string name="bullet_with_comment" translatable="false">Bullet orange</string>
+    <string name="bullet_no_reminders" translatable="false">Bullet orange</string>
+    <string name="bullet_with_reminders" translatable="false">Bullet orange</string>
+    <string name="button_add_items" translatable="false">Add items button</string>
+    <string name="bullet_overweight" translatable="false">Bullet red</string>
+    <string name="label_no_comments" translatable="false">No comments</string>
+    <string name="label_no_reminders" translatable="false">No reminders</string>
+    <string name="label_overweight" translatable="false">OVERWEIGHT</string>
 
     <!--Create Item Screen-->
     <string name="title_screen_create_item">Add item</string>

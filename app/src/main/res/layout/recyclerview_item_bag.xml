@@ -129,6 +129,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:backgroundTint="@color/colorPrimary"
+                android:contentDescription="@string/menu_dots_description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_menu_dots" />
@@ -171,6 +172,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
+                    android:contentDescription="@string/bullet_no_comment"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textview_counter_weight"
                     app:srcCompat="@drawable/ic_bullet_gray" />
@@ -181,6 +183,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
+                    android:contentDescription="@string/bullet_with_comment"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textview_counter_weight"
                     app:srcCompat="@drawable/ic_bullet_orange" />
@@ -196,7 +199,7 @@
                 android:alpha="0.50"
                 android:fontFamily="@font/lato"
                 android:gravity="center"
-                android:text="No comments"
+                android:text="@string/label_no_comments"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/frameLayout_comment_bullets"
                 app:layout_constraintTop_toBottomOf="@+id/textview_counter_weight" />
@@ -214,6 +217,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="14dp"
+                    android:contentDescription="@string/bullet_no_reminders"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView_bullet_no_comment"
                     app:srcCompat="@drawable/ic_bullet_gray" />
@@ -224,11 +228,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="14dp"
+                    android:contentDescription="@string/bullet_with_reminders"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView_bullet_no_comment"
                     app:srcCompat="@drawable/ic_bullet_orange" />
             </FrameLayout>
-
 
             <TextView
                 android:id="@+id/textView_no_reminders"
@@ -239,7 +243,7 @@
                 android:alpha="0.50"
                 android:fontFamily="@font/lato"
                 android:gravity="center"
-                android:text="No reminders"
+                android:text="@string/label_no_reminders"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/frameLayout_comment_bullets"
                 app:layout_constraintTop_toBottomOf="@+id/textView_no_comments" />
@@ -254,6 +258,7 @@
                 android:cropToPadding="false"
                 android:padding="2dp"
                 android:scaleType="fitCenter"
+                android:contentDescription="@string/button_add_items"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -264,8 +269,8 @@
                 android:layout_width="8dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="29dp"
-
                 android:layout_marginEnd="4dp"
+                android:contentDescription="@string/bullet_overweight"
                 app:layout_constraintEnd_toStartOf="@+id/textView_overweight"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_bag_weight"
                 app:srcCompat="@drawable/ic_red_bullet" />
@@ -276,9 +281,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
                 android:layout_marginEnd="40dp"
-
                 android:fontFamily="@font/lato"
-                android:text="OVERWEIGHT"
+                android:text="@string/label_overweight"
                 android:textColor="#C64334"
                 android:textSize="10sp"
                 app:layout_constraintEnd_toEndOf="parent"
