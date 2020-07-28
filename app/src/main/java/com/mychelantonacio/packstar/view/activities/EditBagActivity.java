@@ -141,9 +141,7 @@ public class EditBagActivity extends AppCompatActivity
         Intent intent = new Intent(EditBagActivity.this, ListBagActivity.class);
         startActivity(intent);
     }
-
-
-
+    
     //it avoids conflict with datepicker action...
     private void dateEditTextSetup(){
         dateEditText.addTextChangedListener(new TextWatcher() {

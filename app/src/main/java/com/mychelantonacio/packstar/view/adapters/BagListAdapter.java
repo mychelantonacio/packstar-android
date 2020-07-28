@@ -1,7 +1,6 @@
 package com.mychelantonacio.packstar.view.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,9 +86,6 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
             holder.itemQuantityItemView.setText("0");
             holder.itemWeightItemView.setText("0");
         }
-
-
-
     }
 
     private boolean isOverweight(Bag bag){
@@ -100,8 +96,6 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         }
         return false;
     }
-
-
 
     private int getItemQuantity(Bag bag){
         int countItems = 0;
@@ -192,7 +186,6 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         private final ImageView redBulletItemView;
         private final TextView overweightItemView;
         private final TextView reminderTextViewItemView;
-
         private final ImageView oneCommentImageItemView;
         private final TextView commentTextItemView;
 
@@ -211,9 +204,9 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
             redBulletItemView = itemView.findViewById(R.id.imageView_red_bullet);
             overweightItemView = itemView.findViewById(R.id.textView_overweight);
             reminderTextViewItemView = itemView.findViewById(R.id.textView_no_rerminders);
-
             oneCommentImageItemView = itemView.findViewById(R.id.imageView_one_comment);
             commentTextItemView = itemView.findViewById(R.id.textView_no_comments);
+
 
             addImageButtonItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -251,8 +244,7 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
                 }
             });
 
-            /* REPLACED FOR TEXT ""NO COMMENTS"
-            commentImageButtonItemView.setOnClickListener(new View.OnClickListener() {
+            oneCommentImageItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(listener != null){
@@ -263,8 +255,18 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
                     }
                 }
             });
-            */
 
+            commentTextItemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onCommentClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }
