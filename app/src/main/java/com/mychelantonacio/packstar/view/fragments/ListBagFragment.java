@@ -102,7 +102,6 @@ public class ListBagFragment extends Fragment implements CommentFragmentDialog.N
 
             @Override
             public void onPopupMenuItemClick(int position, View v) {
-
                 Bag currentBag = bagAdapter.findBagByPosition(position);
                 List<Item> currentItems = bagAdapter.getItemsAttatchedWithCurrentBag(currentBag);
                 if(currentBag != null) {

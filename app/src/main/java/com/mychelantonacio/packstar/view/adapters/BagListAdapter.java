@@ -1,7 +1,9 @@
 package com.mychelantonacio.packstar.view.adapters;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.view.LayoutInflater;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -77,8 +79,33 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
             else {
                 holder.oneCommentImageItemView.setVisibility(View.GONE);
                 holder.commentTextItemView.setVisibility(View.VISIBLE);
+                //enlarge no comment touchable area
+                final View noComment = (View) holder.commentTextItemView.getParent();
+                noComment.post( new Runnable() {
+                    public void run() {
+                        final Rect rect = new Rect();
+                        holder.commentTextItemView.getHitRect(rect);
+                        rect.top -= 100;
+                        rect.left -= 100;
+                        rect.bottom += 100;
+                        rect.right += 100;
+                        noComment.setTouchDelegate( new TouchDelegate( rect , holder.commentTextItemView));
+                    }
+                });
             }
-
+            //enlarge menu touchable area
+            final View parentMenuThreeDots = (View) holder.popMenuImageButtonItemView.getParent();
+            parentMenuThreeDots.post( new Runnable() {
+                public void run() {
+                    final Rect rect = new Rect();
+                    holder.popMenuImageButtonItemView.getHitRect(rect);
+                    rect.top -= 50;
+                    rect.left -= 50;
+                    rect.bottom += 50;
+                    rect.right += 50;
+                    parentMenuThreeDots.setTouchDelegate( new TouchDelegate( rect , holder.popMenuImageButtonItemView));
+                }
+            });
         } else {
             holder.bagNameItemView.setText("Bag name");
             holder.bagDateItemView.setText("Bag Date");
@@ -96,6 +123,7 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         }
         return false;
     }
+
 
     private int getItemQuantity(Bag bag){
         int countItems = 0;
@@ -243,6 +271,7 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
                     }
                 }
             });
+
 
             oneCommentImageItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
