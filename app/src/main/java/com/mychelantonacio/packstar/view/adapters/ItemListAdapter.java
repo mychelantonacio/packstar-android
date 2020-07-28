@@ -136,13 +136,13 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
                 holder.itemWeightItemView.setText("-");
 
             if(currentItem.getStatus().equals(ItemStatusEnum.NEED_TO_BUY.getStatusCode())){
-                holder.itemStatusItemView.setImageDrawable(res.getDrawable(R.drawable.ic_arrow_right_red, null));
+                holder.itemStatusItemView.setImageDrawable(res.getDrawable(R.drawable.ic_arrow_right_red_filled, null));
             }
             else if(currentItem.getStatus().equals(ItemStatusEnum.ALREADY_HAVE.getStatusCode())){
-                holder.itemStatusItemView.setImageDrawable(res.getDrawable(R.drawable.ic_arrow_right_green, null));
+                holder.itemStatusItemView.setImageDrawable(res.getDrawable(R.drawable.ic_arrow_right_green_filled, null));
             }
             else{
-                holder.itemStatusItemView.setImageDrawable(res.getDrawable(R.drawable.ic_arrow_right_gray, null));
+                holder.itemStatusItemView.setImageDrawable(res.getDrawable(R.drawable.ic_arrow_right_gray_filled, null));
             }
         } else {
             holder.itemNameItemView.setText("Item name");

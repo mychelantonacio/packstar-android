@@ -45,6 +45,7 @@ public class ListBagFragment extends Fragment implements CommentFragmentDialog.N
         View view = inflater.inflate(R.layout.recyclerview_list_bags, container, false);
         view.setBackgroundColor(getResources().getColor(R.color.editTextBackgroundColor));
         RecyclerView recyclerView = view.getRootView().findViewById(R.id.recyclerview_bags);
+
         bagAdapter = new BagListAdapter(getActivity());
         recyclerView.setAdapter(bagAdapter);
 
