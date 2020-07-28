@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="88dp"
-                android:layout_marginTop="29dp"
+                android:layout_marginTop="30dp"
                 android:fontFamily="@font/lato_medium"
                 android:includeFontPadding="false"
                 android:text="@string/placeholder_number_zero"
@@ -157,74 +157,92 @@
                 app:layout_constraintStart_toEndOf="@+id/textview_unit_kg"
                 app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-            <ImageView
-                android:id="@+id/imageView_bullet_no_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_counter_weight"
-                app:srcCompat="@drawable/ic_bullet" />
-
 
             <FrameLayout
-                android:id="@+id/frameLayout"
+                android:id="@+id/frameLayout_comment_bullets"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@+id/imageView_bullet_no_comment"
-                app:layout_constraintTop_toBottomOf="@+id/textview_counter_weight">
-
-                <TextView
-                    android:id="@+id/textView_no_comments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="20dp"
-                    android:gravity="center"
-                    android:alpha="0.50"
-                    android:fontFamily="@font/lato"
-                    android:text="No comments"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toEndOf="@+id/imageView_bullet_no_comment"
-                    app:layout_constraintTop_toBottomOf="@+id/textview_counter_weight" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider2">
 
                 <ImageView
-                    android:id="@+id/imageView_one_comment"
+                    android:id="@+id/imageView_bullet_no_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:visibility="gone"
-                    android:gravity="center"
-                    android:elevation="7dp"
-                    app:layout_constraintStart_toEndOf="@+id/imageView_bullet_no_comment"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textview_counter_weight"
-                    app:srcCompat="@drawable/btn_one_comment" />
+                    app:srcCompat="@drawable/ic_bullet_gray" />
+
+                <ImageView
+                    android:id="@+id/imageView_bullet_with_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_counter_weight"
+                    app:srcCompat="@drawable/ic_bullet_orange" />
             </FrameLayout>
 
-            <ImageView
-                android:id="@+id/imageView_bullet_no_reminders"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="14dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView_bullet_no_comment"
-                app:srcCompat="@drawable/ic_bullet" />
 
             <TextView
-                android:id="@+id/textView_no_rerminders"
+                android:id="@+id/textView_no_comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:alpha="0.50"
                 android:fontFamily="@font/lato"
+                android:gravity="center"
+                android:text="No comments"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/frameLayout_comment_bullets"
+                app:layout_constraintTop_toBottomOf="@+id/textview_counter_weight" />
+
+            <FrameLayout
+                android:id="@+id/frameLayout_reminder_bullets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout_comment_bullets">
+
+                <ImageView
+                    android:id="@+id/imageView_bullet_no_reminders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="14dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView_bullet_no_comment"
+                    app:srcCompat="@drawable/ic_bullet_gray" />
+
+                <ImageView
+                    android:id="@+id/imageView_bullet_with_reminders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="14dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView_bullet_no_comment"
+                    app:srcCompat="@drawable/ic_bullet_orange" />
+            </FrameLayout>
+
+
+            <TextView
+                android:id="@+id/textView_no_reminders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:alpha="0.50"
+                android:fontFamily="@font/lato"
+                android:gravity="center"
                 android:text="No reminders"
                 android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/imageView_bullet_no_reminders"
-                app:layout_constraintTop_toBottomOf="@+id/imageView_bullet_no_comment" />
+                app:layout_constraintStart_toEndOf="@+id/frameLayout_comment_bullets"
+                app:layout_constraintTop_toBottomOf="@+id/textView_no_comments" />
 
             <ImageButton
                 android:id="@+id/imageButton_add_item"
@@ -245,25 +263,26 @@
                 android:id="@+id/imageView_red_bullet"
                 android:layout_width="8dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="29dp"
+
                 android:layout_marginEnd="4dp"
-                android:layout_marginBottom="1dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@+id/textview_unit_item"
                 app:layout_constraintEnd_toStartOf="@+id/textView_overweight"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_bag_weight"
                 app:srcCompat="@drawable/ic_red_bullet" />
 
             <TextView
                 android:id="@+id/textView_overweight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="40dp"
+
                 android:fontFamily="@font/lato"
-                android:visibility="gone"
                 android:text="OVERWEIGHT"
                 android:textColor="#C64334"
                 android:textSize="10sp"
-                app:layout_constraintBottom_toTopOf="@+id/textview_unit_item"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_bag_weight" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

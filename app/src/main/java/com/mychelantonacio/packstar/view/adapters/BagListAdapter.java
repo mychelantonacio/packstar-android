@@ -1,6 +1,7 @@
 package com.mychelantonacio.packstar.view.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
@@ -25,6 +26,7 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
     private List<Item> items;
     private final LayoutInflater inflater;
     private OnItemClickListener listener;
+    private String TEXT_ORANGE = "#EE6C4D";
 
     public BagListAdapter(Context context){
         inflater = LayoutInflater.from(context);
@@ -69,16 +71,36 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
 
             if(currentBag.isEventSet()){
                 holder.reminderTextViewItemView.setText(currentBag.getEventDateTime());
+                holder.reminderTextViewItemView.setAlpha(1f);
+
+                holder.noReminderBulletImageItemView.setVisibility(View.GONE);
+                holder.withReminderBulletImageItemView.setVisibility(View.VISIBLE);
+            }
+            else {
+                holder.reminderTextViewItemView.setText("No reminders");
+                holder.reminderTextViewItemView.setAlpha(0.5f);
+
+                holder.noReminderBulletImageItemView.setVisibility(View.VISIBLE);
+                holder.withReminderBulletImageItemView.setVisibility(View.GONE);
             }
 
             if(currentBag.getComment() != null && !currentBag.getComment().isEmpty()){
-                holder.oneCommentImageItemView.setVisibility(View.VISIBLE);
-                holder.commentTextItemView.setVisibility(View.GONE);
+                holder.commentTextItemView.setText("Read comment");
+                holder.commentTextItemView.setTextColor(Color.parseColor(TEXT_ORANGE));
+                holder.commentTextItemView.setAlpha(1f);
+
+                holder.noCommentBulletImageItemView.setVisibility(View.GONE);
+                holder.withCommentBulletImageItemView.setVisibility(View.VISIBLE);
 
             }
             else {
-                holder.oneCommentImageItemView.setVisibility(View.GONE);
-                holder.commentTextItemView.setVisibility(View.VISIBLE);
+                holder.commentTextItemView.setText("No comments");
+                holder.commentTextItemView.setTextColor(Color.BLACK);
+                holder.commentTextItemView.setAlpha(0.5f);
+
+                holder.noCommentBulletImageItemView.setVisibility(View.VISIBLE);
+                holder.withCommentBulletImageItemView.setVisibility(View.GONE);
+
                 //enlarge no comment touchable area
                 final View noComment = (View) holder.commentTextItemView.getParent();
                 noComment.post( new Runnable() {
@@ -123,7 +145,6 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         }
         return false;
     }
-
 
     private int getItemQuantity(Bag bag){
         int countItems = 0;
@@ -213,10 +234,13 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         private final ImageButton popMenuImageButtonItemView;
         private final ImageView redBulletItemView;
         private final TextView overweightItemView;
-        private final TextView reminderTextViewItemView;
-        private final ImageView oneCommentImageItemView;
         private final TextView commentTextItemView;
+        private final ImageView noCommentBulletImageItemView;
+        private final ImageView withCommentBulletImageItemView;
 
+        private final TextView reminderTextViewItemView;
+        private final ImageView noReminderBulletImageItemView;
+        private final ImageView withReminderBulletImageItemView;
 
 
         private BagViewHolder(View itemView, final OnItemClickListener listener) {
@@ -231,9 +255,14 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
             popMenuImageButtonItemView = itemView.findViewById(R.id.imageButton_menu_dots);
             redBulletItemView = itemView.findViewById(R.id.imageView_red_bullet);
             overweightItemView = itemView.findViewById(R.id.textView_overweight);
-            reminderTextViewItemView = itemView.findViewById(R.id.textView_no_rerminders);
-            oneCommentImageItemView = itemView.findViewById(R.id.imageView_one_comment);
             commentTextItemView = itemView.findViewById(R.id.textView_no_comments);
+            noCommentBulletImageItemView = itemView.findViewById(R.id.imageView_bullet_no_comment);
+            withCommentBulletImageItemView = itemView.findViewById(R.id.imageView_bullet_with_comment);
+
+
+            reminderTextViewItemView = itemView.findViewById(R.id.textView_no_reminders);
+            noReminderBulletImageItemView = itemView.findViewById(R.id.imageView_bullet_no_reminders);
+            withReminderBulletImageItemView = itemView.findViewById(R.id.imageView_bullet_with_reminders);
 
 
             addImageButtonItemView.setOnClickListener(new View.OnClickListener() {
@@ -272,8 +301,7 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
                 }
             });
 
-
-            oneCommentImageItemView.setOnClickListener(new View.OnClickListener() {
+            commentTextItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(listener != null){
@@ -285,7 +313,7 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
                 }
             });
 
-            commentTextItemView.setOnClickListener(new View.OnClickListener() {
+            withCommentBulletImageItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(listener != null){
