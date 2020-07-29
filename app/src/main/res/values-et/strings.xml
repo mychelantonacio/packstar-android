@@ -80,7 +80,17 @@
     <string name="menu_dots_share">Jaga</string>
     <string name="list_bag_popup_delete">Reisikott kustutatud</string>
     <string name="list_bag_comment_empty">Kommentaar puudub. Lisada on võimalik muutes reisikoti andmeid</string>
-        
+    <string name="menu_dots_description">Menüü</string>
+    <string name="bullet_no_comment">Hall täpp</string>
+    <string name="bullet_with_comment">Oranž täpp</string>
+    <string name="bullet_no_reminders">Oranž täpp</string>
+    <string name="bullet_with_reminders">Oranž täpp</string>
+    <string name="button_add_items">Nupp lisa toode</string>
+    <string name="bullet_overweight">Punane täpp</string>
+    <string name="label_no_comments">Kommentaarid puuduvad</string>
+    <string name="label_no_reminders">Meeldetuletused puuduvad</string>
+    <string name="label_overweight">ÜLEKAAL</string>
+
     <!--Create Item Screen-->
     <string name="title_screen_create_item">Lisa toode</string>
     <string name="edit_text_hint_item_name">Toote nimi</string>
