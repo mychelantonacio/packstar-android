@@ -3,18 +3,14 @@ package com.mychelantonacio.packstar.view.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mychelantonacio.packstar.R;
@@ -25,8 +21,6 @@ import com.mychelantonacio.packstar.util.enums.ItemStatusEnum;
 import com.mychelantonacio.packstar.view.adapters.BagListAdapter;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
-
-import java.util.List;
 
 
 public class EditItemActivity extends AppCompatActivity
@@ -109,21 +103,11 @@ public class EditItemActivity extends AppCompatActivity
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
         bagAdapter = new BagListAdapter(this);
         bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
-        bagViewModel.getAllBagsSortedByName().observe(this, new Observer<List<Bag>>() {
-            @Override
-            public void onChanged(List<Bag> bags) {
-                bagAdapter.setBags(bags);
-            }
-        });
+        bagViewModel.getAllBagsSortedByName().observe(this, bags -> bagAdapter.setBags(bags));
     }
 
     private void fabSetup(){
-        eFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editItem();
-            }
-        });
+        eFab.setOnClickListener(v -> editItem());
     }
 
     private void editItem(){
@@ -135,34 +119,36 @@ public class EditItemActivity extends AppCompatActivity
         }
         currentItem.setStatus(itemStatus.getStatusCode());
         itemViewModel.update(currentItem);
+        callIntent();
+    }
+
+    private void callIntent(){
         Bag currentBag = bagAdapter.findBagById(currentItem.getBagId());
         if (currentBag != null){
             Intent intent = new Intent(this, ListItemActivity.class);
             intent.putExtra("selected_bag", currentBag);
             startActivity(intent);
+            finish();
         }
         else{
             Intent intent = new Intent(this, ListBagActivity.class);
             startActivity(intent);
+            finish();
         }
     }
-
     private void chipGroupSetup(){
-        statusChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(ChipGroup group, int checkedId) {
-                String needToBuy = "Need to buy";
-                String alreadyHave = "Already have";
-                Chip chip = statusChipGroup.findViewById(checkedId);
-                if(chip == null) {
-                    itemStatus = ItemStatusEnum.NON_INFORMATION;
-                }
-                else if(chip.getText().toString().equals(needToBuy)){
-                    itemStatus = ItemStatusEnum.NEED_TO_BUY;
-                }
-                else{
-                    itemStatus = ItemStatusEnum.ALREADY_HAVE;
-                }
+        statusChipGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            String needToBuy = "Need to buy";
+            String alreadyHave = "Already have";
+            Chip chip = statusChipGroup.findViewById(checkedId);
+            if(chip == null) {
+                itemStatus = ItemStatusEnum.NON_INFORMATION;
+            }
+            else if(chip.getText().toString().equals(needToBuy)){
+                itemStatus = ItemStatusEnum.NEED_TO_BUY;
+            }
+            else{
+                itemStatus = ItemStatusEnum.ALREADY_HAVE;
             }
         });
     }

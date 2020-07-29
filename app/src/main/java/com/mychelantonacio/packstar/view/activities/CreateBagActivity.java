@@ -20,7 +20,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
@@ -42,7 +41,6 @@ import com.mychelantonacio.packstar.util.Dialogs.DatePickerFragmentDialog;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
 import com.mychelantonacio.packstar.util.Dialogs.ReminderFragmentDialog;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
-import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -84,7 +82,6 @@ public class CreateBagActivity extends AppCompatActivity
 
     //Data
     private BagViewModel bagViewModel;
-    private ItemViewModel itemViewModel;
 
 
     @Override
@@ -121,7 +118,6 @@ public class CreateBagActivity extends AppCompatActivity
         fabSetup();
 
         bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
-        itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
     }
 
     @Override
@@ -135,12 +131,9 @@ public class CreateBagActivity extends AppCompatActivity
     }
 
     private void dateEditTextSetup() {
-        dateEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DATE_DIALOG = EDIT_TEXT_DATE_DIALOG;
-                openDialog();
-            }
+        dateEditText.setOnClickListener(v -> {
+            DATE_DIALOG = EDIT_TEXT_DATE_DIALOG;
+            openDialog();
         });
         dateEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -157,32 +150,24 @@ public class CreateBagActivity extends AppCompatActivity
     }
 
     private void fabSetup() {
-        eFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createBag();
-            }
-        });
+        eFab.setOnClickListener(v -> createBag());
     }
 
     private void reminderSetup() {
-        reminderButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (CreateBagActivity.this.isEventSet) {
-                    if (isNameEmpty() || isDateEmpty()) {
-                        return;
-                    }
-                    reminderFragmentDialog = new ReminderFragmentDialog();
-                    reminderFragmentDialog.show(getSupportFragmentManager(), DIALOG_REMINDER);
-
-                } else {
-                    if (isNameEmpty() || isDateEmpty()) {
-                        return;
-                    }
-                    DATE_DIALOG = REMINDER_DATE_TIME_DIALOG;
-                    openDialog();
+        reminderButton.setOnClickListener(v -> {
+            if (CreateBagActivity.this.isEventSet) {
+                if (isNameEmpty() || isDateEmpty()) {
+                    return;
                 }
+                reminderFragmentDialog = new ReminderFragmentDialog();
+                reminderFragmentDialog.show(getSupportFragmentManager(), DIALOG_REMINDER);
+
+            } else {
+                if (isNameEmpty() || isDateEmpty()) {
+                    return;
+                }
+                DATE_DIALOG = REMINDER_DATE_TIME_DIALOG;
+                openDialog();
             }
         });
     }
@@ -311,22 +296,19 @@ public class CreateBagActivity extends AppCompatActivity
         final int currentHour = c.get(Calendar.HOUR_OF_DAY);
         final int currentMinute = c.get(Calendar.MINUTE);
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hour, int minute) {
-                try {
-                    if (isCurrentDay) {
-                        if (isUserTimeAfterCurrentTime(hour, minute)) {
-                            setReminderDateTime(year, month, day, hour, minute);
-                        } else {
-                            Toast.makeText(CreateBagActivity.this, getResources().getString(R.string.reminder_create_bag_invalid_time), Toast.LENGTH_LONG).show();
-                        }
-                    } else {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view, hour, minute) -> {
+            try {
+                if (isCurrentDay) {
+                    if (isUserTimeAfterCurrentTime(hour, minute)) {
                         setReminderDateTime(year, month, day, hour, minute);
+                    } else {
+                        Toast.makeText(CreateBagActivity.this, getResources().getString(R.string.reminder_create_bag_invalid_time), Toast.LENGTH_LONG).show();
                     }
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                } else {
+                    setReminderDateTime(year, month, day, hour, minute);
                 }
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
         }, currentHour, currentMinute, true);
         timePickerDialog.show();

@@ -112,12 +112,7 @@ public class EditBagActivity extends AppCompatActivity
     }
 
     private void fabSetup(){
-        eFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editBag();
-            }
-        });
+        eFab.setOnClickListener(v -> editBag());
     }
 
     private void editBag(){
