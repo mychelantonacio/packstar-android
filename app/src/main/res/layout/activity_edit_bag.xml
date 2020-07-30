@@ -85,7 +85,6 @@
                 android:fontFamily="@font/lato"
                 android:imeOptions="flagNoExtractUi"
                 android:inputType="date"
-                android:onClick="showDatePickerDialog"
                 android:singleLine="true"
                 android:textCursorDrawable="@drawable/shape_cursor_color"
                 android:textSize="16sp"
@@ -231,24 +230,24 @@
 </ScrollView>
 
 
-<com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-    android:id="@+id/floatingActionButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginBottom="16dp"
-    android:clickable="true"
-    android:contentDescription="@string/fab_description"
-    android:text="@string/fab_text"
-    android:textColor="@color/fabIconBackgroundColor"
-    android:textSize="14sp"
-    app:backgroundTint="@color/fabBackgroundColor"
-    app:icon="@drawable/ic_floppy_disk"
-    app:iconTint="@color/fabIconBackgroundColor"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/scrollview_create_bag" />
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:contentDescription="@string/fab_description"
+        android:text="@string/fab_text"
+        android:textColor="@color/fabIconBackgroundColor"
+        android:textSize="14sp"
+        app:backgroundTint="@color/fabBackgroundColor"
+        app:icon="@drawable/ic_floppy_disk"
+        app:iconTint="@color/fabIconBackgroundColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollview_edit_bag" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

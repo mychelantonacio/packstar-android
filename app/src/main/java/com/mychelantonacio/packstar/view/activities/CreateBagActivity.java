@@ -29,7 +29,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -52,6 +51,7 @@ public class CreateBagActivity extends AppCompatActivity
         ReminderFragmentDialog.NoticeDialogListener {
 
 
+    //Dialogs
     private DiscardChangesFragmentDialog discardChangesFragmentDialog;
     private static final String DIALOG_DISCARD = "DiscardChangesFragmentDialog";
     private DatePickerFragmentDialog datePickerFragmentDialog;
@@ -107,10 +107,10 @@ public class CreateBagActivity extends AppCompatActivity
         commentEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_comment);
 
         dateTextInputLayout = (TextInputLayout) findViewById(R.id.textInputLayout_bag_date);
-
-        reminderEditText = (TextView) findViewById(R.id.textView_no_reminders);
         dateEditTextSetup();
 
+
+        reminderEditText = (TextView) findViewById(R.id.textView_no_reminders);
         reminderButton = (ImageButton) findViewById(R.id.ic_reminder);
         reminderSetup();
 
@@ -170,6 +170,7 @@ public class CreateBagActivity extends AppCompatActivity
                 openDialog();
             }
         });
+
     }
 
     private void createBag() {
@@ -440,7 +441,8 @@ public class CreateBagActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDialogEditClick(DialogFragment dialog) {
+    public void onDialogEditClick(DialogFragment dialog)
+    {
         editReminderEvent();
     }
 
@@ -501,4 +503,4 @@ public class CreateBagActivity extends AppCompatActivity
         }
         return isEventFound;
     }
-}//endClass...
+}
