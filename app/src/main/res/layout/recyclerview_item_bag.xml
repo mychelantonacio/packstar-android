@@ -66,6 +66,10 @@
                 app:layout_constraintStart_toEndOf="@+id/text_view_bag_date"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_bag_name" />
 
+
+
+
+
             <TextView
                 android:id="@+id/textview_counter_weight"
                 android:layout_width="wrap_content"
@@ -157,6 +161,10 @@
                 android:background="?android:attr/listDivider"
                 app:layout_constraintStart_toEndOf="@+id/textview_unit_kg"
                 app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+
+
+
 
 
             <FrameLayout
@@ -277,14 +285,17 @@
 
             <TextView
                 android:id="@+id/textView_overweight"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="18dp"
                 android:fontFamily="@font/lato"
                 android:text="@string/label_overweight"
+                android:textAlignment="viewStart"
                 android:textColor="#C64334"
                 android:textSize="8sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/imageView_red_bullet"
                 app:layout_constraintTop_toBottomOf="@+id/divider" />
 

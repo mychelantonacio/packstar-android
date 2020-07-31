@@ -142,14 +142,14 @@ public class EditBagActivity extends AppCompatActivity
         nameEditText.setText(currentBag.getName());
         nameTextInputLayout.setEndIconVisible(false);
 
-        dateEditText.setText(String.valueOf(currentBag.getTravelDate()));
+        dateEditText.setText(currentBag.getTravelDate());
         dateTextInputLayout.setEndIconVisible(false);
         dateEditTextSetup();
 
-        weightEditText.setText(String.valueOf(currentBag.getWeight()));
+        weightEditText.setText(String.valueOf(currentBag.getWeight() == null ? "" : currentBag.getWeight() ));
         weightTextInputLayout.setEndIconVisible(false);
 
-        commentEditText.setText(String.valueOf(currentBag.getComment()));
+        commentEditText.setText(String.valueOf(currentBag.getComment() == null ? "" : currentBag.getComment()));
         commentTextInputLayout.setEndIconVisible(false);
 
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
@@ -279,8 +279,6 @@ public class EditBagActivity extends AppCompatActivity
         datePickerFragmentDialog = new DatePickerFragmentDialog();
         datePickerFragmentDialog.show(getSupportFragmentManager(), DIALOG_DATE_PICKER);
     }
-
-
 
     public void showDatePickerReminderDialog(View v) {
         DATE_DIALOG = REMINDER_DATE_TIME_DIALOG;
