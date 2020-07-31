@@ -1,22 +1,12 @@
 package com.mychelantonacio.packstar.view.adapters;
 
-import android.animation.Animator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -88,41 +78,9 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         return new ItemViewHolder(itemView, listener);
     }
 
-
-    private void setFadeAnimation(View view) {
-        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(10000);
-        view.startAnimation(anim);
-    }
-
-    private void setZoomInAnimation(View view) {
-        Animation zoomIn = AnimationUtils.loadAnimation(context, R.anim.item_animation_bounce);// animation file
-        view.startAnimation(zoomIn);
-    }
-
-
-    private void setBounceAnimation(ItemViewHolder holder){
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(-100f, 0f);
-        valueAnimator.setInterpolator(new BounceInterpolator());
-        valueAnimator.setDuration(2000);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float progress = (float) animation.getAnimatedValue();
-                holder.itemView.setTranslationX(progress);
-                //holder.itemView.setBackgroundColor(1);
-            }
-
-        });
-        valueAnimator.start();
-    }
-
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Resources res = holder.itemView.getResources();
-
-        if(position == 0)   setBounceAnimation(holder);
 
         if (items != null) {
             Item currentItem = items.get(position);
@@ -151,14 +109,11 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         }
 
         //drag & drop
-        holder.itemHandlerItemView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-                    dragStartListener.onStartDrag(holder);
-                }
-                return false;
+        holder.itemHandlerItemView.setOnTouchListener((v, event) -> {
+            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                dragStartListener.onStartDrag(holder);
             }
+            return false;
         });
     }
 
@@ -195,7 +150,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         showUndoSnackBar();
         itemViewModel.delete(recentlyDeletedItem);
     }
-
 
     private void showUndoSnackBar() {
         View view = viewParent.findViewById(R.id.constraintlayout_item);
@@ -243,33 +197,24 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
             itemHandlerItemView = itemView.findViewById(R.id.handle);
             itemContainerItemView = itemView.findViewById(R.id.constraintlayout_item);
 
-
-
-            itemStatusItemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
-                            listener.onStatusItemClick(position, itemView);
-                        }
+            itemStatusItemView.setOnClickListener(v -> {
+                if(listener != null){
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        listener.onStatusItemClick(position, itemView);
                     }
                 }
             });
 
-            itemContainerItemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
-                            listener.onItemContainerItemClick(position, itemView);
-                        }
+            itemContainerItemView.setOnClickListener(v -> {
+                if(listener != null){
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        listener.onItemContainerItemClick(position, itemView);
                     }
                 }
             });
         }
-
 
         @Override
         public void onItemSelected() {
