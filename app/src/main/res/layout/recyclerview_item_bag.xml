@@ -56,7 +56,7 @@
                 android:id="@+id/text_view_bag_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="87dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/lato"
                 android:includeFontPadding="false"
@@ -71,56 +71,56 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="88dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="18dp"
                 android:fontFamily="@font/lato_medium"
                 android:includeFontPadding="false"
                 android:text="@string/placeholder_number_zero"
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_view_bag_date" />
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
 
             <TextView
                 android:id="@+id/textview_unit_kg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="21dp"
                 android:fontFamily="@font/lato"
                 android:includeFontPadding="false"
                 android:text="@string/unit_kg"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/textview_counter_weight"
-                app:layout_constraintTop_toBottomOf="@+id/text_view_bag_date" />
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
 
             <TextView
                 android:id="@+id/textview_counter_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="29dp"
+                android:layout_marginTop="18dp"
                 android:fontFamily="@font/lato_medium"
                 android:includeFontPadding="false"
                 android:text="@string/placeholder_number_zero"
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp"
                 app:layout_constraintStart_toEndOf="@+id/divider2"
-                app:layout_constraintTop_toBottomOf="@+id/text_view_bag_date" />
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
 
             <TextView
                 android:id="@+id/textview_unit_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="21dp"
                 android:fontFamily="@font/lato"
                 android:includeFontPadding="false"
                 android:text="@string/label_bag_items"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/textview_counter_item"
-                app:layout_constraintTop_toBottomOf="@+id/text_view_bag_date" />
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
 
             <ImageButton
                 android:id="@+id/imageButton_menu_dots"
@@ -164,7 +164,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider2">
+                app:layout_constraintTop_toBottomOf="@+id/textview_counter_weight">
 
                 <ImageView
                     android:id="@+id/imageView_bullet_no_comment"
@@ -195,7 +195,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="21dp"
                 android:alpha="0.50"
                 android:fontFamily="@font/lato"
                 android:gravity="center"
@@ -268,25 +268,25 @@
                 android:id="@+id/imageView_red_bullet"
                 android:layout_width="8dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="29dp"
-                android:layout_marginEnd="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="18dp"
                 android:contentDescription="@string/bullet_overweight"
-                app:layout_constraintEnd_toStartOf="@+id/textView_overweight"
-                app:layout_constraintTop_toBottomOf="@+id/text_view_bag_weight"
+                app:layout_constraintStart_toEndOf="@+id/textview_unit_item"
+                app:layout_constraintTop_toBottomOf="@+id/divider"
                 app:srcCompat="@drawable/ic_red_bullet" />
 
             <TextView
                 android:id="@+id/textView_overweight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:layout_marginEnd="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="18dp"
                 android:fontFamily="@font/lato"
                 android:text="@string/label_overweight"
                 android:textColor="#C64334"
-                android:textSize="10sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_view_bag_weight" />
+                android:textSize="8sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView_red_bullet"
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

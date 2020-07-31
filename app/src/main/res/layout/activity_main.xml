@@ -17,10 +17,10 @@
         android:scaleType="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/bg_home_welcome" />
 
     <TextView
@@ -74,56 +74,17 @@
             app:tint="@null" />
     </pl.bclogic.pulsator4droid.library.PulsatorLayout>
 
-    <TextView
-        android:id="@+id/textView_adventure"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/lato_bold"
-        android:text="@string/welcome_packstar_adventure"
-        android:textColor="@android:color/white"
-        android:textSize="26sp"
-        app:layout_constraintStart_toEndOf="@+id/textView_an"
-        app:layout_constraintTop_toBottomOf="@+id/textView_on" />
-
-    <TextView
-        android:id="@+id/textView_going"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="156dp"
-        android:fontFamily="@font/lato_bold"
-        android:text="@string/welcome_packstar_going"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_bg_home_welcome"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.24000001"
+        app:srcCompat="@drawable/bg_going_on_adventure" />
 
-    <TextView
-        android:id="@+id/textView_on"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="164dp"
-        android:fontFamily="@font/lato"
-        android:text="@string/welcome_packstar_on"
-        android:textColor="@android:color/white"
-        android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/textView_going"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView_an"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/lato"
-        android:text="@string/welcome_packstar_an"
-        android:textColor="@android:color/white"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_going" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
