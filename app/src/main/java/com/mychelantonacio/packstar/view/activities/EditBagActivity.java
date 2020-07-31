@@ -134,6 +134,7 @@ public class EditBagActivity extends AppCompatActivity
 
         if(currentBag.isEventSet()){
             this.isEventSet = currentBag.isEventSet();
+            this.reminderEventId = currentBag.getEventId();
             reminderEditText.setText(currentBag.getEventDateTime())  ;
         }
 
@@ -166,7 +167,7 @@ public class EditBagActivity extends AppCompatActivity
         }
     }
 
-    private void editBag(){
+    private void save(){
         if (isNameEmpty() || isDateEmpty()) {
             return;
         }
@@ -216,7 +217,7 @@ public class EditBagActivity extends AppCompatActivity
     }
 
     private void fabSetup(){
-        eFab.setOnClickListener(v -> editBag());
+        eFab.setOnClickListener(v -> save());
     }
 
 

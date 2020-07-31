@@ -1,5 +1,6 @@
 package com.mychelantonacio.packstar.view.adapters;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -210,6 +211,13 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
             }
         }
         return currentItems;
+    }
+
+    public void delete(Bag bag, ContentResolver cr){
+        if(bag.isEventSet()){
+            bag.deleteReminder(cr);
+        }
+        this.bags.remove(bag);
     }
 
     @Override

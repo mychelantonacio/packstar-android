@@ -441,8 +441,7 @@ public class CreateBagActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDialogEditClick(DialogFragment dialog)
-    {
+    public void onDialogEditClick(DialogFragment dialog) {
         editReminderEvent();
     }
 

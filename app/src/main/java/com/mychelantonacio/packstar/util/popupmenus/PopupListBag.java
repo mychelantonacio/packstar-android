@@ -1,9 +1,9 @@
 package com.mychelantonacio.packstar.util.popupmenus;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -33,42 +33,40 @@ public class PopupListBag {
         popup.getMenuInflater().inflate(R.menu.three_dots_menu, popup.getMenu());
         popup.setGravity(5);
 
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
+        popup.setOnMenuItemClickListener(item -> {
 
-                if (item.getItemId() == R.id.menu_dots_edit) {
-                    Intent intent = new Intent(context, EditBagActivity.class);
-                    intent.putExtra("bag_parcelable", currentBag);
-                    context.startActivity(intent);
-                }
-                if (item.getItemId() == R.id.menu_dots_delete) {
-                    boolean isLastBag = false;
-                    currentItems.stream().forEach(i -> itemViewModel.delete(i));
-
-                    if(bagAdapter.getItemCount() == 1)
-                        isLastBag = true;
-
-                    //TODO: refactor to use only adapter...
-                    bagViewModel.deleteById(currentBag);
-                    Toast.makeText(context, context.getResources().getString(R.string.list_bag_popup_delete), Toast.LENGTH_SHORT).show();
-
-                    if(isLastBag) {
-                        Intent intent = new Intent(context, EmptyBagActivity.class);
-                        context.startActivity(intent);
-                        activity.finish();
-                    }
-                }
-                if (item.getItemId() == R.id.menu_dots_share) {
-                    Intent sendIntent = new Intent();
-                    sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, getSharingMessage(currentBag, currentItems));
-                    sendIntent.setType("text/plain");
-                    Intent shareIntent = Intent.createChooser(sendIntent, null);
-                    context.startActivity(shareIntent);
-                }
-                return true;
+            if (item.getItemId() == R.id.menu_dots_edit) {
+                Intent intent = new Intent(context, EditBagActivity.class);
+                intent.putExtra("bag_parcelable", currentBag);
+                context.startActivity(intent);
             }
+            if (item.getItemId() == R.id.menu_dots_delete) {
+                boolean isLastBag = false;
+
+                ContentResolver cr = context.getContentResolver();
+                currentItems.stream().forEach(i -> itemViewModel.delete(i));
+
+                if(bagAdapter.getItemCount() == 1)
+                    isLastBag = true;
+
+                bagViewModel.delete(currentBag, cr);
+                Toast.makeText(context, context.getResources().getString(R.string.list_bag_popup_delete), Toast.LENGTH_SHORT).show();
+
+                if(isLastBag) {
+                    Intent intent = new Intent(context, EmptyBagActivity.class);
+                    context.startActivity(intent);
+                    activity.finish();
+                }
+            }
+            if (item.getItemId() == R.id.menu_dots_share) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, getSharingMessage(currentBag, currentItems));
+                sendIntent.setType("text/plain");
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                context.startActivity(shareIntent);
+            }
+            return true;
         });
 
         popup.show();

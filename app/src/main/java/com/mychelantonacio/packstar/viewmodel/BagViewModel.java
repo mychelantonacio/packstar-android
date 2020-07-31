@@ -1,6 +1,8 @@
 package com.mychelantonacio.packstar.viewmodel;
 
 import android.app.Application;
+import android.content.ContentResolver;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -33,8 +35,9 @@ public class BagViewModel extends AndroidViewModel {
         bagRepository.deleteAll();
     }
 
-    public void deleteById(Bag bag){
-        bagRepository.deleteById(bag);
+    public void delete(Bag bag, ContentResolver cr){
+        bag.deleteReminder(cr);
+        bagRepository.delete(bag);
     }
 
     public Bag findBagById(long id){

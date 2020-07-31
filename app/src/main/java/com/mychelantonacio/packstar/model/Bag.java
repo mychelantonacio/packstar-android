@@ -1,7 +1,12 @@
 package com.mychelantonacio.packstar.model;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.CalendarContract;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -30,6 +35,7 @@ public class Bag implements Parcelable{
     private long eventId;
     private String eventDateTime;
 
+
     public Bag(){}
 
     @Ignore
@@ -39,6 +45,64 @@ public class Bag implements Parcelable{
         this.weight = weight;
         this.comment = comment;
     }
+
+    protected Bag(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readLong();
+        }
+        name = in.readString();
+        travelDate = in.readString();
+        if (in.readByte() == 0) {
+            weight = null;
+        } else {
+            weight = in.readDouble();
+        }
+        comment = in.readString();
+        isEventSet = in.readByte() != 0;
+        eventId = in.readLong();
+        eventDateTime = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(id);
+        }
+        dest.writeString(name);
+        dest.writeString(travelDate);
+        if (weight == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(weight);
+        }
+        dest.writeString(comment);
+        dest.writeByte((byte) (isEventSet ? 1 : 0));
+        dest.writeLong(eventId);
+        dest.writeString(eventDateTime);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Bag> CREATOR = new Creator<Bag>() {
+        @Override
+        public Bag createFromParcel(Parcel in) {
+            return new Bag(in);
+        }
+
+        @Override
+        public Bag[] newArray(int size) {
+            return new Bag[size];
+        }
+    };
 
     //Getters-Setters
     @NonNull
@@ -109,56 +173,9 @@ public class Bag implements Parcelable{
     }
 
 
-    //Parcelable
-    @Ignore
-    protected Bag(Parcel in) {
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readLong();
-        }
-        name = in.readString();
-        travelDate = in.readString();
-        if (in.readByte() == 0) {
-            weight = null;
-        } else {
-            weight = in.readDouble();
-        }
-        comment = in.readString();
-    }
-
-    public static final Parcelable.Creator<Bag> CREATOR = new Parcelable.Creator<Bag>() {
-        @Override
-        public Bag createFromParcel(Parcel in) {
-            return new Bag(in);
-        }
-        @Override
-        public Bag[] newArray(int size) {
-            return new Bag[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (id == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeLong(id);
-        }
-        dest.writeString(name);
-        dest.writeString(travelDate);
-        if (weight == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeDouble(weight);
-        }
-        dest.writeString(comment);
+    public void deleteReminder(ContentResolver cr){
+        Uri deleteUri = null;
+        deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, getEventId());
+        int deletedRows = cr.delete(deleteUri, null, null);
     }
 }

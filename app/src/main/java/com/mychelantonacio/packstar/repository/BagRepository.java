@@ -37,7 +37,7 @@ public class BagRepository {
         });
     }
 
-    public void deleteById(Bag bag){
+    public void delete(Bag bag){
         BagRoomDatabase.databaseWriteExecutor.execute(() -> {
             bagDao.delete(bag);
         });
