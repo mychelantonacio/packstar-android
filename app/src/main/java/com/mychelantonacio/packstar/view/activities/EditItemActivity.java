@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
@@ -18,6 +19,7 @@ import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
 import com.mychelantonacio.packstar.util.enums.ItemStatusEnum;
+import com.mychelantonacio.packstar.util.filters.DecimalDigitsInputFilter;
 import com.mychelantonacio.packstar.view.adapters.BagListAdapter;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
@@ -67,9 +69,9 @@ public class EditItemActivity extends AppCompatActivity
         quantityEditText = (TextInputEditText) findViewById(R.id.editText_item_quantity);
         quantityTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.filledTextField_item_quantity);
         weightEditText = (TextInputEditText) findViewById(R.id.editText_item_weight);
+        weightEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2,1)});
         weightTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.filledTextField_item_weight);
         statusChipGroup = (com.google.android.material.chip.ChipGroup)  findViewById(R.id.chip_group_edit);
-
         chipGroupSetup();
         statusChipNeedToBuy = (com.google.android.material.chip.Chip) findViewById(R.id.chip_red_edit);
         statusChipAlreadyHave = (com.google.android.material.chip.Chip) findViewById(R.id.chip_green_edit);

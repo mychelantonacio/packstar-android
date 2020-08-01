@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
@@ -39,6 +40,7 @@ import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.util.Dialogs.DatePickerFragmentDialog;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
 import com.mychelantonacio.packstar.util.Dialogs.ReminderFragmentDialog;
+import com.mychelantonacio.packstar.util.filters.DecimalDigitsInputFilter;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 
 import java.text.ParseException;
@@ -104,6 +106,7 @@ public class CreateBagActivity extends AppCompatActivity
         nameEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_name);
         dateEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_date);
         weightEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_weight);
+        weightEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2,1)});
         commentEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_comment);
 
         dateTextInputLayout = (TextInputLayout) findViewById(R.id.textInputLayout_bag_date);

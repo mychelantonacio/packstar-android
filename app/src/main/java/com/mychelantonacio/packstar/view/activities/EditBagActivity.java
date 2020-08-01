@@ -6,8 +6,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -21,9 +19,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,6 +39,7 @@ import com.mychelantonacio.packstar.util.Dialogs.DatePickerFragmentDialog;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
 import com.mychelantonacio.packstar.util.Dialogs.ReminderFragmentDialog;
 
+import com.mychelantonacio.packstar.util.filters.DecimalDigitsInputFilter;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
@@ -118,6 +117,7 @@ public class EditBagActivity extends AppCompatActivity
         dateEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_date);
         dateTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.textInputLayout_bag_date);
         weightEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_weight);
+        weightEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2,1)});
         weightTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.textInputLayout_bag_weight);
         commentEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_comment);
         commentTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.textInputLayout_bag_comment);
@@ -219,8 +219,6 @@ public class EditBagActivity extends AppCompatActivity
     private void fabSetup(){
         eFab.setOnClickListener(v -> save());
     }
-
-
 
     private void reminderSetup() {
         reminderButton.setOnClickListener(v -> {
@@ -506,8 +504,6 @@ public class EditBagActivity extends AppCompatActivity
         return isEventFound;
     }
 
-
-
     @Override
     public void onDialogPositiveClick(androidx.fragment.app.DialogFragment dialog) {
         this.finish();
@@ -517,9 +513,6 @@ public class EditBagActivity extends AppCompatActivity
     public void onDialogNegativeClick(androidx.fragment.app.DialogFragment dialog) {
         dialog.dismiss();
     }
-
-
-
 
     @Override
     public void onDialogEditClick(androidx.fragment.app.DialogFragment dialog) { editReminderEvent(); }
