@@ -10,7 +10,6 @@ import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mychelantonacio.packstar.R;
@@ -34,7 +33,8 @@ public class CreateItemActivity extends AppCompatActivity
     private TextInputEditText quantityEditText;
     private TextInputEditText weightEditText;
     private ExtendedFloatingActionButton eFab;
-    private ChipGroup chipGroup;
+    private Chip chipAlreadyHave;
+    private Chip chipNeedToBuy;
 
     //DATA
     private Bag currentBag;
@@ -58,36 +58,48 @@ public class CreateItemActivity extends AppCompatActivity
         quantityEditText = (TextInputEditText) findViewById(R.id.editText_item_quantity);
         weightEditText = (TextInputEditText) findViewById(R.id.editText_item_weight);
         weightEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2,3)});
+        chipNeedToBuy = (Chip) findViewById(R.id.chip_need_to_buy);
+        chipNeedToBuySetup();
+        chipAlreadyHave = (Chip) findViewById(R.id.chip_already_have);
+        chipAlreadyHaveSetup();
         eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
         fabSetup();
-        chipGroup = (ChipGroup) findViewById(R.id.chip_group);
-        chipGroupSetup();
         itemStatus = ItemStatusEnum.NON_INFORMATION;
         Intent intent = getIntent();
         currentBag = (Bag) intent.getParcelableExtra("bag_parcelable");
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
     }
 
-
-    private void fabSetup(){
-        eFab.setOnClickListener(v -> createItem());
-    }
-
-    private void chipGroupSetup(){
-        chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            String needToBuy = "Need to buy";
-            String alreadyHave = "Already have";
-            Chip chip = chipGroup.findViewById(checkedId);
-            if(chip == null) {
+    private void chipNeedToBuySetup(){
+        chipNeedToBuy.setOnClickListener(v -> {
+            if(!chipNeedToBuy.isChecked()){
+                chipNeedToBuy.setChecked(false);
                 itemStatus = ItemStatusEnum.NON_INFORMATION;
             }
-            else if(chip.getText().toString().equals(needToBuy)){
+            else{
+                chipNeedToBuy.setChecked(true);
+                chipAlreadyHave.setChecked(false);
                 itemStatus = ItemStatusEnum.NEED_TO_BUY;
             }
+        });
+    }
+
+    private void chipAlreadyHaveSetup(){
+        chipAlreadyHave.setOnClickListener(v -> {
+            if(!chipAlreadyHave.isChecked() ){
+                chipAlreadyHave.setChecked(false);
+                itemStatus = ItemStatusEnum.NON_INFORMATION;
+            }
             else{
+                chipAlreadyHave.setChecked(true);
+                chipNeedToBuy.setChecked(false);
                 itemStatus = ItemStatusEnum.ALREADY_HAVE;
             }
         });
+    }
+
+    private void fabSetup(){
+        eFab.setOnClickListener(v -> createItem());
     }
 
     private void createItem(){
@@ -144,23 +156,21 @@ public class CreateItemActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        this.finish();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        dialog.dismiss();
+    }
+
     private boolean isAnyFieldFilled(){
         if (!nameEditText.getText().toString().isEmpty() || !quantityEditText.getText().toString().isEmpty() ||
                 !weightEditText.getText().toString().isEmpty() ){
             return true;
         }
         return false;
-    }
-
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
-        //Discard button...
-        this.finish();
-    }
-
-    @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
-        //Cancel button...
-        dialog.dismiss();
     }
 }

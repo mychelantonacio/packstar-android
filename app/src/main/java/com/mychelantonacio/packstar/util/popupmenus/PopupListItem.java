@@ -27,24 +27,21 @@ public class PopupListItem {
         popup.setGravity(0);
 
         itemStatusUpdated = context.getResources().getString(R.string.menu_chip_updated_item);
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.menu_chip_need_to_buy) {
-                    currentItem.setStatus(ItemStatusEnum.NEED_TO_BUY.getStatusCode());
-                    Toast.makeText(context, itemStatusUpdated, Toast.LENGTH_SHORT).show();
-                }
-                if (item.getItemId() == R.id.menu_chip_already_have) {
-                    currentItem.setStatus(ItemStatusEnum.ALREADY_HAVE.getStatusCode());
-                    Toast.makeText(context, itemStatusUpdated, Toast.LENGTH_SHORT).show();
-                }
-                if (item.getItemId() == R.id.menu_chip_remove) {
-                    currentItem.setStatus(ItemStatusEnum.NON_INFORMATION.getStatusCode());
-                    Toast.makeText(context, itemStatusUpdated, Toast.LENGTH_SHORT).show();
-                }
-                adapter.updateStatus(currentItem, position);
-                return true;
+        popup.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.menu_chip_need_to_buy) {
+                currentItem.setStatus(ItemStatusEnum.NEED_TO_BUY.getStatusCode());
+                Toast.makeText(context, itemStatusUpdated, Toast.LENGTH_SHORT).show();
             }
+            if (item.getItemId() == R.id.menu_chip_already_have) {
+                currentItem.setStatus(ItemStatusEnum.ALREADY_HAVE.getStatusCode());
+                Toast.makeText(context, itemStatusUpdated, Toast.LENGTH_SHORT).show();
+            }
+            if (item.getItemId() == R.id.menu_chip_remove) {
+                currentItem.setStatus(ItemStatusEnum.NON_INFORMATION.getStatusCode());
+                Toast.makeText(context, itemStatusUpdated, Toast.LENGTH_SHORT).show();
+            }
+            adapter.updateStatus(currentItem, position);
+            return true;
         });
         popup.show();
     }

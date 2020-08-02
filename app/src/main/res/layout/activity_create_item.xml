@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".view.activities.CreateItemActivity">
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/filledTextField_item_name"
         android:layout_width="0dp"
@@ -93,69 +92,13 @@
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chip_group"
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip_need_to_buy"
+        style="@style/Widget.MaterialComponents.Chip.Action"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="40dp"
-        app:chipSpacingHorizontal="0dp"
-        app:chipSpacingVertical="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filledTextField_item_weight"
-        app:singleLine="true"
-        app:singleSelection="true">
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_red"
-            style="@style/Widget.MaterialComponents.Chip.Action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:checkable="true"
-            android:fontFamily="@font/lato"
-            android:text="@string/textView_ic_arrow_right_red"
-            android:textSize="14sp"
-            app:checkedIcon="@drawable/ic_arrow_right_red_filled"
-            app:chipBackgroundColor="@color/colorPrimary"
-            app:chipCornerRadius="5dp"
-            app:chipIcon="@drawable/ic_arrow_right_red"
-            app:chipStrokeColor="@color/chipStrokeColor"
-            app:chipStrokeWidth="1dp" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_green"
-            style="@style/Widget.MaterialComponents.Chip.Action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="2dp"
-            android:checkable="true"
-            android:fontFamily="@font/lato"
-            android:paddingStart="2dp"
-            android:paddingEnd="2dp"
-            android:text="@string/textView_ic_arrow_right_green"
-            android:textSize="14sp"
-            app:checkedIcon="@drawable/ic_arrow_right_green_filled"
-            app:chipBackgroundColor="@color/colorPrimary"
-            app:chipCornerRadius="5dp"
-            app:chipIcon="@drawable/ic_arrow_right_green"
-            app:chipStrokeColor="@color/chipStrokeColor"
-            app:chipStrokeWidth="1dp" />
-
-    </com.google.android.material.chip.ChipGroup>
-
-
-    <com.google.android.material.chip.Chip
-        android:id="@+id/chip_red2"
-        style="@style/Widget.MaterialComponents.Chip.Action"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
         android:checkable="true"
         android:fontFamily="@font/lato"
         android:text="@string/textView_ic_arrow_right_red"
@@ -167,20 +110,17 @@
         app:chipStrokeColor="@color/chipStrokeColor"
         app:chipStrokeWidth="1dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chip_group" />
-
+        app:layout_constraintTop_toBottomOf="@+id/filledTextField_item_weight" />
 
     <com.google.android.material.chip.Chip
-        android:id="@+id/chip_green2"
+        android:id="@+id/chip_already_have"
         style="@style/Widget.MaterialComponents.Chip.Action"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="45dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="48dp"
         android:checkable="true"
         android:fontFamily="@font/lato"
-        android:paddingStart="2dp"
-        android:paddingEnd="2dp"
         android:text="@string/textView_ic_arrow_right_green"
         android:textSize="14sp"
         app:checkedIcon="@drawable/ic_arrow_right_green_filled"
@@ -190,7 +130,7 @@
         app:chipStrokeColor="@color/chipStrokeColor"
         app:chipStrokeWidth="1dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chip_group" />
+        app:layout_constraintTop_toBottomOf="@+id/filledTextField_item_weight" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/floatingActionButton"

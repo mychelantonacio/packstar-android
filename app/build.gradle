@@ -68,14 +68,8 @@ dependencies {
     implementation "com.google.dagger:dagger:$dagger_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
 
-    def work_version = "2.3.4"
+    def work_version = "2.0.0"
     implementation "androidx.work:work-runtime:$work_version"
     implementation "androidx.work:work-runtime-ktx:$work_version"
     androidTestImplementation "androidx.work:work-testing:$work_version"
-
-    //Flexbox layout
-    implementation 'com.google.android:flexbox:2.0.1'
-
-
-
 }
