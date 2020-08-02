@@ -170,6 +170,23 @@ public class CreateBagActivity extends AppCompatActivity
                 openDialog();
             }
         });
+
+        reminderEditText.setOnClickListener(v -> {
+            if (CreateBagActivity.this.isEventSet) {
+                if (isNameEmpty() || isDateEmpty()) {
+                    return;
+                }
+                reminderFragmentDialog = new ReminderFragmentDialog();
+                reminderFragmentDialog.show(getSupportFragmentManager(), DIALOG_REMINDER);
+
+            } else {
+                if (isNameEmpty() || isDateEmpty()) {
+                    return;
+                }
+                DATE_DIALOG = REMINDER_DATE_TIME_DIALOG;
+                openDialog();
+            }
+        });
     }
 
     private void createBag() {

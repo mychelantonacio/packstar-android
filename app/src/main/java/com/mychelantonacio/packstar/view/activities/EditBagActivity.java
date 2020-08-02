@@ -121,8 +121,8 @@ public class EditBagActivity extends AppCompatActivity
         weightTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.textInputLayout_bag_weight);
         commentEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_comment);
         commentTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.textInputLayout_bag_comment);
-        reminderEditText = (TextView) findViewById(R.id.textView_no_reminders);
         reminderButton = (ImageButton) findViewById(R.id.ic_reminder);
+        reminderEditText = (TextView) findViewById(R.id.textView_no_reminders);
         reminderSetup();
 
         eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
@@ -220,6 +220,23 @@ public class EditBagActivity extends AppCompatActivity
 
     private void reminderSetup() {
         reminderButton.setOnClickListener(v -> {
+            if (EditBagActivity.this.isEventSet) {
+                if (isNameEmpty() || isDateEmpty()) {
+                    return;
+                }
+                reminderFragmentDialog = new ReminderFragmentDialog();
+                reminderFragmentDialog.show(getSupportFragmentManager(), DIALOG_REMINDER);
+
+            } else {
+                if (isNameEmpty() || isDateEmpty()) {
+                    return;
+                }
+                DATE_DIALOG = REMINDER_DATE_TIME_DIALOG;
+                openDialog();
+            }
+        });
+
+        reminderEditText.setOnClickListener(v -> {
             if (EditBagActivity.this.isEventSet) {
                 if (isNameEmpty() || isDateEmpty()) {
                     return;
