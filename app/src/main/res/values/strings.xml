@@ -25,6 +25,8 @@
         Drag and Drop - reorganize items
     </string>
 
+    <!--Base application theme - OverSystemWeight Dialog-->
+    <string name="dialog_over_system_weight" translatable="false">Maximum system weight is 99 kg</string>
 
     <!--Base application - units -->
     <string name="unit_kg" translatable="false">kg</string>

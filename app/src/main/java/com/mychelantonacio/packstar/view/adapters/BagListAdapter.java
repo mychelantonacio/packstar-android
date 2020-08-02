@@ -160,7 +160,7 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         return countItems;
     }
 
-    private double getItemWeight(Bag bag){
+    public double getItemWeight(Bag bag){
         double totalWeightItems = 0.0;
         double weightItem = 0.0;
 
@@ -267,11 +267,9 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
             noCommentBulletImageItemView = itemView.findViewById(R.id.imageView_bullet_no_comment);
             withCommentBulletImageItemView = itemView.findViewById(R.id.imageView_bullet_with_comment);
 
-
             reminderTextViewItemView = itemView.findViewById(R.id.textView_no_reminders);
             noReminderBulletImageItemView = itemView.findViewById(R.id.imageView_bullet_no_reminders);
             withReminderBulletImageItemView = itemView.findViewById(R.id.imageView_bullet_with_reminders);
-
 
             addImageButtonItemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -18,6 +18,7 @@ import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
+import com.mychelantonacio.packstar.util.Dialogs.OverSystemWeightFragmentDialog;
 import com.mychelantonacio.packstar.util.enums.ItemStatusEnum;
 import com.mychelantonacio.packstar.util.filters.DecimalDigitsInputFilter;
 import com.mychelantonacio.packstar.view.adapters.BagListAdapter;
@@ -26,11 +27,16 @@ import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
 
 public class EditItemActivity extends AppCompatActivity
-        implements DiscardChangesFragmentDialog.NoticeDialogListener {
+        implements DiscardChangesFragmentDialog.NoticeDialogListener,
+        OverSystemWeightFragmentDialog.NoticeDialogListener {
+
+    private double MAX_SYSTEM_WEIGHT = 100;
 
     //Dialogs
     private DiscardChangesFragmentDialog discardChangesFragmentDialog;
     private static final String DIALOG_DISCARD = "DiscardChangesFragmentDialog";
+    private OverSystemWeightFragmentDialog overSystemWeightFragmentDialog;
+    private static final String DIALOG_OVER_WEIGHT = "OverSystemWeightFragmentDialog";
 
     //Widgets
     private TextInputEditText nameEditText;
@@ -40,7 +46,6 @@ public class EditItemActivity extends AppCompatActivity
     private TextInputEditText weightEditText;
     private com.google.android.material.textfield.TextInputLayout weightTextInputLayout;
     private ExtendedFloatingActionButton eFab;
-
     private Chip chipAlreadyHave;
     private Chip chipNeedToBuy;
 
@@ -50,6 +55,8 @@ public class EditItemActivity extends AppCompatActivity
     private BagListAdapter bagAdapter;
     private ItemStatusEnum itemStatus;
     private Item currentItem;
+    private double originalWeight;
+    private int originalQuantity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,14 +94,17 @@ public class EditItemActivity extends AppCompatActivity
         nameEditText.setText(currentItem.getName());
         nameTextInputLayout.setEndIconVisible(false);
         quantityEditText.setText(String.valueOf(currentItem.getQuantity()));
+        originalQuantity = currentItem.getQuantity();
         quantityTextInputLayout.setEndIconVisible(false);
         weightEditText.setText(String.valueOf(currentItem.getWeight()));
+        originalWeight = currentItem.getWeight();
         weightTextInputLayout.setEndIconVisible(false);
 
-        itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
         bagAdapter = new BagListAdapter(this);
         bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
         bagViewModel.getAllBagsSortedByName().observe(this, bags -> bagAdapter.setBags(bags));
+        itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
+        itemViewModel.getAllItems().observe(this, items -> bagAdapter.setItems(items));
     }
 
 
@@ -152,10 +162,28 @@ public class EditItemActivity extends AppCompatActivity
         currentItem.setQuantity(Integer.valueOf(quantityEditText.getText().toString()));
         if(!TextUtils.isEmpty(weightEditText.getText().toString())){
             currentItem.setWeight(new Double(weightEditText.getText().toString()));
+            if(isBagOverSystemWeight(currentItem)){
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                overSystemWeightFragmentDialog = new OverSystemWeightFragmentDialog();
+                overSystemWeightFragmentDialog.show(fragmentManager, DIALOG_OVER_WEIGHT);
+                return;
+            }
         }
         currentItem.setStatus(itemStatus.getStatusCode());
         itemViewModel.update(currentItem);
         callIntent();
+    }
+
+    private boolean isBagOverSystemWeight(Item currentItem){
+        double totalCurrentBagWeight = bagAdapter.getItemWeight(bagAdapter.findBagById(currentItem.getBagId()));
+        totalCurrentBagWeight -= (originalWeight * originalQuantity);
+        totalCurrentBagWeight += (currentItem.getWeight() * currentItem.getQuantity());
+        if(totalCurrentBagWeight >= MAX_SYSTEM_WEIGHT){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     private void callIntent(){
@@ -221,5 +249,10 @@ public class EditItemActivity extends AppCompatActivity
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onDialogOverWeightPositiveClick(DialogFragment dialog) {
+        dialog.dismiss();
     }
 }

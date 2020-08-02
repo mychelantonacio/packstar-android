@@ -32,13 +32,18 @@ import java.util.List;
 
 public class ListBagFragment extends Fragment implements CommentFragmentDialog.NoticeDialogListener {
 
+    //widgets
+    private FloatingActionButton fab;
+
+    //dialogs
+    private CommentFragmentDialog commentFragmentDialog;
+    private static final String DIALOG_COMMENT = "CommentFragmentDialog";
+
+    //data
     private BagListAdapter bagAdapter;
     private BagViewModel bagViewModel;
     private ItemViewModel itemViewModel;
-    private FloatingActionButton fab;
 
-    private CommentFragmentDialog commentFragmentDialog;
-    private static final String DIALOG_COMMENT = "CommentFragmentDialog";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

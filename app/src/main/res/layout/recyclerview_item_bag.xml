@@ -66,40 +66,8 @@
                 app:layout_constraintStart_toEndOf="@+id/text_view_bag_date"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_bag_name" />
 
-
-
-
-
             <TextView
                 android:id="@+id/textview_counter_weight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="88dp"
-                android:layout_marginTop="18dp"
-                android:fontFamily="@font/lato_medium"
-                android:includeFontPadding="false"
-                android:text="@string/placeholder_number_zero"
-                android:textColor="@color/colorAccent"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider" />
-
-            <TextView
-                android:id="@+id/textview_unit_kg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="21dp"
-                android:fontFamily="@font/lato"
-                android:includeFontPadding="false"
-                android:text="@string/unit_kg"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/textview_counter_weight"
-                app:layout_constraintTop_toBottomOf="@+id/divider" />
-
-            <TextView
-                android:id="@+id/textview_counter_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -113,17 +81,45 @@
                 app:layout_constraintTop_toBottomOf="@+id/divider" />
 
             <TextView
+                android:id="@+id/textview_unit_kg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/lato"
+                android:includeFontPadding="false"
+                android:text="@string/unit_kg"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/textview_counter_weight"
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+            <TextView
+                android:id="@+id/textview_counter_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="4dp"
+                android:fontFamily="@font/lato_medium"
+                android:includeFontPadding="false"
+                android:text="@string/placeholder_number_zero"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toStartOf="@+id/textview_unit_item"
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+            <TextView
                 android:id="@+id/textview_unit_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="21dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
                 android:fontFamily="@font/lato"
                 android:includeFontPadding="false"
                 android:text="@string/label_bag_items"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/textview_counter_item"
+                app:layout_constraintEnd_toStartOf="@+id/divider2"
                 app:layout_constraintTop_toBottomOf="@+id/divider" />
 
             <ImageButton
@@ -155,11 +151,11 @@
                 android:id="@+id/divider2"
                 android:layout_width="1dp"
                 android:layout_height="24dp"
-                android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 android:alpha="0.30"
                 android:background="?android:attr/listDivider"
-                app:layout_constraintStart_toEndOf="@+id/textview_unit_kg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider" />
 
 
@@ -276,10 +272,9 @@
                 android:id="@+id/imageView_red_bullet"
                 android:layout_width="8dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="8dp"
                 android:contentDescription="@string/bullet_overweight"
-                app:layout_constraintStart_toEndOf="@+id/textview_unit_item"
+                app:layout_constraintStart_toEndOf="@+id/textview_unit_kg"
                 app:layout_constraintTop_toBottomOf="@+id/divider"
                 app:srcCompat="@drawable/ic_red_bullet" />
 
@@ -288,7 +283,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/lato"
                 android:text="@string/label_overweight"
                 android:textAlignment="viewStart"

@@ -16,17 +16,28 @@ import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
+import com.mychelantonacio.packstar.util.Dialogs.OverSystemWeightFragmentDialog;
 import com.mychelantonacio.packstar.util.enums.ItemStatusEnum;
 import com.mychelantonacio.packstar.util.filters.DecimalDigitsInputFilter;
+import com.mychelantonacio.packstar.view.adapters.BagListAdapter;
+import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
 
 public class CreateItemActivity extends AppCompatActivity
-        implements DiscardChangesFragmentDialog.NoticeDialogListener {
+        implements DiscardChangesFragmentDialog.NoticeDialogListener,
+        OverSystemWeightFragmentDialog.NoticeDialogListener {
+
 
     private ItemStatusEnum itemStatus;
+    private double MAX_SYSTEM_WEIGHT = 100;
+
+
+    //dialogs
     private DiscardChangesFragmentDialog discardChangesFragmentDialog;
     private static final String DIALOG_DISCARD = "DiscardChangesFragmentDialog";
+    private OverSystemWeightFragmentDialog overSystemWeightFragmentDialog;
+    private static final String DIALOG_OVER_WEIGHT = "OverSystemWeightFragmentDialog";
 
     //Widgets
     private TextInputEditText nameEditText;
@@ -36,8 +47,10 @@ public class CreateItemActivity extends AppCompatActivity
     private Chip chipAlreadyHave;
     private Chip chipNeedToBuy;
 
-    //DATA
+    //data
     private Bag currentBag;
+    private BagListAdapter bagAdapter;
+    private BagViewModel bagViewModel;
     private ItemViewModel itemViewModel;
 
 
@@ -67,7 +80,12 @@ public class CreateItemActivity extends AppCompatActivity
         itemStatus = ItemStatusEnum.NON_INFORMATION;
         Intent intent = getIntent();
         currentBag = (Bag) intent.getParcelableExtra("bag_parcelable");
+        bagAdapter = new BagListAdapter(this);
+
+        bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
+        bagViewModel.getAllBagsSortedByName().observe(this, bags -> bagAdapter.setBags(bags));
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
+        itemViewModel.getAllItems().observe(this, items -> bagAdapter.setItems(items));
     }
 
     private void chipNeedToBuySetup(){
@@ -109,11 +127,29 @@ public class CreateItemActivity extends AppCompatActivity
         newItem.setQuantity(Integer.valueOf(quantityEditText.getText().toString()));
         if(!TextUtils.isEmpty(weightEditText.getText().toString())){
             newItem.setWeight(new Double(weightEditText.getText().toString()));
+            if(isBagOverSystemWeight(newItem)){
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                overSystemWeightFragmentDialog = new OverSystemWeightFragmentDialog();
+                overSystemWeightFragmentDialog.show(fragmentManager, DIALOG_OVER_WEIGHT);
+                return;
+            }
+
         }
         newItem.setStatus(itemStatus.getStatusCode());
         newItem.setBagId(currentBag.getId());
         itemViewModel.insert(newItem);
         callIntent();
+    }
+
+    private boolean isBagOverSystemWeight(Item newItem){
+        double totalCurrentBagWeight = bagAdapter.getItemWeight(currentBag);
+        totalCurrentBagWeight += (newItem.getWeight() * newItem.getQuantity());
+        if(totalCurrentBagWeight >= MAX_SYSTEM_WEIGHT){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     private void callIntent(){
@@ -172,5 +208,10 @@ public class CreateItemActivity extends AppCompatActivity
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onDialogOverWeightPositiveClick(DialogFragment dialog) {
+        dialog.dismiss();
     }
 }
