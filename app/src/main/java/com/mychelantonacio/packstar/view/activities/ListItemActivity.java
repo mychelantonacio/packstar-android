@@ -16,11 +16,8 @@ import com.mychelantonacio.packstar.view.fragments.SingleFragmentActivity;
 
 
 public class ListItemActivity extends SingleFragmentActivity
-        implements DiscardChangesFragmentDialog.NoticeDialogListener,
-        HelpFragmentDialog.NoticeDialogListener {
+        implements HelpFragmentDialog.NoticeDialogListener {
 
-    private DiscardChangesFragmentDialog discardChangesFragmentDialog;
-    private static final String DIALOG_DISCARD = "DiscardChangesFragmentDialog";
     private HelpFragmentDialog helpFragmentDialog;
     private static final String DIALOG_HELP = "HelpFragmentDialog";
 
@@ -50,9 +47,7 @@ public class ListItemActivity extends SingleFragmentActivity
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            discardChangesFragmentDialog = new DiscardChangesFragmentDialog();
-            discardChangesFragmentDialog.show(fragmentManager, DIALOG_DISCARD);
+            this.finish();
         }
         else if (item.getItemId() == R.id.ic_help) {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -60,18 +55,6 @@ public class ListItemActivity extends SingleFragmentActivity
             helpFragmentDialog.show(fragmentManager, DIALOG_HELP);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
-        //Discard button...
-        this.finish();
-    }
-
-    @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
-        //Cancel button...
-        dialog.dismiss();
     }
 
     @Override

@@ -172,7 +172,6 @@ public class Bag implements Parcelable{
         this.eventDateTime = eventDateTime;
     }
 
-
     public void deleteReminder(ContentResolver cr){
         Uri deleteUri = null;
         deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, getEventId());

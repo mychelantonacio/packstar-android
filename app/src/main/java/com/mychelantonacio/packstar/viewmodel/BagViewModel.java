@@ -40,6 +40,10 @@ public class BagViewModel extends AndroidViewModel {
         bagRepository.delete(bag);
     }
 
+    public void delete(Bag bag){
+        bagRepository.delete(bag);
+    }
+
     public Bag findBagById(long id){
         return bagRepository.findBagById(id);
     }

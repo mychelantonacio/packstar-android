@@ -106,13 +106,10 @@ public class CreateBagActivity extends AppCompatActivity
         nameEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_name);
         dateEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_date);
         weightEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_weight);
-        weightEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2,1)});
+        weightEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2,3)});
         commentEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_comment);
-
         dateTextInputLayout = (TextInputLayout) findViewById(R.id.textInputLayout_bag_date);
         dateEditTextSetup();
-
-
         reminderEditText = (TextView) findViewById(R.id.textView_no_reminders);
         reminderButton = (ImageButton) findViewById(R.id.ic_reminder);
         reminderSetup();
@@ -173,11 +170,9 @@ public class CreateBagActivity extends AppCompatActivity
                 openDialog();
             }
         });
-
     }
 
     private void createBag() {
-
         if (isNameEmpty() || isDateEmpty()) {
             return;
         }
@@ -204,9 +199,14 @@ public class CreateBagActivity extends AppCompatActivity
     //back button
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            discardChangesFragmentDialog = new DiscardChangesFragmentDialog();
-            discardChangesFragmentDialog.show(fragmentManager, DIALOG_DISCARD);
+            if(isAnyFieldFilled()) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                discardChangesFragmentDialog = new DiscardChangesFragmentDialog();
+                discardChangesFragmentDialog.show(fragmentManager, DIALOG_DISCARD);
+            }
+            else{
+                this.finish();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -219,6 +219,14 @@ public class CreateBagActivity extends AppCompatActivity
     @Override
     public void onDialogNegativeClick(androidx.fragment.app.DialogFragment dialog) {
         dialog.dismiss();
+    }
+
+    private boolean isAnyFieldFilled(){
+        if (!nameEditText.getText().toString().isEmpty() || !dateEditText.getText().toString().isEmpty() ||
+                !weightEditText.getText().toString().isEmpty() || !commentEditText.getText().toString().isEmpty() ){
+            return true;
+        }
+        return false;
     }
 
     //Date and TimeDate dialogs

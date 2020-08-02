@@ -49,7 +49,14 @@ public class PopupListBag {
                 if(bagAdapter.getItemCount() == 1)
                     isLastBag = true;
 
-                bagViewModel.delete(currentBag, cr);
+
+                if(currentBag.isEventSet()){
+                    bagViewModel.delete(currentBag, cr);
+                }
+                else {
+                    bagViewModel.delete(currentBag);
+                }
+
                 Toast.makeText(context, context.getResources().getString(R.string.list_bag_popup_delete), Toast.LENGTH_SHORT).show();
 
                 if(isLastBag) {

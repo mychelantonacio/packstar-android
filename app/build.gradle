@@ -73,7 +73,8 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$work_version"
     androidTestImplementation "androidx.work:work-testing:$work_version"
 
-
+    //Flexbox layout
+    implementation 'com.google.android:flexbox:2.0.1'
 
 
 

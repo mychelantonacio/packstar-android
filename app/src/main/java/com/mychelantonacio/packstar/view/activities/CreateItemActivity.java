@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import com.google.android.material.chip.Chip;
@@ -17,6 +18,7 @@ import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
 import com.mychelantonacio.packstar.util.enums.ItemStatusEnum;
+import com.mychelantonacio.packstar.util.filters.DecimalDigitsInputFilter;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
 
@@ -55,6 +57,7 @@ public class CreateItemActivity extends AppCompatActivity
         nameEditText = (TextInputEditText) findViewById(R.id.editText_item_name);
         quantityEditText = (TextInputEditText) findViewById(R.id.editText_item_quantity);
         weightEditText = (TextInputEditText) findViewById(R.id.editText_item_weight);
+        weightEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2,3)});
         eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
         fabSetup();
         chipGroup = (ChipGroup) findViewById(R.id.chip_group);
@@ -129,11 +132,24 @@ public class CreateItemActivity extends AppCompatActivity
     //back button
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            discardChangesFragmentDialog = new DiscardChangesFragmentDialog();
-            discardChangesFragmentDialog.show(fragmentManager, DIALOG_DISCARD);
+            if(isAnyFieldFilled()) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                discardChangesFragmentDialog = new DiscardChangesFragmentDialog();
+                discardChangesFragmentDialog.show(fragmentManager, DIALOG_DISCARD);
+            }
+            else{
+                this.finish();
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isAnyFieldFilled(){
+        if (!nameEditText.getText().toString().isEmpty() || !quantityEditText.getText().toString().isEmpty() ||
+                !weightEditText.getText().toString().isEmpty() ){
+            return true;
+        }
+        return false;
     }
 
     @Override

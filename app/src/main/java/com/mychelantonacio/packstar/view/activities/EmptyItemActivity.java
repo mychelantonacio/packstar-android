@@ -2,7 +2,6 @@ package com.mychelantonacio.packstar.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,8 +17,7 @@ public class EmptyItemActivity extends AppCompatActivity
 
     private FloatingActionButton fab;
     private Bag currentBag;
-    private DiscardChangesFragmentDialog discardChangesFragmentDialog;
-    private static final String DIALOG_DISCARD = "DiscardChangesFragmentDialog";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,22 +44,18 @@ public class EmptyItemActivity extends AppCompatActivity
     //back button
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            discardChangesFragmentDialog = new DiscardChangesFragmentDialog();
-            discardChangesFragmentDialog.show(fragmentManager, DIALOG_DISCARD);
+            this.finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        //Discard button...
         this.finish();
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-        //Cancel button...
         dialog.dismiss();
     }
 }

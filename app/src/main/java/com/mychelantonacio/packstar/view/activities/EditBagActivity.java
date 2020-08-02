@@ -117,11 +117,10 @@ public class EditBagActivity extends AppCompatActivity
         dateEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_date);
         dateTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.textInputLayout_bag_date);
         weightEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_weight);
-        weightEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2,1)});
+        weightEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2,3)});
         weightTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.textInputLayout_bag_weight);
         commentEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_comment);
         commentTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.textInputLayout_bag_comment);
-
         reminderEditText = (TextView) findViewById(R.id.textView_no_reminders);
         reminderButton = (ImageButton) findViewById(R.id.ic_reminder);
         reminderSetup();
@@ -137,7 +136,6 @@ public class EditBagActivity extends AppCompatActivity
             this.reminderEventId = currentBag.getEventId();
             reminderEditText.setText(currentBag.getEventDateTime())  ;
         }
-
 
         nameEditText.setText(currentBag.getName());
         nameTextInputLayout.setEndIconVisible(false);
@@ -242,11 +240,34 @@ public class EditBagActivity extends AppCompatActivity
     //back button
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            discardChangesFragmentDialog = new DiscardChangesFragmentDialog();
-            discardChangesFragmentDialog.show(fragmentManager, DIALOG_DISCARD);
+            if(isAnyFieldFilled()) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                discardChangesFragmentDialog = new DiscardChangesFragmentDialog();
+                discardChangesFragmentDialog.show(fragmentManager, DIALOG_DISCARD);
+            }
+            else{
+                this.finish();
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDialogPositiveClick(androidx.fragment.app.DialogFragment dialog) {
+        this.finish();
+    }
+
+    @Override
+    public void onDialogNegativeClick(androidx.fragment.app.DialogFragment dialog) {
+        dialog.dismiss();
+    }
+
+    private boolean isAnyFieldFilled(){
+        if (!nameEditText.getText().toString().isEmpty() || !dateEditText.getText().toString().isEmpty() ||
+                !weightEditText.getText().toString().isEmpty() || !commentEditText.getText().toString().isEmpty() ){
+            return true;
+        }
+        return false;
     }
 
 
@@ -504,15 +525,6 @@ public class EditBagActivity extends AppCompatActivity
         return isEventFound;
     }
 
-    @Override
-    public void onDialogPositiveClick(androidx.fragment.app.DialogFragment dialog) {
-        this.finish();
-    }
-
-    @Override
-    public void onDialogNegativeClick(androidx.fragment.app.DialogFragment dialog) {
-        dialog.dismiss();
-    }
 
     @Override
     public void onDialogEditClick(androidx.fragment.app.DialogFragment dialog) { editReminderEvent(); }

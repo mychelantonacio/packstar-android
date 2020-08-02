@@ -88,11 +88,11 @@
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/lato"
             android:inputType="numberDecimal"
-            android:maxLength="2"
             android:singleLine="true"
             android:textCursorDrawable="@drawable/shape_cursor_color"
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
+
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chip_group"
@@ -101,7 +101,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="40dp"
-        app:chipSpacingHorizontal="52dp"
+        app:chipSpacingHorizontal="0dp"
         app:chipSpacingVertical="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +114,7 @@
             style="@style/Widget.MaterialComponents.Chip.Action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="11dp"
+            android:layout_marginStart="10dp"
             android:checkable="true"
             android:fontFamily="@font/lato"
             android:text="@string/textView_ic_arrow_right_red"
@@ -131,10 +131,12 @@
             style="@style/Widget.MaterialComponents.Chip.Action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="0dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
             android:checkable="true"
             android:fontFamily="@font/lato"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
             android:text="@string/textView_ic_arrow_right_green"
             android:textSize="14sp"
             app:checkedIcon="@drawable/ic_arrow_right_green_filled"
@@ -143,7 +145,52 @@
             app:chipIcon="@drawable/ic_arrow_right_green"
             app:chipStrokeColor="@color/chipStrokeColor"
             app:chipStrokeWidth="1dp" />
+
     </com.google.android.material.chip.ChipGroup>
+
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip_red2"
+        style="@style/Widget.MaterialComponents.Chip.Action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="40dp"
+        android:checkable="true"
+        android:fontFamily="@font/lato"
+        android:text="@string/textView_ic_arrow_right_red"
+        android:textSize="14sp"
+        app:checkedIcon="@drawable/ic_arrow_right_red_filled"
+        app:chipBackgroundColor="@color/colorPrimary"
+        app:chipCornerRadius="5dp"
+        app:chipIcon="@drawable/ic_arrow_right_red"
+        app:chipStrokeColor="@color/chipStrokeColor"
+        app:chipStrokeWidth="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chip_group" />
+
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip_green2"
+        style="@style/Widget.MaterialComponents.Chip.Action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="45dp"
+        android:checkable="true"
+        android:fontFamily="@font/lato"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
+        android:text="@string/textView_ic_arrow_right_green"
+        android:textSize="14sp"
+        app:checkedIcon="@drawable/ic_arrow_right_green_filled"
+        app:chipBackgroundColor="@color/colorPrimary"
+        app:chipCornerRadius="5dp"
+        app:chipIcon="@drawable/ic_arrow_right_green"
+        app:chipStrokeColor="@color/chipStrokeColor"
+        app:chipStrokeWidth="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chip_group" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/floatingActionButton"

@@ -69,7 +69,7 @@ public class EditItemActivity extends AppCompatActivity
         quantityEditText = (TextInputEditText) findViewById(R.id.editText_item_quantity);
         quantityTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.filledTextField_item_quantity);
         weightEditText = (TextInputEditText) findViewById(R.id.editText_item_weight);
-        weightEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2,1)});
+        weightEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2,3)});
         weightTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.filledTextField_item_weight);
         statusChipGroup = (com.google.android.material.chip.ChipGroup)  findViewById(R.id.chip_group_edit);
         chipGroupSetup();
@@ -176,12 +176,16 @@ public class EditItemActivity extends AppCompatActivity
     //back button
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            discardChangesFragmentDialog = new DiscardChangesFragmentDialog();
-            discardChangesFragmentDialog.show(fragmentManager, DIALOG_DISCARD);
+            if(isAnyFieldFilled()) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                discardChangesFragmentDialog = new DiscardChangesFragmentDialog();
+                discardChangesFragmentDialog.show(fragmentManager, DIALOG_DISCARD);
+            }
+            else{
+                this.finish();
+            }
         }
-        return super.onOptionsItemSelected(item);
-    }
+        return super.onOptionsItemSelected(item);    }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
@@ -193,5 +197,13 @@ public class EditItemActivity extends AppCompatActivity
     public void onDialogNegativeClick(DialogFragment dialog) {
         //Cancel button...
         dialog.dismiss();
+    }
+
+    private boolean isAnyFieldFilled(){
+        if (!nameEditText.getText().toString().isEmpty() || !quantityEditText.getText().toString().isEmpty() ||
+                !weightEditText.getText().toString().isEmpty() ){
+            return true;
+        }
+        return false;
     }
 }

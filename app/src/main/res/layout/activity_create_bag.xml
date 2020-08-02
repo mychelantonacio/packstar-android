@@ -102,16 +102,6 @@
                     app:layout_constraintVertical_bias="0.066" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/ic_calendar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="130dp"
-                android:contentDescription="@string/ic_calendar_description"
-                app:layout_constraintEnd_toStartOf="@+id/textInputLayout_bag_date"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_calendar" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout_bag_weight"
                 android:layout_width="0dp"
@@ -133,8 +123,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:fontFamily="@font/lato"
-                    android:inputType="number"
-                    android:maxLength="2"
+                    android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:textCursorDrawable="@drawable/shape_cursor_color"
                     android:textSize="16sp"
@@ -192,16 +181,6 @@
                     app:layout_constraintVertical_bias="0.066" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/ic_add_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="288dp"
-                android:contentDescription="@string/ic_calendar_description"
-                app:layout_constraintEnd_toStartOf="@+id/textInputLayout_bag_comment"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_add_comment" />
-
             <ImageButton
                 android:id="@+id/ic_reminder"
                 android:layout_width="wrap_content"
@@ -221,19 +200,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-
                 android:layout_marginTop="14dp"
                 android:fontFamily="@font/lato"
                 android:text="@string/text_view_reminder"
                 android:textColor="@color/colorPrimaryDark"
-
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/ic_reminder"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout_bag_comment" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/floatingActionButton"

@@ -38,7 +38,6 @@
                 app:counterOverflowTextColor="@color/colorAccent"
                 app:counterTextAppearance="@style/counterText"
                 app:counterTextColor="@color/colorAccent"
-
                 app:endIconContentDescription="@string/edit_text_description_bag_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -102,16 +101,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/textInputEditText_bag_name"
                     app:layout_constraintVertical_bias="0.066" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/ic_calendar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="126dp"
-                android:contentDescription="@string/ic_calendar_description"
-                app:layout_constraintEnd_toStartOf="@+id/textInputLayout_bag_date"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_calendar" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout_bag_weight"
@@ -191,16 +180,6 @@
                     app:layout_constraintVertical_bias="0.066" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/ic_add_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="282dp"
-                android:contentDescription="@string/ic_calendar_description"
-                app:layout_constraintEnd_toStartOf="@+id/textInputLayout_bag_comment"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_add_comment" />
-
             <ImageButton
                 android:id="@+id/ic_reminder"
                 android:layout_width="wrap_content"
@@ -216,22 +195,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout_bag_comment"
                 app:srcCompat="@drawable/ic_reminder" />
 
-
             <TextView
                 android:id="@+id/textView_no_reminders"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-
                 android:layout_marginTop="14dp"
                 android:fontFamily="@font/lato"
                 android:text="@string/text_view_reminder"
                 android:textColor="@color/colorPrimaryDark"
-
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/ic_reminder"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout_bag_comment" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
