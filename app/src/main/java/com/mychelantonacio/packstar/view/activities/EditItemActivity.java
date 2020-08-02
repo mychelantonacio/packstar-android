@@ -222,6 +222,8 @@ public class EditItemActivity extends AppCompatActivity
     //back button
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            this.finish();
+            /*
             if(isAnyFieldFilled()) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 discardChangesFragmentDialog = new DiscardChangesFragmentDialog();
@@ -230,6 +232,7 @@ public class EditItemActivity extends AppCompatActivity
             else{
                 this.finish();
             }
+             */
         }
         return super.onOptionsItemSelected(item);    }
 
