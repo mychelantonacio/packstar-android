@@ -69,8 +69,8 @@
     <string name="label_bag_name">Reisikoti nimi</string>
     <string name="label_bag_date">Reisi kuupäev</string>
     <string name="label_bag_weight">Reisikoti kogukaal</string>
-    <string name="label_bag_item">Toode</string>
-    <string name="label_bag_items">Toodet</string>
+    <string name="label_bag_item">toode</string>
+    <string name="label_bag_items">toodet</string>
     <string name="label_add_item">Lisa toode</string>
     <string name="menu_dots_edit">Muuda</string>
     <string name="menu_dots_delete">Kustuta</string>
@@ -82,7 +82,6 @@
     <string name="bullet_with_comment">Oranž täpp</string>
     <string name="bullet_no_reminders">Oranž täpp</string>
     <string name="bullet_with_reminders">Oranž täpp</string>
-    <string name="button_add_items">Nupp lisa toode</string>
     <string name="bullet_overweight">Punane täpp</string>
     <string name="label_no_comments">Kommentaar puudub</string>
     <string name="label_read_comment">Loe kommentaari</string>
