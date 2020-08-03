@@ -21,10 +21,13 @@
     <!--Base application theme - Help Dialog-->
     <string name="dialog_help">
         Toimingud \n\n\n
-        Ühekordne puudutus - muudab toodet \n\n
-        Tõmme vasakule - kustutab toote \n\n
-        Hoia ning liiguta üles-alla - paigutab toote ümber
+        Ühekordne puudutus - muuda andmeid \n\n
+        Tõmme vasakule - kustuta toode \n\n
+        Hoia ning liiguta üles-alla - paiguta toode ümber
     </string>
+
+    <!--Base application theme - OverSystemWeight Dialog-->
+    <string name="dialog_over_system_weight">Maksimaalne lubatud kaal on 99kg</string>
 
     <!--Base application - shared preferences -->
     <string name="shared_preferences_first_run">ESIMEST_KORDA</string>
@@ -32,29 +35,23 @@
     <!-- SCREEN SECTION -->
     <!--Home Screen-->
 
-    <string name="welcome_packstar">Tere tulemast</string>
-    <string name="welcome_packstar_going">Kas</string>
-    <string name="welcome_packstar_on">olete</string>
-    <string name="welcome_packstar_an">valmis</string>
-    <string name="welcome_packstar_adventure">seiklusteks?</string>
+    <string name="going_on_an_adventure_description">Seiklusteks valmis?</string>
     <string name="create_first_bag">Koosta oma esimene reisikott\nvajutades allolevat nuppu</string>
 
     <!--Create Bag Screen-->
     <string name="title_screen_create_bag">Uus reisikott</string>
-    <string name="edit_text_hint_bag_name">Nimeta reisikott</string>
+    <string name="edit_text_hint_bag_name">Reisikoti nimi</string>
     <string name="edit_text_description_bag_name">Kustuta nimi</string>
     <string name="edit_text_hint_bag_date">Reisi kuupäev</string>
     <string name="edit_text_description_bag_date">Kustuta reisi kuupäev</string>
-    <string name="edit_text_hint_bag_weight">Kogukaal(kg)</string>
+    <string name="edit_text_hint_bag_weight">Kogukaal (kg)</string>
     <string name="edit_text_description_bag_weight">Kustuta kogukaal</string>
     <string name="edit_text_hint_bag_comment">Lisa kommentaar</string>
     <string name="edit_text_description_bag_comment">Kustuta kommentaar</string>
     <string name="fab_text">Salvesta</string>
     <string name="fab_description">Salvesta reisikott</string>
-    <string name="text_view_reminder">Meeldetuletus puudub</string>
+    <string name="text_view_reminder">Lisa meeldetuletus</string>
     <string name="ic_reminder_description">Meeldetuletuse ikoon</string>
-    <string name="ic_calendar_description">Kalendri ikoon</string>
-    <string name="ic_add_comment_description">Lisa kommentaar ikoon</string>
     <string name="alert_create_bag_name_required">Sisesta reisikoti nimi</string>
     <string name="alert_create_bag_date_required">Sisesta reisi kuupäev</string>
     <string name="reminder_create_bag_invalid_time">Vale sisestus. Määra aeg tulevikuks</string>
@@ -79,7 +76,7 @@
     <string name="menu_dots_delete">Kustuta</string>
     <string name="menu_dots_share">Jaga</string>
     <string name="list_bag_popup_delete">Reisikott kustutatud</string>
-    <string name="list_bag_comment_empty">Kommentaar puudub. Lisada on võimalik muutes reisikoti andmeid</string>
+    <string name="list_bag_comment_empty">Kommentaar puudub. Lisada on võimalik muutes reisikoti andmeid menüüst</string>
     <string name="menu_dots_description">Menüü</string>
     <string name="bullet_no_comment">Hall täpp</string>
     <string name="bullet_with_comment">Oranž täpp</string>
@@ -87,8 +84,8 @@
     <string name="bullet_with_reminders">Oranž täpp</string>
     <string name="button_add_items">Nupp lisa toode</string>
     <string name="bullet_overweight">Punane täpp</string>
-    <string name="label_no_comments">Kommentaarid puuduvad</string>
-    <string name="label_no_reminders">Meeldetuletused puuduvad</string>
+    <string name="label_no_comments">Kommentaar puudub</string>
+    <string name="label_no_reminders">Meeldetuletus puudub</string>
     <string name="label_overweight">ÜLEKAAL</string>
 
     <!--Create Item Screen-->
@@ -125,13 +122,13 @@
     <string name="image_empty_bag_description">lendav kosmoselaev</string>
     <string name="label_no_entry">Tühjus</string>
     <string name="label_no_entry_bag">Siia pole midagi lisatud</string>
-    <string name="label_add_new_bag">Vajuta "+" nuppu kui soovid koostada uut reisikotti</string>
+    <string name="label_add_new_bag">Vajuta "+" nuppu kui soovid lisada uut reisikotti</string>
 
     <!--Empty Item Screen-->
     <string name="title_screen_empty_item">PackStar</string>
     <string name="image_empty_item_description">Astronaut ja reisikott</string>
     <string name="label_no_entry_item">Tühjus</string>
     <string name="label_no_entry_item2">Siia pole midagi lisatud</string>
-    <string name="label_add_new_item">Vajuta "+" nuppu kui soovid koostada uut toodet</string>
+    <string name="label_add_new_item">Vajuta "+" nuppu kui soovid lisada uut toodet</string>
 
 </resources>

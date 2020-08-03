@@ -26,7 +26,7 @@
     </string>
 
     <!--Base application theme - OverSystemWeight Dialog-->
-    <string name="dialog_over_system_weight" translatable="false">Maximum system weight is 99 kg</string>
+    <string name="dialog_over_system_weight">Maximum system weight is 99kg</string>
 
     <!--Base application - units -->
     <string name="unit_kg" translatable="false">kg</string>
@@ -44,11 +44,7 @@
 
     <!-- SCREEN SECTION -->
     <!--Home Screen-->
-    <string name="welcome_packstar">Welcome to Packstar</string>
-    <string name="welcome_packstar_going">Going</string>
-    <string name="welcome_packstar_on">on</string>
-    <string name="welcome_packstar_an">an</string>
-    <string name="welcome_packstar_adventure">adventure?</string>
+    <string name="going_on_an_adventure_description">Going on an adventure?</string>
     <string name="create_first_bag">Create your first bag by tapping the\nplus button</string>
 
     <!--Create Bag Screen-->
@@ -63,17 +59,15 @@
     <string name="edit_text_description_bag_comment">Delete comment</string>
     <string name="fab_text">Save</string>
     <string name="fab_description">Save bag</string>
-    <string name="text_view_reminder" translatable="false">Add reminder</string>
+    <string name="text_view_reminder">Add reminder</string>
     <string name="ic_reminder_description">Reminder icon</string>
-    <string name="ic_calendar_description">Calendar icon</string>
-    <string name="ic_add_comment_description">Add comment icon</string>
     <string name="alert_create_bag_name_required">Enter Bag name</string>
     <string name="alert_create_bag_date_required">Enter trip date</string>
     <string name="reminder_create_bag_invalid_time">Invalid time. Please, set future reminder time</string>
     <string name="reminder_create_bag_trip_is_coming">Your trip is coming soon</string>
-    <string name="reminder_create_bag_add_success">Success! Your reminder was added to your calendar</string>
-    <string name="reminder_create_bag_update_success">Success! Your reminder was updated in your calendar</string>
-    <string name="reminder_create_bag_delete_success">Success! Your reminder was deleted</string>
+    <string name="reminder_create_bag_add_success">Reminder added to your calendar</string>
+    <string name="reminder_create_bag_update_success">Reminder updated</string>
+    <string name="reminder_create_bag_delete_success">Reminder deleted</string>
     <string name="reminder_create_bag_update_delete_failure">Entry not found, create new one</string>
     <string name="reminder_permission_read_write">Read/Write calendar permission is needed to create reminders</string>
     <string name="reminder_none">No reminders</string>
@@ -81,7 +75,7 @@
 
 
     <!--List Bag Screen-->
-    <string name="title_screen_list_bag">List bag</string>
+    <string name="title_screen_list_bag">Packstar</string>
     <string name="label_bag_name">Bag name</string>
     <string name="label_bag_date">Bag date</string>
     <string name="label_bag_weight">Bag weight</string>
@@ -92,7 +86,7 @@
     <string name="menu_dots_delete">Delete</string>
     <string name="menu_dots_share">Share</string>
     <string name="list_bag_popup_delete">Bag deleted</string>
-    <string name="list_bag_comment_empty">No comments. To add one, edit your bag</string>
+    <string name="list_bag_comment_empty">No comments. To add one, tap the menu button and then edit bag</string>
     <string name="menu_dots_description">Menu</string>
     <string name="bullet_no_comment">Bullet gray</string>
     <string name="bullet_with_comment">Bullet orange</string>
