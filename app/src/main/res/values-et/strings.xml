@@ -97,8 +97,8 @@
     <string name="edit_text_description_item_quantity">Kustuta kogus</string>
     <string name="edit_text_hint_item_weight">Kaal (kg)</string>
     <string name="edit_text_description_item_weight">Kustuta toote kaal</string>
-    <string name="textView_ic_arrow_right_red">Vaja osta</string>
-    <string name="textView_ic_arrow_right_green">Juba olemas</string>
+    <string name="textView_ic_arrow_right_red">Puudub</string>
+    <string name="textView_ic_arrow_right_green">Olemas</string>
 
     <!--List Item Screen-->
     <string name="title_screen_list_item">Tooted</string>
@@ -107,8 +107,8 @@
     <string name="label_item_weight">Kaal (kg):</string>
     <string name="label_item_number_weight">Kaalunumber</string>
     <string name="imageview_description_status">Staatuse pilt</string>
-    <string name="menu_chip_need_to_buy">Vaja osta</string>
-    <string name="menu_chip_already_have">Juba olemas</string>
+    <string name="menu_chip_need_to_buy">Puudub</string>
+    <string name="menu_chip_already_have">Olemas</string>
     <string name="menu_chip_remove">Eemalda</string>
     <string name="menu_chip_updated_item">Staatus uuendatud</string>
 
