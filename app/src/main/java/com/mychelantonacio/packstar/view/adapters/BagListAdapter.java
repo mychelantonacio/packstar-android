@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -60,6 +61,13 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
             holder.bagNameItemView.setText(currentBag.getName());
             holder.bagDateItemView.setText(currentBag.getTravelDate());
             holder.bagWeightItemView.setText( currentBag.getWeight() == null ? "0 kg" :  String.valueOf(currentBag.getWeight()) + " kg");
+
+            if(getItemQuantity(currentBag) == 1 ){
+                holder.unitItemItemView.setText(context.getResources().getString(R.string.label_bag_item));
+            }
+            else{
+                holder.unitItemItemView.setText(context.getResources().getString(R.string.label_bag_items));
+            }
             holder.itemQuantityItemView.setText(String.valueOf(getItemQuantity(currentBag)));
             holder.itemWeightItemView.setText( String.format("%.1f", getItemWeight(currentBag)) );
 
@@ -230,7 +238,8 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         private final TextView bagNameItemView;
         private final TextView bagDateItemView;
         private final TextView bagWeightItemView;
-        private final ImageButton addImageButtonItemView;
+        private final Button addButtonItemView;
+        private final TextView addItemView;
         private final TextView itemQuantityItemView;
         private final TextView itemWeightItemView;
         private final MaterialCardView cardViewItemView;
@@ -240,18 +249,18 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
         private final TextView commentTextItemView;
         private final ImageView noCommentBulletImageItemView;
         private final ImageView withCommentBulletImageItemView;
-
         private final TextView reminderTextViewItemView;
         private final ImageView noReminderBulletImageItemView;
         private final ImageView withReminderBulletImageItemView;
-
+        private final TextView unitItemItemView;
 
         private BagViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             bagNameItemView = itemView.findViewById(R.id.text_view_bag_name);
             bagDateItemView = itemView.findViewById(R.id.text_view_bag_date);
             bagWeightItemView = itemView.findViewById(R.id.text_view_bag_weight);
-            addImageButtonItemView = itemView.findViewById(R.id.imageButton_add_item);
+            addButtonItemView = itemView.findViewById(R.id.button_add_item);
+            addItemView = itemView.findViewById(R.id.textView_add_items);
             itemQuantityItemView = itemView.findViewById(R.id.textview_counter_item);
             itemWeightItemView = itemView.findViewById(R.id.textview_counter_weight);
             cardViewItemView = itemView.findViewById(R.id.cardview_bag);
@@ -261,12 +270,23 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
             commentTextItemView = itemView.findViewById(R.id.textView_no_comments);
             noCommentBulletImageItemView = itemView.findViewById(R.id.imageView_bullet_no_comment);
             withCommentBulletImageItemView = itemView.findViewById(R.id.imageView_bullet_with_comment);
-
             reminderTextViewItemView = itemView.findViewById(R.id.textView_no_reminders);
             noReminderBulletImageItemView = itemView.findViewById(R.id.imageView_bullet_no_reminders);
             withReminderBulletImageItemView = itemView.findViewById(R.id.imageView_bullet_with_reminders);
+            unitItemItemView = itemView.findViewById(R.id.textview_unit_item);
 
-            addImageButtonItemView.setOnClickListener(v -> {
+
+
+            addButtonItemView.setOnClickListener(v -> {
+                if(listener != null){
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        listener.onAddItemClick(position);
+                    }
+                }
+            });
+
+            addItemView.setOnClickListener(v -> {
                 if(listener != null){
                     int position = getAdapterPosition();
                     if(position != RecyclerView.NO_POSITION){

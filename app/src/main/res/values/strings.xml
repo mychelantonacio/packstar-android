@@ -92,7 +92,6 @@
     <string name="bullet_with_comment">Bullet orange</string>
     <string name="bullet_no_reminders">Bullet orange</string>
     <string name="bullet_with_reminders">Bullet orange</string>
-    <string name="button_add_items">Add items button</string>
     <string name="bullet_overweight">Bullet red</string>
     <string name="label_no_comments">No comments</string>
     <string name="label_read_comment" translatable="false">Read comment</string>

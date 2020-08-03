@@ -21,9 +21,9 @@
     <!--Base application theme - Help Dialog-->
     <string name="dialog_help">
         Toimingud \n\n\n
-        Ühekordne puudutus - muuda andmeid \n\n
+        Ühekordne puudutus - muuda \n andmeid \n\n
         Tõmme vasakule - kustuta toode \n\n
-        Hoia ning liiguta üles-alla - paiguta toode ümber
+        Hoia ning liiguta üles-alla -\n paiguta toode ümber
     </string>
 
     <!--Base application theme - OverSystemWeight Dialog-->

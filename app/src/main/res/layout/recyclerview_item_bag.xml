@@ -252,21 +252,33 @@
                 app:layout_constraintStart_toEndOf="@+id/frameLayout_comment_bullets"
                 app:layout_constraintTop_toBottomOf="@+id/textView_no_comments" />
 
-            <ImageButton
-                android:id="@+id/imageButton_add_item"
+            <TextView
+                android:id="@+id/textView_add_items"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/lato"
+                android:text="@string/label_add_item"
+                android:textColor="@android:color/white"
+                android:translationZ="3dp"
+                app:layout_constraintBottom_toBottomOf="@+id/button_add_item"
+                app:layout_constraintEnd_toEndOf="@+id/button_add_item"
+                app:layout_constraintStart_toStartOf="@+id/button_add_item"
+                app:layout_constraintTop_toTopOf="@+id/button_add_item" />
+
+            <Button
+                android:id="@+id/button_add_item"
+                android:layout_width="128dp"
+                android:layout_height="46dp"
                 android:layout_marginBottom="16dp"
-                android:adjustViewBounds="true"
-                android:backgroundTint="@android:color/white"
-                android:cropToPadding="false"
-                android:padding="2dp"
-                android:scaleType="fitCenter"
-                android:contentDescription="@string/button_add_items"
+                android:backgroundTint="#EE6C4D"
+                android:fontFamily="@font/lato"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/btn_add_item_states" />
+                app:layout_constraintHorizontal_bias="0.509"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
                 android:id="@+id/imageView_red_bullet"
@@ -293,6 +305,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/imageView_red_bullet"
                 app:layout_constraintTop_toBottomOf="@+id/divider" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
