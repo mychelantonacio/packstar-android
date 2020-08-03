@@ -95,7 +95,7 @@
     <string name="button_add_items">Add items button</string>
     <string name="bullet_overweight">Bullet red</string>
     <string name="label_no_comments">No comments</string>
-    <string name="label_read_comment" translatable="false">Read comment</string>
+    <string name="label_read_comment">Read comment</string>
     <string name="label_no_reminders">No reminders</string>
     <string name="label_overweight">OVERWEIGHT</string>
 
