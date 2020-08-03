@@ -223,7 +223,22 @@ public class EditItemActivity extends AppCompatActivity
     //back button
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            this.finish();
+
+            Bag currentBag = bagAdapter.findBagById(currentItem.getBagId());
+            if (currentBag != null){
+                Intent intent = new Intent(this, ListItemActivity.class);
+                intent.putExtra("selected_bag", currentBag);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
+                finish();
+            }
+            else{
+                Intent intent = new Intent(this, ListBagActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+
             /*
             if(isAnyFieldFilled()) {
                 FragmentManager fragmentManager = getSupportFragmentManager();

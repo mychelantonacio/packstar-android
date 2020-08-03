@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -87,6 +86,7 @@ public class ListBagFragment extends Fragment implements CommentFragmentDialog.N
                 if(itemsInCurrentBag > 0){
                     Intent intent = new Intent(getActivity(), ListItemActivity.class);
                     intent.putExtra("selected_bag", currentBag);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     startActivity(intent);
                 }
                 else{
