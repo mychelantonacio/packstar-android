@@ -124,6 +124,7 @@ public class CreateBagActivity extends AppCompatActivity
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState != null) {
+
             this.isEventSet = savedInstanceState.getBoolean("isEventSet");
             this.reminderEventId = savedInstanceState.getLong("globalEventID");
             this.reminderEditText.setText(savedInstanceState.getString("reminderEditText"));
@@ -354,6 +355,7 @@ public class CreateBagActivity extends AppCompatActivity
         return false;
     }
 
+    //Calendar
     private void setReminderDateTime(int year, int month, int day, int hour, int minute) {
 
         long startMillis = 0L;
@@ -379,8 +381,8 @@ public class CreateBagActivity extends AppCompatActivity
 
             values.put(CalendarContract.Events.DTSTART, startMillis);
             values.put(CalendarContract.Events.DTEND, endMillis);
-            values.put(CalendarContract.Events.TITLE, getResources().getString(R.string.app_name));
-            values.put(CalendarContract.Events.DESCRIPTION, nameEditText.getText().toString() == null ? getResources().getString(R.string.reminder_create_bag_trip_is_coming) : "Bag name: " + nameEditText.getText().toString());
+            values.put(CalendarContract.Events.TITLE, nameEditText.getText().toString() == null ? "PackStar" : nameEditText.getText().toString());
+            values.put(CalendarContract.Events.DESCRIPTION, commentEditText.getText().toString() == null ? getResources().getString(R.string.reminder_create_bag_trip_is_coming) : commentEditText.getText().toString());
             values.put(CalendarContract.Events.CALENDAR_ID, calendarIdResult);
             values.put(CalendarContract.Events.EVENT_TIMEZONE, "Europe/London");
 

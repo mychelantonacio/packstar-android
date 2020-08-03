@@ -28,9 +28,11 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
     private final LayoutInflater inflater;
     private OnItemClickListener listener;
     private String TEXT_ORANGE = "#EE6C4D";
+    private Context context;
 
     public BagListAdapter(Context context){
         inflater = LayoutInflater.from(context);
+        this.context = context;
     }
 
 
@@ -78,15 +80,13 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
                 holder.withReminderBulletImageItemView.setVisibility(View.VISIBLE);
             }
             else {
-                holder.reminderTextViewItemView.setText("No reminders");
+                holder.reminderTextViewItemView.setText( context.getResources().getString(R.string.label_no_reminders) == null ? "No reminders" : context.getResources().getString(R.string.label_no_reminders)  );
                 holder.reminderTextViewItemView.setAlpha(0.5f);
-
                 holder.noReminderBulletImageItemView.setVisibility(View.VISIBLE);
                 holder.withReminderBulletImageItemView.setVisibility(View.GONE);
             }
-
             if(currentBag.getComment() != null && !currentBag.getComment().isEmpty()){
-                holder.commentTextItemView.setText("Read comment");
+                holder.commentTextItemView.setText(context.getResources().getString(R.string.label_read_comment) == null ? "Read comment" : context.getResources().getString(R.string.label_read_comment));
                 holder.commentTextItemView.setTextColor(Color.parseColor(TEXT_ORANGE));
                 holder.commentTextItemView.setAlpha(1f);
 
@@ -95,39 +95,34 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
 
             }
             else {
-                holder.commentTextItemView.setText("No comments");
+                holder.commentTextItemView.setText(context.getResources().getString(R.string.label_no_comments) == null ? "No comments" : context.getResources().getString(R.string.label_no_comments));
                 holder.commentTextItemView.setTextColor(Color.BLACK);
                 holder.commentTextItemView.setAlpha(0.5f);
-
                 holder.noCommentBulletImageItemView.setVisibility(View.VISIBLE);
                 holder.withCommentBulletImageItemView.setVisibility(View.GONE);
 
                 //enlarge no comment touchable area
                 final View noComment = (View) holder.commentTextItemView.getParent();
-                noComment.post( new Runnable() {
-                    public void run() {
-                        final Rect rect = new Rect();
-                        holder.commentTextItemView.getHitRect(rect);
-                        rect.top -= 100;
-                        rect.left -= 100;
-                        rect.bottom += 100;
-                        rect.right += 100;
-                        noComment.setTouchDelegate( new TouchDelegate( rect , holder.commentTextItemView));
-                    }
+                noComment.post(() -> {
+                    final Rect rect = new Rect();
+                    holder.commentTextItemView.getHitRect(rect);
+                    rect.top -= 100;
+                    rect.left -= 100;
+                    rect.bottom += 100;
+                    rect.right += 100;
+                    noComment.setTouchDelegate( new TouchDelegate( rect , holder.commentTextItemView));
                 });
             }
             //enlarge menu touchable area
             final View parentMenuThreeDots = (View) holder.popMenuImageButtonItemView.getParent();
-            parentMenuThreeDots.post( new Runnable() {
-                public void run() {
-                    final Rect rect = new Rect();
-                    holder.popMenuImageButtonItemView.getHitRect(rect);
-                    rect.top -= 50;
-                    rect.left -= 50;
-                    rect.bottom += 50;
-                    rect.right += 50;
-                    parentMenuThreeDots.setTouchDelegate( new TouchDelegate( rect , holder.popMenuImageButtonItemView));
-                }
+            parentMenuThreeDots.post(() -> {
+                final Rect rect = new Rect();
+                holder.popMenuImageButtonItemView.getHitRect(rect);
+                rect.top -= 50;
+                rect.left -= 50;
+                rect.bottom += 50;
+                rect.right += 50;
+                parentMenuThreeDots.setTouchDelegate( new TouchDelegate( rect , holder.popMenuImageButtonItemView));
             });
         } else {
             holder.bagNameItemView.setText("Bag name");
@@ -271,62 +266,47 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
             noReminderBulletImageItemView = itemView.findViewById(R.id.imageView_bullet_no_reminders);
             withReminderBulletImageItemView = itemView.findViewById(R.id.imageView_bullet_with_reminders);
 
-            addImageButtonItemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
-                            listener.onAddItemClick(position);
-                        }
+            addImageButtonItemView.setOnClickListener(v -> {
+                if(listener != null){
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        listener.onAddItemClick(position);
                     }
                 }
             });
 
-            cardViewItemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
-                            listener.onCardItemClick(position);
-                        }
+            cardViewItemView.setOnClickListener(v -> {
+                if(listener != null){
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        listener.onCardItemClick(position);
                     }
                 }
             });
 
-            popMenuImageButtonItemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
-                            listener.onPopupMenuItemClick(position, itemView);
-                        }
+            popMenuImageButtonItemView.setOnClickListener(v -> {
+                if(listener != null){
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        listener.onPopupMenuItemClick(position, itemView);
                     }
                 }
             });
 
-            commentTextItemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
-                            listener.onCommentClick(position);
-                        }
+            commentTextItemView.setOnClickListener(v -> {
+                if(listener != null){
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        listener.onCommentClick(position);
                     }
                 }
             });
 
-            withCommentBulletImageItemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
-                            listener.onCommentClick(position);
-                        }
+            withCommentBulletImageItemView.setOnClickListener(v -> {
+                if(listener != null){
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        listener.onCommentClick(position);
                     }
                 }
             });

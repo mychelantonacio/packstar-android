@@ -98,12 +98,7 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
         currentBag = (Bag) intent.getParcelableExtra("selected_bag");
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
         if(currentBag != null){
-            itemViewModel.getAllItemsWithBag(currentBag.getId()).observe(getActivity(), new Observer<List<Item>>() {
-                @Override
-                public void onChanged(List<Item> items) {
-                    adapter.setItems(items);
-                }
-            });
+            itemViewModel.getAllItemsWithBag(currentBag.getId()).observe(getActivity(), items -> adapter.setItems(items));
         }
     }
 

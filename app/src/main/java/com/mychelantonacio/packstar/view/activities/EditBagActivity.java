@@ -22,6 +22,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -177,10 +178,17 @@ public class EditBagActivity extends AppCompatActivity
         }
         currentBag.setComment(commentEditText.getText().toString());
 
+
+        Log.d("jojoba", "this.isEventSet " + this.isEventSet);
         if (this.isEventSet) {
             currentBag.setEventSet(true);
             currentBag.setEventId(this.reminderEventId);
             currentBag.setEventDateTime(reminderEditText.getText().toString());
+        }
+        else{
+            currentBag.setEventSet(false);
+            currentBag.setEventId(NO_EVENT_SET);
+            currentBag.setEventDateTime(getResources().getString(R.string.reminder_none));
         }
 
         bagViewModel.update(currentBag);
@@ -420,8 +428,8 @@ public class EditBagActivity extends AppCompatActivity
 
             values.put(CalendarContract.Events.DTSTART, startMillis);
             values.put(CalendarContract.Events.DTEND, endMillis);
-            values.put(CalendarContract.Events.TITLE, getResources().getString(R.string.app_name));
-            values.put(CalendarContract.Events.DESCRIPTION, nameEditText.getText().toString() == null ? getResources().getString(R.string.reminder_create_bag_trip_is_coming) : "Bag name: " + nameEditText.getText().toString());
+            values.put(CalendarContract.Events.TITLE, nameEditText.getText().toString() == null ? "PackStar" : nameEditText.getText().toString());
+            values.put(CalendarContract.Events.DESCRIPTION, commentEditText.getText().toString() == null ? getResources().getString(R.string.reminder_create_bag_trip_is_coming) : commentEditText.getText().toString());
             values.put(CalendarContract.Events.CALENDAR_ID, calendarIdResult);
             values.put(CalendarContract.Events.EVENT_TIMEZONE, "Europe/London");
 

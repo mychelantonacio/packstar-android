@@ -59,20 +59,10 @@ public class ListBagFragment extends Fragment implements CommentFragmentDialog.N
         recyclerView.setLayoutManager(layoutManager);
 
         bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
-        bagViewModel.getAllBagsSortedByName().observe(getActivity(), new Observer<List<Bag>>() {
-            @Override
-            public void onChanged(List<Bag> bags) {
-                bagAdapter.setBags(bags);
-            }
-        });
+        bagViewModel.getAllBagsSortedByName().observe(getActivity(), bags -> bagAdapter.setBags(bags));
 
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
-        itemViewModel.getAllItems().observe(getActivity(), new Observer<List<Item>>() {
-            @Override
-            public void onChanged(List<Item> items) {
-                bagAdapter.setItems(items);
-            }
-        });
+        itemViewModel.getAllItems().observe(getActivity(), items -> bagAdapter.setItems(items));
 
         fab = (FloatingActionButton) view.getRootView().findViewById(R.id.fab_home);
         fab.setOnClickListener(v -> {
