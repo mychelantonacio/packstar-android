@@ -49,7 +49,6 @@ public class PopupListBag {
                 if(bagAdapter.getItemCount() == 1)
                     isLastBag = true;
 
-
                 if(currentBag.isEventSet()){
                     bagViewModel.delete(currentBag, cr);
                 }

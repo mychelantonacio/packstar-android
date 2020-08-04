@@ -151,7 +151,7 @@ public class CreateBagActivity extends AppCompatActivity
     }
 
     private void fabSetup() {
-        eFab.setOnClickListener(v -> createBag());
+        eFab.setOnClickListener(v -> save());
     }
 
     private void reminderSetup() {
@@ -190,7 +190,7 @@ public class CreateBagActivity extends AppCompatActivity
         });
     }
 
-    private void createBag() {
+    private void save() {
         if (isNameEmpty() || isDateEmpty()) {
             return;
         }

@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
@@ -28,7 +29,7 @@ import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
 public class EditItemActivity extends AppCompatActivity
         implements DiscardChangesFragmentDialog.NoticeDialogListener,
-        OverSystemWeightFragmentDialog.NoticeDialogListener {
+                    OverSystemWeightFragmentDialog.NoticeDialogListener {
 
     private double MAX_SYSTEM_WEIGHT = 100;
 
@@ -40,11 +41,11 @@ public class EditItemActivity extends AppCompatActivity
 
     //Widgets
     private TextInputEditText nameEditText;
-    private com.google.android.material.textfield.TextInputLayout nameTextInputLayout;
+    private TextInputLayout nameTextInputLayout;
     private TextInputEditText quantityEditText;
-    private com.google.android.material.textfield.TextInputLayout quantityTextInputLayout;
+    private TextInputLayout quantityTextInputLayout;
     private TextInputEditText weightEditText;
-    private com.google.android.material.textfield.TextInputLayout weightTextInputLayout;
+    private TextInputLayout weightTextInputLayout;
     private ExtendedFloatingActionButton eFab;
     private Chip chipAlreadyHave;
     private Chip chipNeedToBuy;
@@ -55,8 +56,8 @@ public class EditItemActivity extends AppCompatActivity
     private BagListAdapter bagAdapter;
     private ItemStatusEnum itemStatus;
     private Item currentItem;
-    private double originalWeight;
-    private int originalQuantity;
+    private Item originalItem;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,12 +73,12 @@ public class EditItemActivity extends AppCompatActivity
         }
 
         nameEditText = (TextInputEditText) findViewById(R.id.editText_item_name);
-        nameTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.filledTextField_item_name);
+        nameTextInputLayout = (TextInputLayout) findViewById(R.id.filledTextField_item_name);
         quantityEditText = (TextInputEditText) findViewById(R.id.editText_item_quantity);
-        quantityTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.filledTextField_item_quantity);
+        quantityTextInputLayout = (TextInputLayout) findViewById(R.id.filledTextField_item_quantity);
         weightEditText = (TextInputEditText) findViewById(R.id.editText_item_weight);
         weightEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2,3)});
-        weightTextInputLayout = (com.google.android.material.textfield.TextInputLayout) findViewById(R.id.filledTextField_item_weight);
+        weightTextInputLayout = (TextInputLayout) findViewById(R.id.filledTextField_item_weight);
 
         chipNeedToBuy = (Chip) findViewById(R.id.chip_need_to_buy);
         chipNeedToBuySetup();
@@ -89,15 +90,14 @@ public class EditItemActivity extends AppCompatActivity
 
         Intent intent = getIntent();
         currentItem = (Item) intent.getParcelableExtra("item_parcelable");
+        originalItem = currentItem;
         currentItemCheckedChip();
 
         nameEditText.setText(currentItem.getName());
         nameTextInputLayout.setEndIconVisible(false);
         quantityEditText.setText(String.valueOf(currentItem.getQuantity()));
-        originalQuantity = currentItem.getQuantity();
         quantityTextInputLayout.setEndIconVisible(false);
-        weightEditText.setText(String.valueOf(currentItem.getWeight()));
-        originalWeight = currentItem.getWeight();
+        weightEditText.setText(String.valueOf(currentItem.getWeight() == null ? "" : currentItem.getWeight()));
         weightTextInputLayout.setEndIconVisible(false);
 
         bagAdapter = new BagListAdapter(this);
@@ -106,7 +106,6 @@ public class EditItemActivity extends AppCompatActivity
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
         itemViewModel.getAllItems().observe(this, items -> bagAdapter.setItems(items));
     }
-
 
     private void chipNeedToBuySetup(){
         chipNeedToBuy.setOnClickListener(v -> {
@@ -153,10 +152,10 @@ public class EditItemActivity extends AppCompatActivity
     }
 
     private void fabSetup(){
-        eFab.setOnClickListener(v -> editItem());
+        eFab.setOnClickListener(v -> save());
     }
 
-    private void editItem(){
+    private void save(){
         if (isNameEmpty() || isQuantityEmpty()) { return; }
         currentItem.setName(nameEditText.getText().toString());
         currentItem.setQuantity(Integer.valueOf(quantityEditText.getText().toString()));
@@ -176,7 +175,7 @@ public class EditItemActivity extends AppCompatActivity
 
     private boolean isBagOverSystemWeight(Item currentItem){
         double totalCurrentBagWeight = bagAdapter.getItemWeight(bagAdapter.findBagById(currentItem.getBagId()));
-        totalCurrentBagWeight -= (originalWeight * originalQuantity);
+        totalCurrentBagWeight -= (originalItem.getWeight() * originalItem.getQuantity());
         totalCurrentBagWeight += (currentItem.getWeight() * currentItem.getQuantity());
         if(totalCurrentBagWeight >= MAX_SYSTEM_WEIGHT){
             return true;
@@ -188,12 +187,8 @@ public class EditItemActivity extends AppCompatActivity
 
     private void callIntent(){
         Bag currentBag = bagAdapter.findBagById(currentItem.getBagId());
-        if (currentBag != null){
-            Intent intent = new Intent(this, ListItemActivity.class);
-            intent.putExtra("selected_bag", currentBag);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(intent);
-            finish();
+        if(currentBag != null){
+            callListItemIntentWithNoHistory(currentBag);
         }
         else{
             Intent intent = new Intent(this, ListBagActivity.class);
@@ -223,38 +218,35 @@ public class EditItemActivity extends AppCompatActivity
     //back button
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-
             Bag currentBag = bagAdapter.findBagById(currentItem.getBagId());
-            if (currentBag != null){
-                Intent intent = new Intent(this, ListItemActivity.class);
-                intent.putExtra("selected_bag", currentBag);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-                finish();
+            if (currentBag != null) {
+                if (isAnyFieldChanged()) {
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    discardChangesFragmentDialog = new DiscardChangesFragmentDialog();
+                    discardChangesFragmentDialog.show(fragmentManager, DIALOG_DISCARD);
+
+                } else {
+                    callListItemIntentWithNoHistory(currentBag);
+                }
             }
             else{
                 Intent intent = new Intent(this, ListBagActivity.class);
                 startActivity(intent);
                 finish();
             }
-
-
-            /*
-            if(isAnyFieldFilled()) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                discardChangesFragmentDialog = new DiscardChangesFragmentDialog();
-                discardChangesFragmentDialog.show(fragmentManager, DIALOG_DISCARD);
-            }
-            else{
-                this.finish();
-            }
-             */
         }
-        return super.onOptionsItemSelected(item);    }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        this.finish();
+        Bag currentBag = bagAdapter.findBagById(currentItem.getBagId());
+        if(currentBag != null){
+            callListItemIntentWithNoHistory(currentBag);
+        }
+        else{
+            finish();
+        }
     }
 
     @Override
@@ -262,12 +254,26 @@ public class EditItemActivity extends AppCompatActivity
         dialog.dismiss();
     }
 
-    private boolean isAnyFieldFilled(){
-        if (!nameEditText.getText().toString().isEmpty() || !quantityEditText.getText().toString().isEmpty() ||
-                !weightEditText.getText().toString().isEmpty() ){
+    private boolean isAnyFieldChanged() {
+        if(!nameEditText.getText().toString().equals(originalItem.getName()) ||
+                !quantityEditText.getText().toString().equals(originalItem.getQuantity().toString()) ||
+                !weightEditText.getText().toString().equals(originalItem.getWeight() == null ? "" : originalItem.getWeight().toString()) ||
+                        isAnyChipChanged() ){
             return true;
         }
         return false;
+    }
+
+    private boolean isAnyChipChanged(){
+        return !(originalItem.getStatus().equals(itemStatus.getStatusCode()));
+    }
+
+    private void callListItemIntentWithNoHistory(Bag currentBag){
+        Intent intent = new Intent(this, ListItemActivity.class);
+        intent.putExtra("selected_bag", currentBag);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent);
+        finish();
     }
 
     @Override

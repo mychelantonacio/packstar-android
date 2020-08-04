@@ -58,7 +58,6 @@
     <string name="edit_text_description_bag_comment">Delete comment</string>
     <string name="fab_text">Save</string>
     <string name="fab_description">Save bag</string>
-    <string name="text_view_reminder">Add reminder</string>
     <string name="ic_reminder_description">Reminder icon</string>
     <string name="alert_create_bag_name_required">Enter Bag name</string>
     <string name="alert_create_bag_date_required">Enter trip date</string>
@@ -69,7 +68,7 @@
     <string name="reminder_create_bag_delete_success">Reminder deleted</string>
     <string name="reminder_create_bag_update_delete_failure">Entry not found, create new one</string>
     <string name="reminder_permission_read_write">Read/Write calendar permission is needed to create reminders</string>
-    <string name="reminder_none">No reminders</string>
+    <string name="reminder_none">Add reminder</string>
     <string name="reminder_calendar_not_found">Calendar not found</string>
 
     <!--List Bag Screen-->

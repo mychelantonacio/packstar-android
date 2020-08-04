@@ -91,6 +91,7 @@ public class EditBagActivity extends AppCompatActivity
 
     //Data
     private Bag currentBag;
+    private Bag originalBag;
     private BagViewModel bagViewModel;
     private ItemViewModel itemViewModel;
 
@@ -131,6 +132,7 @@ public class EditBagActivity extends AppCompatActivity
 
         Intent intent = getIntent();
         currentBag = (Bag) intent.getParcelableExtra("bag_parcelable");
+        originalBag = currentBag;
 
         if(currentBag.isEventSet()){
             this.isEventSet = currentBag.isEventSet();
@@ -178,8 +180,6 @@ public class EditBagActivity extends AppCompatActivity
         }
         currentBag.setComment(commentEditText.getText().toString());
 
-
-        Log.d("jojoba", "this.isEventSet " + this.isEventSet);
         if (this.isEventSet) {
             currentBag.setEventSet(true);
             currentBag.setEventId(this.reminderEventId);
@@ -265,9 +265,7 @@ public class EditBagActivity extends AppCompatActivity
     //back button
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            this.finish();
-            /*
-            if(isAnyFieldFilled()) {
+            if(isAnyFieldChanged()) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 discardChangesFragmentDialog = new DiscardChangesFragmentDialog();
                 discardChangesFragmentDialog.show(fragmentManager, DIALOG_DISCARD);
@@ -275,13 +273,116 @@ public class EditBagActivity extends AppCompatActivity
             else{
                 this.finish();
             }
-             */
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onDialogPositiveClick(androidx.fragment.app.DialogFragment dialog) {
+
+        //NEW ONE -> DELETE IT
+        if(!originalBag.isEventSet()){
+            ContentResolver cr = getContentResolver();
+            Uri deleteUri = null;
+            deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, this.reminderEventId);
+            int deletedRows = cr.delete(deleteUri, null, null);
+
+            if (deletedRows == 0) {
+                Toast.makeText(EditBagActivity.this, getResources().getString(R.string.reminder_create_bag_update_delete_failure), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(EditBagActivity.this, getResources().getString(R.string.reminder_create_bag_delete_success), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        //EXISTING ONE
+        else {
+
+            int day;
+            int month;
+            int year;
+            int hour;
+            int minute;
+
+            int [] dateTimeSplit = dateTimeToInt(originalBag.getEventDateTime());
+            if(dateTimeSplit.length == 5){
+                day = dateTimeSplit[0];
+                month = dateTimeSplit[1];
+                year = dateTimeSplit[2];
+                hour = dateTimeSplit[3];
+                minute = dateTimeSplit[4];
+            }
+            else{
+                day = 1;
+                month = 1;
+                year = 2000;
+                hour = 1;
+                minute = 1;
+            }
+
+            long startMillis = 0L;
+            long endMillis = 0L;
+
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+
+                long calendarIdResult = getCalendarId(this);
+                if (calendarIdResult == CALENDAR_NOT_FOUND)
+                    Toast.makeText(EditBagActivity.this, getResources().getString(R.string.reminder_calendar_not_found), Toast.LENGTH_LONG).show();
+
+                Calendar beginTime = Calendar.getInstance();
+                beginTime.set(year, month, day, hour, minute);
+                startMillis = beginTime.getTimeInMillis();
+
+                Calendar endTime = Calendar.getInstance();
+                endTime.set(year, month, day, (hour+1), minute);
+                endMillis = endTime.getTimeInMillis();
+
+                ContentResolver cr = getContentResolver();
+                ContentValues values = new ContentValues();
+
+                values.put(CalendarContract.Events.DTSTART, startMillis);
+                values.put(CalendarContract.Events.DTEND, endMillis);
+                values.put(CalendarContract.Events.TITLE, nameEditText.getText().toString() == null ? "PackStar" : nameEditText.getText().toString());
+                values.put(CalendarContract.Events.DESCRIPTION, commentEditText.getText().toString() == null ? getResources().getString(R.string.reminder_create_bag_trip_is_coming) : commentEditText.getText().toString());
+                values.put(CalendarContract.Events.CALENDAR_ID, calendarIdResult);
+                values.put(CalendarContract.Events.EVENT_TIMEZONE, "Europe/London");
+
+
+
+
+                //EXISTING ONE BUT DELETED -> CREATE NEW ONE WITHIN ORIGINAL DATA
+                if(!this.isEventSet ){
+                    Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+                    long eventID = Long.parseLong(uri.getLastPathSegment());
+                    Toast.makeText(EditBagActivity.this, getResources().getString(R.string.reminder_create_bag_add_success), Toast.LENGTH_SHORT).show();
+                    this.isEventSet = true;
+                    this.reminderEventId = eventID;
+                    this.reminderEditText.setText(formatReminderDateTime(year, month, day, hour, minute));
+                    //update bag (DATABASE)
+
+                    currentBag = originalBag;
+                    currentBag.setEventId(eventID);
+                    bagViewModel.update(currentBag);
+                }
+
+                //EXISTING ONE BUT UPDATED -> UPDATE WITHIN ORIGINAL DATA
+                else{
+
+                    if (!isEventExistOnCalendar(true)) {
+                        this.finish();
+                    }
+                    else{
+                        Uri updateUri = null;
+                        updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, this.reminderEventId);
+                        cr.update(updateUri, values, null, null);
+                        this.reminderEditText.setText(formatReminderDateTime(year, month, day, hour, minute));
+                       // Toast.makeText(EditBagActivity.this, getResources().getString(R.string.reminder_create_bag_update_success), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+
+            }
+        }
         this.finish();
     }
 
@@ -290,12 +391,69 @@ public class EditBagActivity extends AppCompatActivity
         dialog.dismiss();
     }
 
-    private boolean isAnyFieldFilled(){
-        if (!nameEditText.getText().toString().isEmpty() || !dateEditText.getText().toString().isEmpty() ||
-                !weightEditText.getText().toString().isEmpty() || !commentEditText.getText().toString().isEmpty() ){
+    private boolean isAnyFieldChanged(){
+        if (!nameEditText.getText().toString().equals(originalBag.getName()) ||
+                !dateEditText.getText().toString().equals(originalBag.getTravelDate()) ||
+                !weightEditText.getText().toString().equals(originalBag.getWeight() == null ? "" : originalBag.getWeight().toString()) ||
+                !commentEditText.getText().toString().equals(originalBag.getComment() == null ? "" : originalBag.getComment()) ||
+                isReminderChanged()){
             return true;
         }
         return false;
+    }
+
+    private boolean isReminderChanged(){
+
+        long reminderEventIdOriginalBag = originalBag.getEventId() == 0 ? NO_EVENT_SET : originalBag.getEventId();
+        String reminderEditTextOriginalBag = originalBag.getEventDateTime() == null ? getResources().getString(R.string.reminder_none) : originalBag.getEventDateTime();
+
+        Log.w("jojoba", "isEventSet " + this.isEventSet + " " + originalBag.isEventSet());
+        Log.w("jojoba", "reminderEventId " + this.reminderEventId + " " + (originalBag.getEventId() == 0 ? NO_EVENT_SET : originalBag.getEventId()) );
+        Log.w("jojoba", "reminderEditText " + this.reminderEditText.getText() + " " + (originalBag.getEventDateTime() == null ? getResources().getString(R.string.reminder_none) : originalBag.getEventDateTime()) );
+
+        Log.w("jojoba", "reminderEventIdOriginalBag " + reminderEventIdOriginalBag);
+        Log.w("jojoba", "reminderEditTextOriginalBag " + reminderEditTextOriginalBag);
+
+
+        if(this.isEventSet != originalBag.isEventSet() ||
+                this.reminderEventId != reminderEventIdOriginalBag ||
+                !this.reminderEditText.getText().equals(reminderEditTextOriginalBag) ){
+            return true;
+        }
+        return false;
+    }
+
+    private int[] dateTimeToInt(String dateTime){
+
+        int[] dateTimeSplit = new int[5];
+
+        //4/07/2020 18:00
+        String[] date = dateTime.split("/");
+
+        /*
+        Log.d("jojoba","day " + date[0]);
+        Log.d("jojoba","month " + date[1]);
+        Log.d("jojoba","year " + date[2].substring(0, 4) ); //year '2020  18:00'
+        Log.d("jojoba","hour " + date[2].substring(6, 8) ); //year '2020  18:00'
+        Log.d("jojoba","min " + date[2].substring(9, 11) ); //year '2020  18:00'
+*/
+
+
+        dateTimeSplit[0] = Integer.parseInt(date[0]);//day
+
+        dateTimeSplit[1] = Integer.parseInt(date[1]);//month
+        dateTimeSplit[2] = Integer.parseInt(date[2].substring(0, 4));//year
+        dateTimeSplit[3] = Integer.parseInt(date[2].substring(6, 8));//hour
+        dateTimeSplit[4] = Integer.parseInt(date[2].substring(9, 11));//minute
+
+        Log.d("jojoba","day " + dateTimeSplit[0]);
+        Log.d("jojoba","month " + dateTimeSplit[1]);
+        Log.d("jojoba","year " + dateTimeSplit[2] ); //year '2020  18:00'
+        Log.d("jojoba","hour " + dateTimeSplit[3] ); //year '2020  18:00'
+        Log.d("jojoba","min " + dateTimeSplit[4] ); //year '2020  18:00'
+
+
+        return dateTimeSplit;
     }
 
 
@@ -332,7 +490,6 @@ public class EditBagActivity extends AppCompatActivity
         openDialog();
     }
 
-
     private boolean isNameEmpty(){
         String bagName = nameEditText.getText().toString().trim();
         if(TextUtils.isEmpty(bagName)){
@@ -367,6 +524,16 @@ public class EditBagActivity extends AppCompatActivity
         }
         return super.dispatchTouchEvent(event);
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean("isEventSet", this.isEventSet);
+        savedInstanceState.putLong("globalEventID", reminderEventId);
+        savedInstanceState.putString("reminderEditText", this.reminderEditText.getText().toString());
+    }
+
+
 
     //Calendar
     private void showTimePickerDialog(final int year, final int month, final int day, final boolean isCurrentDay) {
@@ -444,7 +611,7 @@ public class EditBagActivity extends AppCompatActivity
             }
             //update event
             else {
-                if (!isEventExistOnCalendar()) {
+                if (!isEventExistOnCalendar(false)) {
                     this.isEventSet = false;
                     this.reminderEventId = NO_EVENT_SET;
                     this.reminderEditText.setText(getResources().getString(R.string.reminder_none));
@@ -516,9 +683,16 @@ public class EditBagActivity extends AppCompatActivity
         return CALENDAR_NOT_FOUND;
     }
 
-    private boolean isEventExistOnCalendar() {
+    private boolean isEventExistOnCalendar(boolean isRollBack) {
         boolean isEventFound = false;
-        long selectedEventId = this.reminderEventId;
+        long selectedEventId;
+
+        if(isRollBack){
+            selectedEventId = originalBag.getEventId();
+        }
+        else{
+            selectedEventId = this.reminderEventId;
+        }
 
         String[] proj =
                 new String[]{
@@ -561,8 +735,6 @@ public class EditBagActivity extends AppCompatActivity
         openDialog();
     }
 
-
-
     @Override
     public void onDialogDeleteClick(androidx.fragment.app.DialogFragment dialog) {
         ContentResolver cr = getContentResolver();
@@ -579,5 +751,4 @@ public class EditBagActivity extends AppCompatActivity
         this.isEventSet = false;
         this.reminderEditText.setText(getResources().getString(R.string.reminder_none));
     }
-
 }

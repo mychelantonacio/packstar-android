@@ -202,7 +202,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="14dp"
                 android:fontFamily="@font/lato"
-                android:text="@string/text_view_reminder"
+                android:text="@string/reminder_none"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/ic_reminder"
