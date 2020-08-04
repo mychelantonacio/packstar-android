@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.model.Item;
@@ -41,28 +42,35 @@ public class PopupListBag {
                 context.startActivity(intent);
             }
             if (item.getItemId() == R.id.menu_dots_delete) {
-                boolean isLastBag = false;
+                new MaterialAlertDialogBuilder(context, R.style.AlertDialogTheme)
+                        .setMessage(R.string.dialog_delete_title)
+                        .setPositiveButton(R.string.dialog_delete_delete, (dialog, which) -> {
+                            boolean isLastBag = false;
 
-                ContentResolver cr = context.getContentResolver();
-                currentItems.stream().forEach(i -> itemViewModel.delete(i));
+                            ContentResolver cr = context.getContentResolver();
+                            currentItems.stream().forEach(i -> itemViewModel.delete(i));
 
-                if(bagAdapter.getItemCount() == 1)
-                    isLastBag = true;
+                            if(bagAdapter.getItemCount() == 1)
+                                isLastBag = true;
 
-                if(currentBag.isEventSet()){
-                    bagViewModel.delete(currentBag, cr);
-                }
-                else {
-                    bagViewModel.delete(currentBag);
-                }
+                            if(currentBag.isEventSet()){
+                                bagViewModel.delete(currentBag, cr);
+                            }
+                            else {
+                                bagViewModel.delete(currentBag);
+                            }
 
-                Toast.makeText(context, context.getResources().getString(R.string.list_bag_popup_delete), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getResources().getString(R.string.list_bag_popup_delete), Toast.LENGTH_SHORT).show();
 
-                if(isLastBag) {
-                    Intent intent = new Intent(context, EmptyBagActivity.class);
-                    context.startActivity(intent);
-                    activity.finish();
-                }
+                            if(isLastBag) {
+                                Intent intent = new Intent(context, EmptyBagActivity.class);
+                                context.startActivity(intent);
+                                activity.finish();
+                            }
+                        })
+                        .setNegativeButton(R.string.dialog_delete_cancel, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
             if (item.getItemId() == R.id.menu_dots_share) {
                 Intent sendIntent = new Intent();
@@ -74,7 +82,6 @@ public class PopupListBag {
             }
             return true;
         });
-
         popup.show();
     }
 

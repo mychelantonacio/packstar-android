@@ -14,6 +14,8 @@
         <item name="android:timePickerDialogTheme">@style/TimePickerTheme</item>
     </style>
 
+
+
     <!-- Base application theme - Alert Dialog -->
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="materialAlertDialogTitleTextStyle">@style/TitleTextStyle</item>
