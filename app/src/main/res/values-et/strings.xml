@@ -26,6 +26,11 @@
         Hoia ning liiguta üles-alla -\n paiguta toode ümber
     </string>
 
+    <!--Base application theme - Discard dialog-->
+    <string name="dialog_delete_title">Kustuta reisikott?</string>
+    <string name="dialog_delete_cancel">Tühista</string>
+    <string name="dialog_delete_delete">Kustuta</string>
+
     <!--Base application theme - OverSystemWeight Dialog-->
     <string name="dialog_over_system_weight">Maksimaalne lubatud kaal on 99kg</string>
 
@@ -50,7 +55,6 @@
     <string name="edit_text_description_bag_comment">Kustuta kommentaar</string>
     <string name="fab_text">Salvesta</string>
     <string name="fab_description">Salvesta reisikott</string>
-    <string name="text_view_reminder">Lisa meeldetuletus</string>
     <string name="ic_reminder_description">Meeldetuletuse ikoon</string>
     <string name="alert_create_bag_name_required">Sisesta reisikoti nimi</string>
     <string name="alert_create_bag_date_required">Sisesta reisi kuupäev</string>

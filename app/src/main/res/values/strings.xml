@@ -26,10 +26,9 @@
     </string>
 
     <!--Base application theme - Discard dialog-->
-    <string name="dialog_delete_title" translatable="false">Delete this bag?</string>
-    <string name="dialog_delete_cancel" translatable="false">Cancel</string>
-    <string name="dialog_delete_delete" translatable="false">Delete</string>
-
+    <string name="dialog_delete_title">Delete this bag?</string>
+    <string name="dialog_delete_cancel">Cancel</string>
+    <string name="dialog_delete_delete">Delete</string>
 
     <!--Base application theme - OverSystemWeight Dialog-->
     <string name="dialog_over_system_weight">Maximum system weight is 99kg</string>
@@ -46,7 +45,7 @@
 
     <!--Base application - shared preferences -->
     <string name="shared_preferences_first_run">FIRST_TIME</string>
-    
+
     <!-- SCREEN SECTION -->
     <!--Home Screen-->
     <string name="going_on_an_adventure_description">Going on an adventure?</string>
