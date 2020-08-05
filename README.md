@@ -10,8 +10,10 @@ Packstar is built with a minimalistic approach what makes it quick and easy to u
 ✓ Works offline <br>
 ✓ Entirely free <br>
 ✓ Create unlimited number of bags <br>
+✓ Reorder items in your own way <br>
 ✓ Add reminders, comments and labels <br>
 ✓ Share with others <br>
 ✓ Weight counter <br>
-✓ Push notification <br>
+✓ Overweight alert <br>
+✓ Synchonized events to your Google Calendar <br>
 ✓ Optimized memory usage <br>
