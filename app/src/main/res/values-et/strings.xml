@@ -102,6 +102,8 @@
     <string name="edit_text_description_item_weight">Kustuta toote kaal</string>
     <string name="textView_ic_arrow_right_red">Puudub</string>
     <string name="textView_ic_arrow_right_green">Olemas</string>
+    <string name="alert_create_item_name_required">Palun sisesta toote nimi</string>
+    <string name="alert_create_item_quantity_required">Palun sisesta toote kogus</string>
 
     <!--List Item Screen-->
     <string name="title_screen_list_item">Tooted</string>
@@ -120,6 +122,8 @@
 
     <!--Edit Bag Screen-->
     <string name="title_screen_edit_bag">Muuda reisikotti</string>
+    <string name="alert_edit_item_name_required">Palun sisesta toote nimi</string>
+    <string name="alert_edit_item_quantity_required">Palun sisesta toote kogus</string>
 
     <!--Empty Bag Screen-->
     <string name="title_screen_empty_bag">PackStar</string>

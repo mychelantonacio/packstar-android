@@ -110,8 +110,8 @@
     <string name="edit_text_description_item_weight">Delete item weight</string>
     <string name="textView_ic_arrow_right_red">Need to buy</string>
     <string name="textView_ic_arrow_right_green">Already have</string>
-    <string name="alert_create_item_name_required" translatable="false">Please, enter item name</string>
-    <string name="alert_create_item_quantity_required" translatable="false">Please, enter item quantity</string>
+    <string name="alert_create_item_name_required">Please enter item name</string>
+    <string name="alert_create_item_quantity_required">Please enter item quantity</string>
 
 
     <!--List Item Screen-->
@@ -131,8 +131,8 @@
 
     <!--Edit Bag Screen-->
     <string name="title_screen_edit_bag">Edit bag</string>
-    <string name="alert_edit_item_name_required" translatable="false">Please, enter item name</string>
-    <string name="alert_edit_item_quantity_required" translatable="false">Please, enter item quantity</string>
+    <string name="alert_edit_item_name_required">Please enter item name</string>
+    <string name="alert_edit_item_quantity_required">Please enter item quantity</string>
 
     <!--Empty Bag Screen-->
     <string name="title_screen_empty_bag">PackStar</string>
