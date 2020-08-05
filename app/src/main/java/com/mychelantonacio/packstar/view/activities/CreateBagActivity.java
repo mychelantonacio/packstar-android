@@ -148,6 +148,9 @@ public class CreateBagActivity extends AppCompatActivity
                 dateTextInputLayout.setEndIconVisible(false);
             }
         });
+
+
+
     }
 
     private void fabSetup() {

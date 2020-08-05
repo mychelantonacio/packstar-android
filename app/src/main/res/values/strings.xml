@@ -64,8 +64,8 @@
     <string name="fab_text">Save</string>
     <string name="fab_description">Save bag</string>
     <string name="ic_reminder_description">Reminder icon</string>
-    <string name="alert_create_bag_name_required">Enter Bag name</string>
-    <string name="alert_create_bag_date_required">Enter trip date</string>
+    <string name="alert_create_bag_name_required">Please, enter bag name</string>
+    <string name="alert_create_bag_date_required">Please, enter trip date</string>
     <string name="reminder_create_bag_invalid_time">Invalid time. Please, set future reminder time</string>
     <string name="reminder_create_bag_trip_is_coming">Your trip is coming soon</string>
     <string name="reminder_create_bag_add_success">Reminder added to your calendar</string>
@@ -110,6 +110,9 @@
     <string name="edit_text_description_item_weight">Delete item weight</string>
     <string name="textView_ic_arrow_right_red">Need to buy</string>
     <string name="textView_ic_arrow_right_green">Already have</string>
+    <string name="alert_create_item_name_required" translatable="false">Please, enter item name</string>
+    <string name="alert_create_item_quantity_required" translatable="false">Please, enter item quantity</string>
+
 
     <!--List Item Screen-->
     <string name="title_screen_list_item">Items</string>
@@ -128,6 +131,8 @@
 
     <!--Edit Bag Screen-->
     <string name="title_screen_edit_bag">Edit bag</string>
+    <string name="alert_edit_item_name_required" translatable="false">Please, enter item name</string>
+    <string name="alert_edit_item_quantity_required" translatable="false">Please, enter item quantity</string>
 
     <!--Empty Bag Screen-->
     <string name="title_screen_empty_bag">PackStar</string>

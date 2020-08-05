@@ -27,7 +27,7 @@ public interface BagDao {
     @Delete
     void delete(Bag bag);
 
-    //TODO refactor to getAllBagsSortedById
+    //
     @Query("SELECT * from tb_bag ORDER BY id DESC")
     LiveData<List<Bag>> getAllBagsSortedByName();
 

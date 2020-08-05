@@ -424,38 +424,16 @@ public class EditBagActivity extends AppCompatActivity
     }
 
     private int[] dateTimeToInt(String dateTime){
-
         int[] dateTimeSplit = new int[5];
-
-        //4/07/2020 18:00
         String[] date = dateTime.split("/");
 
-        /*
-        Log.d("jojoba","day " + date[0]);
-        Log.d("jojoba","month " + date[1]);
-        Log.d("jojoba","year " + date[2].substring(0, 4) ); //year '2020  18:00'
-        Log.d("jojoba","hour " + date[2].substring(6, 8) ); //year '2020  18:00'
-        Log.d("jojoba","min " + date[2].substring(9, 11) ); //year '2020  18:00'
-*/
-
-
         dateTimeSplit[0] = Integer.parseInt(date[0]);//day
-
         dateTimeSplit[1] = Integer.parseInt(date[1]);//month
         dateTimeSplit[2] = Integer.parseInt(date[2].substring(0, 4));//year
         dateTimeSplit[3] = Integer.parseInt(date[2].substring(6, 8));//hour
         dateTimeSplit[4] = Integer.parseInt(date[2].substring(9, 11));//minute
-
-        Log.d("jojoba","day " + dateTimeSplit[0]);
-        Log.d("jojoba","month " + dateTimeSplit[1]);
-        Log.d("jojoba","year " + dateTimeSplit[2] ); //year '2020  18:00'
-        Log.d("jojoba","hour " + dateTimeSplit[3] ); //year '2020  18:00'
-        Log.d("jojoba","min " + dateTimeSplit[4] ); //year '2020  18:00'
-
-
         return dateTimeSplit;
     }
-
 
     //Date and TimeDate dialogs
     @Override

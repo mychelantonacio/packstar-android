@@ -200,7 +200,7 @@ public class EditItemActivity extends AppCompatActivity
     private boolean isNameEmpty(){
         String itemName = nameEditText.getText().toString().trim();
         if(TextUtils.isEmpty(itemName)){
-            nameEditText.setError("Please, enter Item name");
+            nameEditText.setError(getResources().getString(R.string.alert_edit_item_name_required));
             return true;
         }
         return false;
@@ -209,7 +209,7 @@ public class EditItemActivity extends AppCompatActivity
     private boolean isQuantityEmpty(){
         String quantityName = quantityEditText.getText().toString().trim();
         if(TextUtils.isEmpty(quantityName)){
-            quantityEditText.setError("Please, enter Item quantity");
+            quantityEditText.setError(getResources().getString(R.string.alert_edit_item_quantity_required));
             return true;
         }
         return false;

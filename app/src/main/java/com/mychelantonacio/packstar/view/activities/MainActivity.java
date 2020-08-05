@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initialSetup() throws InterruptedException {
         bagRepository = new BagRepository(getApplication());
-        startStetho();
+        //startStetho();
         bagCount = getCountBags();
     }
 
