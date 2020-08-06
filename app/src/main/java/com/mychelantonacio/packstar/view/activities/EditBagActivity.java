@@ -293,10 +293,8 @@ public class EditBagActivity extends AppCompatActivity
                 Toast.makeText(EditBagActivity.this, getResources().getString(R.string.reminder_create_bag_delete_success), Toast.LENGTH_SHORT).show();
             }
         }
-
         //EXISTING ONE
         else {
-
             int day;
             int month;
             int year;
@@ -347,9 +345,6 @@ public class EditBagActivity extends AppCompatActivity
                 values.put(CalendarContract.Events.CALENDAR_ID, calendarIdResult);
                 values.put(CalendarContract.Events.EVENT_TIMEZONE, "Europe/London");
 
-
-
-
                 //EXISTING ONE BUT DELETED -> CREATE NEW ONE WITHIN ORIGINAL DATA
                 if(!this.isEventSet ){
                     Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
@@ -358,16 +353,12 @@ public class EditBagActivity extends AppCompatActivity
                     this.isEventSet = true;
                     this.reminderEventId = eventID;
                     this.reminderEditText.setText(formatReminderDateTime(year, month, day, hour, minute));
-                    //update bag (DATABASE)
-
                     currentBag = originalBag;
                     currentBag.setEventId(eventID);
                     bagViewModel.update(currentBag);
                 }
-
                 //EXISTING ONE BUT UPDATED -> UPDATE WITHIN ORIGINAL DATA
                 else{
-
                     if (!isEventExistOnCalendar(true)) {
                         this.finish();
                     }
@@ -376,11 +367,8 @@ public class EditBagActivity extends AppCompatActivity
                         updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, this.reminderEventId);
                         cr.update(updateUri, values, null, null);
                         this.reminderEditText.setText(formatReminderDateTime(year, month, day, hour, minute));
-                       // Toast.makeText(EditBagActivity.this, getResources().getString(R.string.reminder_create_bag_update_success), Toast.LENGTH_SHORT).show();
                     }
                 }
-
-
             }
         }
         this.finish();
@@ -403,18 +391,8 @@ public class EditBagActivity extends AppCompatActivity
     }
 
     private boolean isReminderChanged(){
-
         long reminderEventIdOriginalBag = originalBag.getEventId() == 0 ? NO_EVENT_SET : originalBag.getEventId();
         String reminderEditTextOriginalBag = originalBag.getEventDateTime() == null ? getResources().getString(R.string.reminder_none) : originalBag.getEventDateTime();
-
-        Log.w("jojoba", "isEventSet " + this.isEventSet + " " + originalBag.isEventSet());
-        Log.w("jojoba", "reminderEventId " + this.reminderEventId + " " + (originalBag.getEventId() == 0 ? NO_EVENT_SET : originalBag.getEventId()) );
-        Log.w("jojoba", "reminderEditText " + this.reminderEditText.getText() + " " + (originalBag.getEventDateTime() == null ? getResources().getString(R.string.reminder_none) : originalBag.getEventDateTime()) );
-
-        Log.w("jojoba", "reminderEventIdOriginalBag " + reminderEventIdOriginalBag);
-        Log.w("jojoba", "reminderEditTextOriginalBag " + reminderEditTextOriginalBag);
-
-
         if(this.isEventSet != originalBag.isEventSet() ||
                 this.reminderEventId != reminderEventIdOriginalBag ||
                 !this.reminderEditText.getText().equals(reminderEditTextOriginalBag) ){
@@ -510,8 +488,6 @@ public class EditBagActivity extends AppCompatActivity
         savedInstanceState.putLong("globalEventID", reminderEventId);
         savedInstanceState.putString("reminderEditText", this.reminderEditText.getText().toString());
     }
-
-
 
     //Calendar
     private void showTimePickerDialog(final int year, final int month, final int day, final boolean isCurrentDay) {
