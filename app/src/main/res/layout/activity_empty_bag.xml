@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/lato"
+        android:maxLines="2"
         android:text="@string/label_add_new_bag"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"

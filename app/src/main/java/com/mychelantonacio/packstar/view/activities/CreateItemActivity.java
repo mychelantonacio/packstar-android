@@ -117,30 +117,42 @@ public class CreateItemActivity extends AppCompatActivity
     }
 
     private void fabSetup(){
-        eFab.setOnClickListener(v -> createItem());
+        eFab.setOnClickListener(v -> save());
     }
 
-    private void createItem(){
+    private void save(){
         if (isNameEmpty() || isQuantityEmpty()) { return; }
+
         Item newItem = new Item();
+
+
+        itemViewModel.insert(newItem);
+        callIntent();
+    }
+
+
+    private Item prepareNewItemToSave(){
+        Item newItem = new Item();
+
         newItem.setName(nameEditText.getText().toString());
         newItem.setQuantity(Integer.valueOf(quantityEditText.getText().toString()));
+
         if(!TextUtils.isEmpty(weightEditText.getText().toString())){
             newItem.setWeight(new Double(weightEditText.getText().toString()));
             if(isBagOverSystemWeight(newItem)){
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                overSystemWeightFragmentDialog = new OverSystemWeightFragmentDialog();
-                overSystemWeightFragmentDialog.show(fragmentManager, DIALOG_OVER_WEIGHT);
-                return;
+                showDialogOverWeight();
             }
 
         }
         newItem.setStatus(itemStatus.getStatusCode());
         newItem.setBagId(currentBag.getId());
-        itemViewModel.insert(newItem);
-        callIntent();
+
+        return newItem;
     }
 
+
+
+    //save support methods
     private boolean isBagOverSystemWeight(Item newItem){
         double totalCurrentBagWeight = bagAdapter.getItemWeight(currentBag);
         totalCurrentBagWeight += (newItem.getWeight() * newItem.getQuantity());
@@ -192,6 +204,21 @@ public class CreateItemActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private boolean isAnyFieldFilled(){
+        if (!nameEditText.getText().toString().isEmpty() || !quantityEditText.getText().toString().isEmpty() ||
+                !weightEditText.getText().toString().isEmpty() ){
+            return true;
+        }
+        return false;
+    }
+
+    //dialogs
+    private void showDialogOverWeight(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        overSystemWeightFragmentDialog = new OverSystemWeightFragmentDialog();
+        overSystemWeightFragmentDialog.show(fragmentManager, DIALOG_OVER_WEIGHT);
+    }
+
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         this.finish();
@@ -202,13 +229,6 @@ public class CreateItemActivity extends AppCompatActivity
         dialog.dismiss();
     }
 
-    private boolean isAnyFieldFilled(){
-        if (!nameEditText.getText().toString().isEmpty() || !quantityEditText.getText().toString().isEmpty() ||
-                !weightEditText.getText().toString().isEmpty() ){
-            return true;
-        }
-        return false;
-    }
 
     @Override
     public void onDialogOverWeightPositiveClick(DialogFragment dialog) {

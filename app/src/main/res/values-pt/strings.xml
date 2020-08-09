@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- APPLICATION SECTION -->
+    <!-- Base application -->
+    <string name="app_name">PackStar</string>
+
+    <!--Base application theme - Discard dialog-->
+    <string name="dialog_title">Descartar mudanças?</string>
+    <string name="dialog_cancel">Cancelar</string>
+    <string name="dialog_discard">Descartar</string>
+
+    <!--Base application theme - Comment dialog-->
+    <string name="dialog_ok" translatable="false">OK</string>
+
+    <!--Base application theme - Reminder dialog-->
+    <string name="dialog_reminder_title">O que você gostaria de fazer?</string>
+    <string name="dialog_reminder_edit">Editar</string>
+    <string name="dialog_reminder_delete">Apagar</string>
+
+    <!--Base application theme - Help dialog-->
+    <string name="dialog_help">
+        Gestos \n\n\n
+        Único toque -> editar item \n\n
+        Deslizar para esquerda ->\n deletar item \n\n
+        Arrastar e Soltar -> reorganizar\n itens
+    </string>
+
+    <!--Base application theme - Discard dialog-->
+    <string name="dialog_delete_title">Apagar essa bagagem?</string>
+    <string name="dialog_delete_cancel">Cancelar</string>
+    <string name="dialog_delete_delete">Apagar</string>
+
+    <!--Base application theme - OverSystemWeight Dialog-->
+    <string name="dialog_over_system_weight">O peso máximo de bagagem permitido no sistema é 99kg</string>
+
+    <!--Base application - units -->
+    <string name="unit_kg" translatable="false">kg</string>
+
+    <!--Base application - placeholders -->
+    <string name="placeholder_number_zero" translatable="false">0</string>
+
+    <!--Base application - snackbars -->
+    <string name="snackbar_undo">Desfazer</string>
+    <string name="snackbar_item_deleted">Item apagado</string>
+
+    <!--Base application - shared preferences -->
+    <string name="shared_preferences_first_run">FIRST_TIME</string>
+
+    <!-- SCREEN SECTION -->
+    <!--Home Screen-->
+    <string name="going_on_an_adventure_description">Indo para uma aventura?</string>
+    <string name="create_first_bag">Crie sua primeira bagagem tocando\n no botão abaixo</string>
+
+    <!--Create Bag Screen-->
+    <string name="title_screen_create_bag">Nova Bagagem</string>
+    <string name="edit_text_hint_bag_name">Nome</string>
+    <string name="edit_text_description_bag_name">Apagar nome da bagagem</string>
+    <string name="edit_text_hint_bag_date">Data da viagem</string>
+    <string name="edit_text_description_bag_date">Apagar data da viagem</string>
+    <string name="edit_text_hint_bag_weight">Peso total (kg)</string>
+    <string name="edit_text_description_bag_weight">Apagar peso total</string>
+    <string name="edit_text_hint_bag_comment">Adicionar comentário</string>
+    <string name="edit_text_description_bag_comment">Apagar comentário</string>
+    <string name="fab_text">Salvar</string>
+    <string name="fab_description">Salvar bagagem</string>
+    <string name="ic_reminder_description">Ícone de lembrete</string>
+    <string name="alert_create_bag_name_required">Por favor, entre com o nome da bagagem</string>
+    <string name="alert_create_bag_date_required">Por favor, entre com a data da viagem</string>
+    <string name="reminder_create_bag_invalid_time">Horário inválido. Por favor, insira um horário futuro para o lembrete</string>
+    <string name="reminder_create_bag_trip_is_coming">Sua viagem está chegando!</string>
+    <string name="reminder_create_bag_add_success">lembrete adicionado ao calendário com sucesso</string>
+    <string name="reminder_create_bag_update_success">Lembrete atualizado com sucesso</string>
+    <string name="reminder_create_bag_delete_success">Lembrete apagado com sucesso</string>
+    <string name="reminder_create_bag_update_delete_failure">Entrada não encontrada, crie uma nova</string>
+    <string name="reminder_permission_read_write">Permissão de leitura/escrita são necessárias para criar lembretes no calendário</string>
+    <string name="reminder_none">Adicionar lembrete</string>
+    <string name="reminder_calendar_not_found">Calendário não encontrado</string>
+
+    <!--List Bag Screen-->
+    <string name="title_screen_list_bag">Packstar</string>
+    <string name="label_bag_name">Nome</string>
+    <string name="label_bag_date">Data da viagem</string>
+    <string name="label_bag_weight">Peso da bagagem</string>
+    <string name="label_bag_item">item</string>
+    <string name="label_bag_items">itens</string>
+    <string name="label_add_item">Adicionar item</string>
+    <string name="menu_dots_edit">Editar</string>
+    <string name="menu_dots_delete">Apagar</string>
+    <string name="menu_dots_share">Compartilhar</string>
+    <string name="list_bag_popup_delete">Apagar bagagem</string>
+    <string name="list_bag_comment_empty">Sem comentário. Para adicionar um comentário, toque no botão de menu e então edite sua bag</string>
+    <string name="menu_dots_description">Menu</string>
+    <string name="bullet_no_comment">Bullet gray</string>
+    <string name="bullet_with_comment">Bullet orange</string>
+    <string name="bullet_no_reminders">Bullet orange</string>
+    <string name="bullet_with_reminders">Bullet orange</string>
+    <string name="bullet_overweight">Bullet red</string>
+    <string name="label_no_comments">Sem comentário</string>
+    <string name="label_read_comment">Leia o comentário</string>
+    <string name="label_no_reminders">Sem lembretes</string>
+    <string name="label_overweight">Excesso de peso</string>
+
+    <!--Create Item Screen-->
+    <string name="title_screen_create_item">Adicionar item</string>
+    <string name="edit_text_hint_item_name">Nome</string>
+    <string name="edit_text_description_item_name">Apagar nome do item</string>
+    <string name="edit_text_hint_item_quantity">Quantidade</string>
+    <string name="edit_text_description_item_quantity">Apagar quantidade de itens</string>
+    <string name="edit_text_hint_item_weight">Peso (kg)</string>
+    <string name="edit_text_description_item_weight">Apagar peso do item</string>
+    <string name="textView_ic_arrow_right_red">Precisa comprar</string>
+    <string name="textView_ic_arrow_right_green">Já tenho</string>
+    <string name="alert_create_item_name_required">Por favor, entre com o nome do item</string>
+    <string name="alert_create_item_quantity_required">Por favor, entre com a quantidade de itens</string>
+
+    <!--List Item Screen-->
+    <string name="title_screen_list_item">Itens</string>
+    <string name="label_item_quantity">Quantidade:</string>
+    <string name="label_item_number">number</string>
+    <string name="label_item_weight">Peso (kg):</string>
+    <string name="label_item_number_weight">unidade de peso</string>
+    <string name="imageview_description_status">imagem status do item</string>
+    <string name="menu_chip_need_to_buy">Precisa comprar</string>
+    <string name="menu_chip_already_have">Já tenho</string>
+    <string name="menu_chip_remove">Remover</string>
+    <string name="menu_chip_updated_item">Status atualizado</string>
+
+    <!--Edit Item Screen-->
+    <string name="title_screen_edit_item">Editar item</string>
+
+    <!--Edit Bag Screen-->
+    <string name="title_screen_edit_bag">Editar bag</string>
+    <string name="alert_edit_item_name_required">Por favor, entre com o nome do item</string>
+    <string name="alert_edit_item_quantity_required">Por favor, entre com a quantidade de itens</string>
+
+    <!--Empty Bag Screen-->
+    <string name="title_screen_empty_bag">PackStar</string>
+    <string name="image_empty_bag_description">nave espacial voando</string>
+    <string name="label_no_entry">Não existe nada aqui</string>
+    <string name="label_no_entry_bag">Você ainda não tem bagagens</string>
+    <string name="label_add_new_bag">Toque no botão \"+\" para criar uma nova bagagem</string>
+
+    <!--Empty Item Screen-->
+    <string name="title_screen_empty_item">PackStar</string>
+    <string name="image_empty_item_description">robô atrás de uma bagagem</string>
+    <string name="label_no_entry_item">Não existe nada aqui</string>
+    <string name="label_no_entry_item2">Você ainda não tem itens</string>
+    <string name="label_add_new_item">Toque no botão \"+\" para criar um novo item</string></resources>
