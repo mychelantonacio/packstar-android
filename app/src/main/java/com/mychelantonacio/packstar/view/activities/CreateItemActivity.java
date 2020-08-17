@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -123,8 +124,7 @@ public class CreateItemActivity extends AppCompatActivity
     private void save(){
         if (isNameEmpty() || isQuantityEmpty()) { return; }
 
-        Item newItem = new Item();
-
+        Item newItem = prepareNewItemToSave();
 
         itemViewModel.insert(newItem);
         callIntent();
@@ -135,6 +135,9 @@ public class CreateItemActivity extends AppCompatActivity
         Item newItem = new Item();
 
         newItem.setName(nameEditText.getText().toString());
+
+        Log.d("jojoba", "nameEditText.getText().toString() " + nameEditText.getText().toString());
+
         newItem.setQuantity(Integer.valueOf(quantityEditText.getText().toString()));
 
         if(!TextUtils.isEmpty(weightEditText.getText().toString())){
