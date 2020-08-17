@@ -123,9 +123,7 @@ public class CreateItemActivity extends AppCompatActivity
 
     private void save(){
         if (isNameEmpty() || isQuantityEmpty()) { return; }
-
         Item newItem = prepareNewItemToSave();
-
         itemViewModel.insert(newItem);
         callIntent();
     }
@@ -135,9 +133,6 @@ public class CreateItemActivity extends AppCompatActivity
         Item newItem = new Item();
 
         newItem.setName(nameEditText.getText().toString());
-
-        Log.d("jojoba", "nameEditText.getText().toString() " + nameEditText.getText().toString());
-
         newItem.setQuantity(Integer.valueOf(quantityEditText.getText().toString()));
 
         if(!TextUtils.isEmpty(weightEditText.getText().toString())){
