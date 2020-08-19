@@ -18,8 +18,8 @@ public class ReminderFragmentDialog extends DialogFragment {
     private NoticeDialogListener listener;
 
     public interface NoticeDialogListener {
-        public void onDialogEditClick(DialogFragment dialog);
-        public void onDialogDeleteClick(DialogFragment dialog);
+        void onDialogEditClick(DialogFragment dialog);
+        void onDialogDeleteClick(DialogFragment dialog);
     }
 
 

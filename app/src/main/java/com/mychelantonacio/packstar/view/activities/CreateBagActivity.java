@@ -44,6 +44,9 @@ import com.mychelantonacio.packstar.util.filters.DecimalDigitsInputFilter;
 import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 
@@ -124,7 +127,6 @@ public class CreateBagActivity extends AppCompatActivity
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState != null) {
-
             this.isEventSet = savedInstanceState.getBoolean("isEventSet");
             this.reminderEventId = savedInstanceState.getLong("globalEventID");
             this.reminderEditText.setText(savedInstanceState.getString("reminderEditText"));
@@ -148,9 +150,6 @@ public class CreateBagActivity extends AppCompatActivity
                 dateTextInputLayout.setEndIconVisible(false);
             }
         });
-
-
-
     }
 
     private void fabSetup() {
@@ -165,7 +164,6 @@ public class CreateBagActivity extends AppCompatActivity
                 }
                 reminderFragmentDialog = new ReminderFragmentDialog();
                 reminderFragmentDialog.show(getSupportFragmentManager(), DIALOG_REMINDER);
-
             } else {
                 if (isNameEmpty() || isDateEmpty()) {
                     return;
@@ -182,7 +180,6 @@ public class CreateBagActivity extends AppCompatActivity
                 }
                 reminderFragmentDialog = new ReminderFragmentDialog();
                 reminderFragmentDialog.show(getSupportFragmentManager(), DIALOG_REMINDER);
-
             } else {
                 if (isNameEmpty() || isDateEmpty()) {
                     return;
@@ -262,10 +259,11 @@ public class CreateBagActivity extends AppCompatActivity
     }
 
     private boolean isCurrentDay(int year, int month, int day) {
-        final Calendar c = Calendar.getInstance();
-        int currentYear = c.get(Calendar.YEAR);
-        int currentMonth = c.get(Calendar.MONTH);
-        int currentDay = c.get(Calendar.DAY_OF_MONTH);
+
+        int currentYear = LocalDate.now().getYear();
+        int currentMonth = LocalDate.now().getMonthValue();
+        int currentDay = LocalDate.now().getDayOfMonth();
+        ++month;//datepicker 0 index based
 
         if (year == currentYear && month == currentMonth && day == currentDay) {
             return true;
@@ -423,13 +421,15 @@ public class CreateBagActivity extends AppCompatActivity
     }
 
     private String formatReminderDateTime(int year, int month, int day, int hour, int minute) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate currentDate = LocalDate.of(year, ++month, day);
+        String formattedDate = currentDate.format(dateFormatter);
 
-        if (month < 10 && minute < 10)
-            return day + "/" + "0" + month + "/" + year + "  " + hour + ":" + "0" + minute;
-        else if (month < 10)
-            return day + "/" + "0" + month + "/" + year + "  " + hour + ":" + minute;
-        else
-            return day + "/" + month + "/" + year + "  " + hour + ":" + minute;
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime currentTime = LocalTime.of(hour, minute);
+        String formattedTime = currentTime.format(timeFormatter);
+
+        return formattedDate + " " + formattedTime;
     }
 
 

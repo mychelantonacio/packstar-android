@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.mychelantonacio.packstar.R;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 
 
@@ -30,14 +31,16 @@ public class DatePickerFragmentDialog extends DialogFragment implements DatePick
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog d = new DatePickerDialog(getActivity(), this, year, month, day);
-        d.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-        return d;
+        int year = LocalDate.now().getYear();
+        int month = LocalDate.now().getMonthValue() - 1;//datepicker 0 index based
+        int day = LocalDate.now().getDayOfMonth();
+
+
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), this, year, month, day);
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        return datePickerDialog;
     }
 
     @Override
