@@ -45,6 +45,8 @@ import com.mychelantonacio.packstar.viewmodel.BagViewModel;
 import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 
@@ -417,11 +419,17 @@ public class EditBagActivity extends AppCompatActivity
     @Override
     public void onDateSet(int year, int month, int day) {
         if (DATE_DIALOG == EDIT_TEXT_DATE_DIALOG) {
-            dateEditText.setText(day + "/" + (++month) + "/" + year);
+            dateEditText.setText(formatEditTextDate(year, month, day));
         } else if (DATE_DIALOG == REMINDER_DATE_TIME_DIALOG) {
             boolean isCurrentDay = isCurrentDay(year, month, day);
             showTimePickerDialog(year, month, day, isCurrentDay);
         }
+    }
+
+    private String formatEditTextDate(int year, int month, int day){
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate currentDate = LocalDate.of(year, ++month, day);
+        return currentDate.format(dateFormatter);
     }
 
     private boolean isCurrentDay(int year, int month, int day) {

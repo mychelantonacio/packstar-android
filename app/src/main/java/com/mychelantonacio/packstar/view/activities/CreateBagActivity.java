@@ -251,28 +251,24 @@ public class CreateBagActivity extends AppCompatActivity
     @Override
     public void onDateSet(int year, int month, int day) {
         if (DATE_DIALOG == EDIT_TEXT_DATE_DIALOG) {
-
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate currentDate = LocalDate.of(year, ++month, day);
-            String formattedDate = currentDate.format(dateFormatter);
-
-            dateEditText.setText(formattedDate);
-
-
-            //dateEditText.setText(day + "/" + (++month) + "/" + year);
+            dateEditText.setText(formatEditTextDate(year, month, day));
         } else if (DATE_DIALOG == REMINDER_DATE_TIME_DIALOG) {
             boolean isCurrentDay = isCurrentDay(year, month, day);
             showTimePickerDialog(year, month, day, isCurrentDay);
         }
     }
+    private String formatEditTextDate(int year, int month, int day){
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate currentDate = LocalDate.of(year, ++month, day);
+        return currentDate.format(dateFormatter);
+    }
 
     private boolean isCurrentDay(int year, int month, int day) {
-
         int currentYear = LocalDate.now().getYear();
         int currentMonth = LocalDate.now().getMonthValue();
         int currentDay = LocalDate.now().getDayOfMonth();
-        ++month;//datepicker 0 index based
 
+        ++month;//datepicker 0 index based
         if (year == currentYear && month == currentMonth && day == currentDay) {
             return true;
         }
