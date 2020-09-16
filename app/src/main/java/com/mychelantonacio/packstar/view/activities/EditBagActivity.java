@@ -22,7 +22,6 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,6 +45,7 @@ import com.mychelantonacio.packstar.viewmodel.ItemViewModel;
 
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
@@ -596,13 +596,15 @@ public class EditBagActivity extends AppCompatActivity
     }
 
     private String formatReminderDateTime(int year, int month, int day, int hour, int minute) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate currentDate = LocalDate.of(year, ++month, day);
+        String formattedDate = currentDate.format(dateFormatter);
 
-        if (month < 10 && minute < 10)
-            return day + "/" + "0" + month + "/" + year + "  " + hour + ":" + "0" + minute;
-        else if (month < 10)
-            return day + "/" + "0" + month + "/" + year + "  " + hour + ":" + minute;
-        else
-            return day + "/" + month + "/" + year + "  " + hour + ":" + minute;
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime currentTime = LocalTime.of(hour, minute);
+        String formattedTime = currentTime.format(timeFormatter);
+
+        return formattedDate + " " + formattedTime;
     }
 
     public long getCalendarId(Context context) {
