@@ -51,7 +51,7 @@ public class ListItemFragment extends Fragment implements OnStartDragListener {
         layoutManager.scrollToPosition(0);
         recyclerView.setLayoutManager(layoutManager);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter, getContext(), getActivity()));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter, getContext()));
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         ItemTouchHelper.Callback callback =  new ItemTouchHelperCallback(adapter);
