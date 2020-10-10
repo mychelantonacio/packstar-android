@@ -2,6 +2,7 @@ package com.mychelantonacio.packstar.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initialSetup() throws InterruptedException {
         bagRepository = new BagRepository(getApplication());
-        //startStetho();
+        //startStetho();//TODO: cut it off before deploy to production
         bagCount = getCountBags();
     }
 
@@ -107,5 +108,4 @@ public class MainActivity extends AppCompatActivity {
         t.join();
         return fcount.intValue();
     }
-
 }

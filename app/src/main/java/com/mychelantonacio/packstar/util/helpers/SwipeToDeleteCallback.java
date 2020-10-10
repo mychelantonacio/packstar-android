@@ -1,6 +1,5 @@
 package com.mychelantonacio.packstar.util.helpers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;

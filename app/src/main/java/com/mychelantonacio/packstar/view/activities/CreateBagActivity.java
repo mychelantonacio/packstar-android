@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -209,9 +210,12 @@ public class CreateBagActivity extends AppCompatActivity
         }
 
         bagViewModel.insert(newBag);
+
         Intent intent = new Intent(CreateBagActivity.this, ListBagActivity.class);
         startActivity(intent);
+        finishAffinity();
         finish();
+
     }
 
     //back button

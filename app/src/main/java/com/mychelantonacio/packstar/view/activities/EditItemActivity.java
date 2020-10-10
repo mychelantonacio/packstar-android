@@ -272,6 +272,7 @@ public class EditItemActivity extends AppCompatActivity
         Intent intent = new Intent(this, ListItemActivity.class);
         intent.putExtra("selected_bag", currentBag);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
         startActivity(intent);
         finish();
     }
