@@ -2,7 +2,6 @@ package com.mychelantonacio.packstar.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import com.mychelantonacio.packstar.R;
 import com.mychelantonacio.packstar.repository.BagRepository;
 
 import java.util.concurrent.atomic.AtomicInteger;
-
 import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 
@@ -95,17 +93,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private int getCountBags() throws InterruptedException {
-        final AtomicInteger fcount = new AtomicInteger();
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int num = bagRepository.getCount();
-                fcount.set(num);
-            }
+        final AtomicInteger atomicInteger = new AtomicInteger();
+        Thread t = new Thread(() -> {
+            int num = bagRepository.getCount();
+            atomicInteger.set(num);
         });
         t.setPriority(10);
         t.start();
         t.join();
-        return fcount.intValue();
+        return atomicInteger.intValue();
     }
 }
