@@ -8,15 +8,12 @@ public enum ItemStatusEnum {
     NON_INFORMATION("N");
 
     private final String statusCode;
-    
 
     ItemStatusEnum(String status){
         this.statusCode = status;
     }
 
-
     public String getStatusCode(){
         return this.statusCode;
     }
-
 }

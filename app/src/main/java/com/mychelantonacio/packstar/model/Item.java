@@ -8,6 +8,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.mychelantonacio.packstar.util.enums.ItemStatusEnum;
+
 
 @Entity(tableName = "tb_item")
 public class Item implements Parcelable {
@@ -26,14 +28,11 @@ public class Item implements Parcelable {
 
     private Double weight;
 
-    //B - (Need to buy)
-    //A - (Already have)
-    //N - (N/A)
     @ColumnInfo(defaultValue = "N")
-    private String status = "N";
+    private String status = ItemStatusEnum.NON_INFORMATION.getStatusCode();;
 
-    public Item(){
-    }
+
+    public Item(){}
 
 
     //Getters / Setters
@@ -161,5 +160,17 @@ public class Item implements Parcelable {
             dest.writeDouble(weight);
         }
         dest.writeString(status);
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", bagId=" + bagId +
+                ", name='" + name + '\'' +
+                ", quantity=" + quantity +
+                ", weight=" + weight +
+                ", status='" + status + '\'' +
+                '}';
     }
 }
