@@ -65,44 +65,6 @@ public class Bag implements Parcelable{
         eventDateTime = in.readString();
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (id == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeLong(id);
-        }
-        dest.writeString(name);
-        dest.writeString(travelDate);
-        if (weight == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeDouble(weight);
-        }
-        dest.writeString(comment);
-        dest.writeByte((byte) (isEventSet ? 1 : 0));
-        dest.writeLong(eventId);
-        dest.writeString(eventDateTime);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<Bag> CREATOR = new Creator<Bag>() {
-        @Override
-        public Bag createFromParcel(Parcel in) {
-            return new Bag(in);
-        }
-
-        @Override
-        public Bag[] newArray(int size) {
-            return new Bag[size];
-        }
-    };
 
     //Getters-Setters
     @NonNull
@@ -171,6 +133,45 @@ public class Bag implements Parcelable{
     public void setEventDateTime(String eventDateTime) {
         this.eventDateTime = eventDateTime;
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(id);
+        }
+        dest.writeString(name);
+        dest.writeString(travelDate);
+        if (weight == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(weight);
+        }
+        dest.writeString(comment);
+        dest.writeByte((byte) (isEventSet ? 1 : 0));
+        dest.writeLong(eventId);
+        dest.writeString(eventDateTime);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Bag> CREATOR = new Creator<Bag>() {
+        @Override
+        public Bag createFromParcel(Parcel in) {
+            return new Bag(in);
+        }
+
+        @Override
+        public Bag[] newArray(int size) {
+            return new Bag[size];
+        }
+    };
 
     public void deleteReminder(ContentResolver cr){
         Uri deleteUri = null;

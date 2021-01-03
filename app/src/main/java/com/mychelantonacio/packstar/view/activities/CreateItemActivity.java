@@ -67,25 +67,27 @@ public class CreateItemActivity extends AppCompatActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        editTextSetup();
+
+        chipNeedToBuy = (Chip) findViewById(R.id.chip_need_to_buy);
+        chipNeedToBuySetup();
+
+        chipAlreadyHave = (Chip) findViewById(R.id.chip_already_have);
+        chipAlreadyHaveSetup();
+
+        eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
+        fabSetup();
+
+        bagSetup();
+        itemSetup();
+    }
+
+    private void editTextSetup() {
         nameEditText = (TextInputEditText) findViewById(R.id.editText_item_name);
         quantityEditText = (TextInputEditText) findViewById(R.id.editText_item_quantity);
         weightEditText = (TextInputEditText) findViewById(R.id.editText_item_weight);
         weightEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2,3)});
-        chipNeedToBuy = (Chip) findViewById(R.id.chip_need_to_buy);
-        chipNeedToBuySetup();
-        chipAlreadyHave = (Chip) findViewById(R.id.chip_already_have);
-        chipAlreadyHaveSetup();
-        eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
-        fabSetup();
-        itemStatus = ItemStatusEnum.NON_INFORMATION;
-        Intent intent = getIntent();
-        currentBag = (Bag) intent.getParcelableExtra("bag_parcelable");
-        bagAdapter = new BagListAdapter(this);
-
-        bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
-        bagViewModel.getAllBagsSortedByName().observe(this, bags -> bagAdapter.setBags(bags));
-        itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
-        itemViewModel.getAllItems().observe(this, items -> bagAdapter.setItems(items));
     }
 
     private void chipNeedToBuySetup(){
@@ -118,6 +120,20 @@ public class CreateItemActivity extends AppCompatActivity
 
     private void fabSetup(){
         eFab.setOnClickListener(v -> save());
+    }
+
+    private void bagSetup() {
+        Intent intent = getIntent();
+        currentBag = (Bag) intent.getParcelableExtra("bag_parcelable");
+        bagAdapter = new BagListAdapter(this);
+        bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
+        bagViewModel.getAllBagsSortedByName().observe(this, bags -> bagAdapter.setBags(bags));
+    }
+
+    private void itemSetup() {
+        itemStatus = ItemStatusEnum.NON_INFORMATION;
+        itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
+        itemViewModel.getAllItems().observe(this, items -> bagAdapter.setItems(items));
     }
 
     private void save(){
