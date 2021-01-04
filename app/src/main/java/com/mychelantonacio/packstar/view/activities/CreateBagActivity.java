@@ -95,11 +95,15 @@ public class CreateBagActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_bag);
         if (savedInstanceState != null) {
-            this.isEventSet = savedInstanceState.getBoolean("isEventSet");
-            this.reminderEventId = savedInstanceState.getLong("globalEventID");
-            this.reminderEditText.setText(savedInstanceState.getString("reminderEditText"));
+            setReminderOnCreate(savedInstanceState);
         }
         setupUIOnCreate();
+    }
+    
+    private void setReminderOnCreate(Bundle savedInstanceState) {
+        this.isEventSet = savedInstanceState.getBoolean("isEventSet");
+        this.reminderEventId = savedInstanceState.getLong("globalEventID");
+        this.reminderEditText.setText(savedInstanceState.getString("reminderEditText"));
     }
 
     private void setupUIOnCreate() {

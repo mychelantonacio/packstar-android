@@ -163,8 +163,6 @@ public class CreateItemActivity extends AppCompatActivity
         return newItem;
     }
 
-
-
     //save support methods
     private boolean isBagOverSystemWeight(Item newItem){
         double totalCurrentBagWeight = bagAdapter.getItemWeight(currentBag);
