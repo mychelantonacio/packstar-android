@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -99,7 +98,7 @@ public class CreateBagActivity extends AppCompatActivity
         }
         setupUIOnCreate();
     }
-    
+
     private void setReminderOnCreate(Bundle savedInstanceState) {
         this.isEventSet = savedInstanceState.getBoolean("isEventSet");
         this.reminderEventId = savedInstanceState.getLong("globalEventID");
@@ -111,31 +110,28 @@ public class CreateBagActivity extends AppCompatActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        inputFieldSetup();
+
+        bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
+    }
+
+    private void inputFieldSetup() {
         nameEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_name);
         dateEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_date);
         weightEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_weight);
         weightEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2,3)});
         commentEditText = (TextInputEditText) findViewById(R.id.textInputEditText_bag_comment);
+
         dateTextInputLayout = (TextInputLayout) findViewById(R.id.textInputLayout_bag_date);
         dateEditTextSetup();
+
         reminderEditText = (TextView) findViewById(R.id.textView_no_reminders);
+        
         reminderButton = (ImageButton) findViewById(R.id.ic_reminder);
         reminderSetup();
 
         eFab = (ExtendedFloatingActionButton) findViewById(R.id.floatingActionButton);
         fabSetup();
-
-        bagViewModel = new ViewModelProvider(this).get(BagViewModel.class);
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState != null) {
-            this.isEventSet = savedInstanceState.getBoolean("isEventSet");
-            this.reminderEventId = savedInstanceState.getLong("globalEventID");
-            this.reminderEditText.setText(savedInstanceState.getString("reminderEditText"));
-        }
     }
 
     private void dateEditTextSetup() {
@@ -155,6 +151,16 @@ public class CreateBagActivity extends AppCompatActivity
                 dateTextInputLayout.setEndIconVisible(false);
             }
         });
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            this.isEventSet = savedInstanceState.getBoolean("isEventSet");
+            this.reminderEventId = savedInstanceState.getLong("globalEventID");
+            this.reminderEditText.setText(savedInstanceState.getString("reminderEditText"));
+        }
     }
 
     private void fabSetup() {
