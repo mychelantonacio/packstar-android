@@ -126,7 +126,7 @@ public class CreateBagActivity extends AppCompatActivity
         dateEditTextSetup();
 
         reminderEditText = (TextView) findViewById(R.id.textView_no_reminders);
-        
+
         reminderButton = (ImageButton) findViewById(R.id.ic_reminder);
         reminderSetup();
 
@@ -202,22 +202,16 @@ public class CreateBagActivity extends AppCompatActivity
     }
 
     private void save() {
+        Bag newBag;
+
         if (isNameEmpty() || isDateEmpty()) {
             return;
         }
-        Bag newBag = new Bag();
-        newBag.setName(nameEditText.getText().toString());
-        newBag.setTravelDate(dateEditText.getText().toString());
-        if (!TextUtils.isEmpty(weightEditText.getText().toString())) {
-            newBag.setWeight(new Double(weightEditText.getText().toString()));
-        }
-        newBag.setComment(commentEditText.getText().toString());
 
-        if (this.isEventSet) {
-            newBag.setEventSet(true);
-            newBag.setEventId(this.reminderEventId);
-            newBag.setEventDateTime(reminderEditText.getText().toString());
-        }
+        newBag = setupBagToSave();
+
+        if (this.isEventSet)
+            setupEventToSave(newBag);
 
         bagViewModel.insert(newBag);
 
@@ -225,7 +219,23 @@ public class CreateBagActivity extends AppCompatActivity
         startActivity(intent);
         finishAffinity();
         finish();
+    }
 
+    private Bag setupBagToSave() {
+        Bag newBag = new Bag();
+        newBag.setName(nameEditText.getText().toString());
+        newBag.setTravelDate(dateEditText.getText().toString());
+        if (!TextUtils.isEmpty(weightEditText.getText().toString())) {
+            newBag.setWeight(new Double(weightEditText.getText().toString()));
+        }
+        newBag.setComment(commentEditText.getText().toString());
+        return newBag;
+    }
+
+    private void setupEventToSave(Bag newBag) {
+        newBag.setEventSet(true);
+        newBag.setEventId(this.reminderEventId);
+        newBag.setEventDateTime(reminderEditText.getText().toString());
     }
 
     //back button
@@ -465,9 +475,9 @@ public class CreateBagActivity extends AppCompatActivity
                     CalendarContract.Calendars.IS_PRIMARY                     // 4
             };
             int PROJECTION_ID_INDEX = 0;
-            int PROJECTION_ACCOUNT_NAME_INDEX = 1;
-            int PROJECTION_DISPLAY_NAME_INDEX = 2;
-            int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
+            //int PROJECTION_ACCOUNT_NAME_INDEX = 1;
+            //int PROJECTION_DISPLAY_NAME_INDEX = 2;
+            //int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
             int PROJECTION_VISIBLE = 4;
             cursor = contentResolver.query(calendars, EVENT_PROJECTION, null, null, null);
             if (cursor.moveToFirst()) {
