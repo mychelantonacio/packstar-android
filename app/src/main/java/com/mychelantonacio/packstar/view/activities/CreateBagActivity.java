@@ -385,6 +385,7 @@ public class CreateBagActivity extends AppCompatActivity
     }
 
     //Calendar
+    //TODO: extract this whole REMINDER to a new class...
     private void setReminderDateTime(int year, int month, int day, int hour, int minute) {
 
         long startMillis = 0L;
@@ -469,16 +470,10 @@ public class CreateBagActivity extends AppCompatActivity
 
             String[] EVENT_PROJECTION = new String[]{
                     CalendarContract.Calendars._ID,                           // 0
-                    CalendarContract.Calendars.ACCOUNT_NAME,                  // 1
-                    CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 2
-                    CalendarContract.Calendars.OWNER_ACCOUNT,                 // 3
-                    CalendarContract.Calendars.IS_PRIMARY                     // 4
+                    CalendarContract.Calendars.IS_PRIMARY                     // 1
             };
             int PROJECTION_ID_INDEX = 0;
-            //int PROJECTION_ACCOUNT_NAME_INDEX = 1;
-            //int PROJECTION_DISPLAY_NAME_INDEX = 2;
-            //int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
-            int PROJECTION_VISIBLE = 4;
+            int PROJECTION_VISIBLE = 1;
             cursor = contentResolver.query(calendars, EVENT_PROJECTION, null, null, null);
             if (cursor.moveToFirst()) {
                 long calId = 0;
