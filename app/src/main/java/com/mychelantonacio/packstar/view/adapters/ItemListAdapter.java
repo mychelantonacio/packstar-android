@@ -56,10 +56,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         notifyItemMoved(fromPosition, toPosition);
     }
 
-    public interface OnDragStartListener {
-        void onDragStarted(RecyclerView.ViewHolder viewHolder);
-    }
-
     //event click on recyclerview items
     public interface OnItemClickListener {
         void onStatusItemClick(int position, View v);
