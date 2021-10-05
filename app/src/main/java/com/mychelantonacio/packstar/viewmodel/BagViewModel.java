@@ -8,6 +8,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import com.mychelantonacio.packstar.model.Bag;
 import com.mychelantonacio.packstar.repository.BagRepository;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 
@@ -35,17 +38,13 @@ public class BagViewModel extends AndroidViewModel {
         bagRepository.deleteAll();
     }
 
-    public void delete(Bag bag, ContentResolver cr){
+    public void delete(@NotNull Bag bag, ContentResolver cr){
         bag.deleteReminder(cr);
         bagRepository.delete(bag);
     }
 
     public void delete(Bag bag){
         bagRepository.delete(bag);
-    }
-
-    public Bag findBagById(long id){
-        return bagRepository.findBagById(id);
     }
 
     public LiveData<List<Bag>> getAllBagsSortedByName() {
