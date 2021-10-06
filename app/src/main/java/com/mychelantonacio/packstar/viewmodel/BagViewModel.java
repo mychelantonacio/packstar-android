@@ -34,10 +34,6 @@ public class BagViewModel extends AndroidViewModel {
         bagRepository.update(bag);
     }
 
-    public void deleteAll(){
-        bagRepository.deleteAll();
-    }
-
     public void delete(@NotNull Bag bag, ContentResolver cr){
         bag.deleteReminder(cr);
         bagRepository.delete(bag);
