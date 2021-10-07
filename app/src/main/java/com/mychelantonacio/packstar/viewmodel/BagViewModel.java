@@ -46,6 +46,4 @@ public class BagViewModel extends AndroidViewModel {
     public LiveData<List<Bag>> getAllBagsSortedByName() {
         return allBagsSortedByName;
     }
-
-    public int getCount() { return bagRepository.getCount(); }
 }
