@@ -34,6 +34,31 @@ public class Item implements Parcelable {
 
     public Item(){}
 
+    protected Item(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readLong();
+        }
+        if (in.readByte() == 0) {
+            bagId = null;
+        } else {
+            bagId = in.readLong();
+        }
+        name = in.readString();
+        if (in.readByte() == 0) {
+            quantity = null;
+        } else {
+            quantity = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            weight = null;
+        } else {
+            weight = in.readDouble();
+        }
+        status = in.readString();
+    }
+
 
     //Getters / Setters
     @NonNull
@@ -88,31 +113,6 @@ public class Item implements Parcelable {
     }
 
 
-
-    protected Item(Parcel in) {
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readLong();
-        }
-        if (in.readByte() == 0) {
-            bagId = null;
-        } else {
-            bagId = in.readLong();
-        }
-        name = in.readString();
-        if (in.readByte() == 0) {
-            quantity = null;
-        } else {
-            quantity = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            weight = null;
-        } else {
-            weight = in.readDouble();
-        }
-        status = in.readString();
-    }
 
     public static final Creator<Item> CREATOR = new Creator<Item>() {
         @Override
