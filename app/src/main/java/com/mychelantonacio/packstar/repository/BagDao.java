@@ -21,13 +21,9 @@ public interface BagDao {
     @Update
     void update(Bag bag);
 
-    @Query("DELETE FROM tb_bag")
-    void deleteAll();
-
     @Delete
     void delete(Bag bag);
 
-    //
     @Query("SELECT * from tb_bag ORDER BY id DESC")
     LiveData<List<Bag>> getAllBagsSortedByName();
 
