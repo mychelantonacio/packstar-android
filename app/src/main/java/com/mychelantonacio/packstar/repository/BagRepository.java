@@ -7,7 +7,7 @@ import com.mychelantonacio.packstar.util.database.BagRoomDatabase;
 import java.util.List;
 
 
-public class BagRepository {
+public class BagRepository implements BagDao{
 
     private BagDao bagDao;
     private LiveData<List<Bag>> allBagsSortedByName;
@@ -41,9 +41,6 @@ public class BagRepository {
         return allBagsSortedByName;
     }
 
-    public Bag findBagById(long id) {
-        return bagDao.findBagById(id);
-    }
 
     public int getCount() {
         return bagDao.getCount();
