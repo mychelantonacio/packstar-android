@@ -6,7 +6,8 @@ import com.mychelantonacio.packstar.model.Item;
 import com.mychelantonacio.packstar.util.database.BagRoomDatabase;
 import java.util.List;
 
-public class ItemRepository {
+
+public class ItemRepository implements ItemDao{
 
     private ItemDao itemDao;
 
