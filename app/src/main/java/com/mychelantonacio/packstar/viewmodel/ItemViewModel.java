@@ -42,8 +42,4 @@ public class ItemViewModel extends AndroidViewModel {
         items = itemRepository.getAllItemsWithBag(id);
         return items;
     }
-
-    public Item findItemById(long id) {
-        return itemRepository.findItemById(id);
-    }
 }
