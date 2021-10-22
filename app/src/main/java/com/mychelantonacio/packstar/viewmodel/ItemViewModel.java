@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import com.mychelantonacio.packstar.model.Item;
+import com.mychelantonacio.packstar.repository.ItemDao;
 import com.mychelantonacio.packstar.repository.ItemRepository;
 import java.util.List;
 
@@ -12,15 +13,16 @@ import java.util.List;
 public class ItemViewModel extends AndroidViewModel {
 
     private ItemRepository itemRepository;
+    private ItemDao itemDao;
 
 
     public ItemViewModel(@NonNull Application application) {
         super(application);
-        itemRepository = new ItemRepository(application);
+        itemDao = new ItemRepository(application);
     }
 
     public void insert(Item item) {
-        itemRepository.insert(item);
+        itemDao.insert(item);
     }
 
     public void delete(Item item){
