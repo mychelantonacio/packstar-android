@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.mychelantonacio.packstar.R;
-import com.mychelantonacio.packstar.util.Dialogs.DiscardChangesFragmentDialog;
 import com.mychelantonacio.packstar.util.Dialogs.HelpFragmentDialog;
 import com.mychelantonacio.packstar.view.fragments.ListItemFragment;
 import com.mychelantonacio.packstar.view.fragments.SingleFragmentActivity;

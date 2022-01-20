@@ -275,8 +275,6 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagViewH
             withReminderBulletImageItemView = itemView.findViewById(R.id.imageView_bullet_with_reminders);
             unitItemItemView = itemView.findViewById(R.id.textview_unit_item);
 
-
-
             addButtonItemView.setOnClickListener(v -> {
                 if(listener != null){
                     int position = getAdapterPosition();

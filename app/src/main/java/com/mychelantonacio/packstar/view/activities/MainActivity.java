@@ -52,7 +52,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void initialSetup() throws InterruptedException {
         bagRepository = new BagRepository(getApplication());
-        //startStetho();//TODO: cut it off before deploy to production
+
+        //debugging purpose only
+        //startStetho();
         bagCount = getCountBags();
     }
 
@@ -87,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
         return isFirstRun;
     }
 
+    //debugging purpose only
     private void startStetho(){
-        //debugging purpose...
         Stetho.initializeWithDefaults(this);
     }
 
