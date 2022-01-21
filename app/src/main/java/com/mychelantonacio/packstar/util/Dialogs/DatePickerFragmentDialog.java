@@ -12,7 +12,6 @@ import androidx.fragment.app.DialogFragment;
 import com.mychelantonacio.packstar.R;
 
 import java.time.LocalDate;
-import java.util.Calendar;
 
 
 public class DatePickerFragmentDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener{
@@ -35,8 +34,6 @@ public class DatePickerFragmentDialog extends DialogFragment implements DatePick
         int year = LocalDate.now().getYear();
         int month = LocalDate.now().getMonthValue() - 1;//datepicker 0 index based
         int day = LocalDate.now().getDayOfMonth();
-
-
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), this, year, month, day);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
