@@ -16,8 +16,8 @@ import java.util.List;
 
 public class BagViewModel extends AndroidViewModel {
 
-    private BagRepository bagRepository;
-    private LiveData<List<Bag>> allBagsSortedByName;
+    private final BagRepository bagRepository;
+    private final LiveData<List<Bag>> allBagsSortedByName;
 
 
     public BagViewModel(@NonNull Application application) {

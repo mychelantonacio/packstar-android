@@ -1,6 +1,5 @@
 package com.mychelantonacio.packstar.util.Dialogs;
 
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;

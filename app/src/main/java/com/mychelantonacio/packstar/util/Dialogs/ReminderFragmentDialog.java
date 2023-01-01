@@ -1,6 +1,5 @@
 package com.mychelantonacio.packstar.util.Dialogs;
 
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,7 +12,6 @@ import com.mychelantonacio.packstar.R;
 
 
 public class ReminderFragmentDialog extends DialogFragment {
-
 
     private NoticeDialogListener listener;
 
@@ -42,7 +40,6 @@ public class ReminderFragmentDialog extends DialogFragment {
         return builder.create();
     }
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -52,7 +49,4 @@ public class ReminderFragmentDialog extends DialogFragment {
             throw new ClassCastException(e.toString());
         }
     }
-
-
-
 }
