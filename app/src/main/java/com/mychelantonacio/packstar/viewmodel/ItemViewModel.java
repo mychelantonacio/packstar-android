@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ItemViewModel extends AndroidViewModel {
 
-    private ItemRepository itemRepository;
+    private final ItemRepository itemRepository;
 
 
     public ItemViewModel(@NonNull Application application) {
